@@ -14,4 +14,3 @@ while True:
     else:
         ser.write(b's')
         ser.write(b'-')
-    time.sleep(.5)

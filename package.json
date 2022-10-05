@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "nipplejs": "^0.9.1",
+    "react-nipple": "^1.0.2"
+  }
+}

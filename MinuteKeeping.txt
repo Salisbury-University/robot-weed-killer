@@ -1,0 +1,78 @@
+------------
+##Sprint 1##
+------------
+#Week 1
+9/12 - 12:15pm - 12:45pm
+First Client Meeting
+
+Meeting Progress:
+- Gain an understanding of our project concept and goal
+- Ask questions about the project (software & hardware)
+
+#Week 2
+9/19 - 12:15pm - 12:45pm
+Client Meeting
+
+Meeting Progress:
+- Gain more clarification on project goal
+- Propose a concept and language & framework to client
+- Approval for use to start our work
+
+9/19 - 2:30pm - 4pm
+Group Work Meeting
+
+Meeting Progress:
+- Analyze state of robotic hardware
+- Robot can move, flimsy but working
+- Wiring is spaghetti-esque, took pictures in case we need to cable manage later
+- Arduino has test code to move backwards, forwards, and turn
+- Tested our lasers capabilities
+- Setup IDE’s and installed dependencies for creating application
+
+#Week 3
+9/26 - 12:15pm - 12:45pm
+Client Meeting
+
+Meeting Progress:
+- Discussed with client about updates to robot hardware
+- Talked progress of control program (first creating barebones control through cmd)
+- Client is ordering bluetooth module for integration with application wireless control
+
+9/28 - 2:15 - 4:30pm
+Group Work Meeting
+
+Meeting Progress:
+- Sturdied up robot hardware
+- Completed and demonstrated robot control code (Python on PC)
+- Setup and installed test app on Android phone
+
+
+10/3 - 12:15pm - 12:30pm
+Client Meeting
+
+Meeting Progress:
+- Showed project progress (serial control)
+- Noted feedback of app design ideas (camera, joystick, dual-directional movement)
+- Requested new hardware for bluetooth control
+
+10/4 - 1:50pm - 3:05pm
+Team Meeting (Class Hours)
+
+Meeting Progress:
+- Research into APIs in which to connect our python script to our React interface
+- Tested our ordered bluetooth module to send python inputs to arduino over serial
+
+10/5 - 2:15pm - 4:15pm
+Team Meeting
+
+Meeting Progress:
+- Determined a new bluetooth module is needed for communication with our device (obtained from lab)
+- Finalized API usage for joystick control (Nipple.js)
+- Attempted wiring of camera hardware, researched and gathered arduino camera reading code
+
+10/6 - 1:50pm - 3:05pm
+Team Meeting (Class Hours)
+
+Meeting Progress:
+- Achived working control of the robot over bluetooth using python
+- 

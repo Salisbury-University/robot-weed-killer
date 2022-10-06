@@ -1,6 +1,5 @@
 import keyboard,serial
 bluetooth=serial.Serial('com6',9600)
-bluetooth.flushInput()
 while True:
     if keyboard.is_pressed('w') and keyboard.is_pressed('a'):
         bluetooth.write(b'q')

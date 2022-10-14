@@ -39,18 +39,21 @@ const App = () => {
         <Pressable
             style={styles.forwardButton}
             onPress={() => Alert.alert('Forward Button Pressed')}
+            android_ripple={{color: 'blue', borderless: true}}
             accessibilityLabel='This button will make the robot move forward'>
         </Pressable>
 
         <Pressable
             style={styles.rightButton}
             onPress={() => Alert.alert('Right Button Pressed')}
+            android_ripple={{color: 'blue', borderless: true}}
             accessibilityLabel='This button will make the robot rotate right'>
         </Pressable>
 
         <Pressable
             style={styles.backButton}
             onPress={() => Alert.alert('Back Button Pressed')}
+            android_ripple={{color: 'blue', borderless: true}}
             accessibilityLabel='This button will make the robot move backward'>
         </Pressable>
 

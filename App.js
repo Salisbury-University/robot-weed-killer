@@ -79,8 +79,7 @@ const styles = StyleSheet.create({
     left: 30,
     height: 30,
     width: 65,
-    borderRadius: 20,
-    
+    borderRadius: 20, 
   },
   forwardButton: {
     backgroundColor: "#0066cc",
@@ -134,7 +133,6 @@ const styles = StyleSheet.create({
   Reticule: {
     justifyContent: 'center',
     alignItems:'center',
-
   },
   text: {
     fontSize: 16

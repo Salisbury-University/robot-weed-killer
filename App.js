@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     size:'small',
     position: 'absolute',
     top: 15,
-    left: 377,
+    left: 327,
     height: 20,
     width: 40,
     borderRadius: 10,

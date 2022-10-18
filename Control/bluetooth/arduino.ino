@@ -1,5 +1,6 @@
 #include <SoftwareSerial.h> // module for arduino to use BT
 SoftwareSerial bluetooth(12, 13);
+#define BTpin 11
 #define relay_Pin 46
 #define LMOTOR_IN1 3
 #define LMOTOR_IN2 4
@@ -9,7 +10,8 @@ SoftwareSerial bluetooth(12, 13);
 #define RMOTOR_IN2 25
 #define RMOTOR_IN3 32
 #define RMOTOR_IN4 33
-
+long tick = 0;
+bool is_connected = false;
 void setup(){
 	pinMode(relay_Pin, OUTPUT);
 	pinMode (LMOTOR_IN1, OUTPUT);
@@ -20,6 +22,7 @@ void setup(){
 	pinMode (RMOTOR_IN2, OUTPUT);
 	pinMode (RMOTOR_IN3, OUTPUT); 
 	pinMode (RMOTOR_IN4, OUTPUT);
+  pinMode(BTpin,INPUT);
 	// initialize serial to debug 
 	Serial.begin(9600);
 	// initialize the bluetooth
@@ -29,50 +32,41 @@ void setup(){
 }
 
 void loop() {
-	while(1){  
 		//char in_char = Serial.read();
-    char in_char = bluetooth.read();
-		if (in_char=='q'){
-			Left();
-		}
-		else if(in_char=='e'){
-			Right();
-		}
-		else if(in_char=='b'){
-			Backward();
-		}
-		else if(in_char=='z'){
-			Right();
-		}
-		else if(in_char=='c'){
-			Left();
-		}
-		else if(in_char=='f'){
-			Forward();
-		}
-		else if(in_char=='s'){
-			Brake();
-		}
-		else if(in_char=='r'){
-			Right();
-		}
-		else if(in_char=='l'){
-			Left();
-		}
-		else if(in_char=='+'){
-			LaserOn();
-		}
-		else if(in_char=='-'){
-			LaserOff();
-		}
-	}
-	
-	/*if(Serial.available() == 0){ // safety Brake and LaserOff on serial disconnect
-		Brake();
-		LaserOff();
-	}*/
-}
+    while(1){
+      char in_char = bluetooth.read();
+      
+      if (in_char=='q' || in_char=='l' || in_char=='c'){ // inputs for left turns
+        Left();
+      }
+      else if(in_char=='e' || in_char=='z' || in_char=='r'){ // inputs for right turns
+        Right();
+      }
+      else if(in_char=='b'){ // backwards
+        Backward();
+      }
+      else if(in_char=='f'){ // forwards
+        Forward();
+      }
+      else if(in_char=='s'){ // stops
+        Brake();
+      }
+      else if(in_char=='+'){ // laser toggle on
+        LaserOn();
+      }
+      else if(in_char=='-'){ // laser toggle off
+        LaserOff();
+      }
+      tick++;
 
+      if(tick >= 50000){ // tick system to handle disconnect safety
+        tick = 0;
+        Brake();
+        LaserOff();
+        //Serial.println("ebrake");
+      }
+    }
+}
 void Forward(){
   digitalWrite(LMOTOR_IN1,HIGH); // HIGH,LOW sets the motor fowards
   digitalWrite(LMOTOR_IN2,LOW); // LIN1 and LIN2 is motor 1(Left side)
@@ -88,7 +82,7 @@ void Forward(){
 
 void ForwardLeft(){
  // digitalWrite(LMOTOR_IN1,LOW); // Left side goes backwards, 
-  //digitalWrite(LMOTOR_IN2,LOW);// Right side goes forwards,
+  //digitalWrit(LMOTOR_IN2,LOW);// Right side goes forwards,
   //digitalWrite(LMOTOR_IN3,LOW); // this results in the robot turning0 counter-clockwise
   //digitalWrite(LMOTOR_IN4,LOW);
 

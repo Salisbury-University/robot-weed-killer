@@ -1,15 +1,20 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
-import React, { Component } from 'react';
-import Toggle from 'react-native-toggle-input'
+import React, { Component } from 'react';  // Component imported for App class definition
+import Toggle from 'react-native-toggle-input'  // imported for the toggle switch (possibly temporary)
 import { Pressable, StyleSheet, Image, Text, View, Alert, TouchableRipple, TouchableHighlight } from 'react-native';
+import BluetoothSerial from 'react-native-bluetooth-serial-next';   // impoorts the BLuetoothSerial object from the API
 
+/**
+ * Below is the async() function for API calls to the Bluetooth Serial API 
+ * will most likely be implemented by the next meeting; App.js most likely needs to be changed to a class definition to include async
+ * function and multiple other function definitions and objects from the BluetoothSerial API.
+ * 
+ */
+async() => {
+  // saves the list of all the connected Bluetooth devices to the devices variable
+  const devices = await BluetoothSerial.list();   // async() required for commands like await and event, etc.
+}
+
+// will most likely be converted to class App extends React.Component {} 
 const App = () => {
 
   const [toggle, setToggle] = React.useState(false);

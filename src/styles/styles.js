@@ -1,3 +1,11 @@
+/****************************************
+ *  @Author: Emily Hitchcock
+ *  @Date: 10/16/2022
+ *  @Description: Main stylesheet for App.js, which styles all of the buttons and eventually the background of
+ *                  the screen when the livestream feeding API is implemented into the app
+ * 
+ ****************************************/
+
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({

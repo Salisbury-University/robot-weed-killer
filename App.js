@@ -1,3 +1,12 @@
+/**************************************************
+ *  @Authors: Zach Moore and Emily Hitchcock
+ *  @Date: 10/01/2022
+ *  @Description: This is the main page of the app to control the robot. This will contain the buttons and the fire button in
+ *                  order to control it's movement and laser firing. For the future, a toggle button is included to switch
+ *                  between user control and autonomous driving.
+ * 
+ **************************************************/
+
 import React, { Component } from 'react';  // Component imported for App class definition
 import Toggle from 'react-native-toggle-input'  // imported for the toggle switch (possibly temporary)
 import { 
@@ -17,9 +26,9 @@ import {
   ScrollView,
   TouchableOpacityBase,
 } from 'react-native';
-import DeviceList from './components/DeviceList';
-import styles from './styles/styles';
-import Button from './components/Button';
+import DeviceList from './src/components/DeviceList';
+import Button from './src/components/Button';
+import styles from './src/styles/styles';
 
 /**
  * Below is the async() function for API calls to the Bluetooth Serial API 

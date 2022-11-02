@@ -76,8 +76,7 @@ void Forward(){
   digitalWrite(RMOTOR_IN1,HIGH); // Both left and right side go foward
   digitalWrite(RMOTOR_IN2,LOW);
   digitalWrite(RMOTOR_IN3,HIGH);// RIN1 and RIN2 is motor 3(right side)
-  digitalWrite(RMOTOR_IN4,LOW); // RIN3 and RIN4 is motor 4(right side)
-  
+  digitalWrite(RMOTOR_IN4,LOW); // RIN3 and RIN4 is motor 4(right side) 
 }
 
 void Backward(){ // robot moves backwards
@@ -90,7 +89,6 @@ void Backward(){ // robot moves backwards
   digitalWrite(RMOTOR_IN2,HIGH);
   digitalWrite(RMOTOR_IN3,LOW);
   digitalWrite(RMOTOR_IN4,HIGH);
-  
 }
 void Left(){ // robot rotates counter-clockwise (left)
   digitalWrite(LMOTOR_IN1,LOW); // left side motors go backwards

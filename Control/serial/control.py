@@ -1,5 +1,5 @@
 import keyboard,serial
-ser=serial.Serial('com5',9600)
+ser=serial.Serial('com3',9600)
 while True:
     if keyboard.is_pressed('w') and keyboard.is_pressed('a'):
         ser.write(b'q')

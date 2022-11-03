@@ -10,10 +10,14 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@rneui/base": "^4.0.0-rc.7",
+    "@rneui/themed": "^4.0.0-rc.7",
     "nipplejs": "^0.10.0",
     "react": "18.1.0",
     "react-native": "0.70.2",
-    "react-nipple": "^1.0.2"
+    "react-native-bluetooth-serial-next": "^1.2.3",
+    "react-native-toast-message": "^2.1.5",
+    "react-native-toggle-input": "^1.0.11"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

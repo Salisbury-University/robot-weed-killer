@@ -7,16 +7,163 @@
  * 
  *********************************************/
 
-import React from "react";
+import React, { Component } from "react";
 import {
     ScrollView,
     Text,
     TouchableHighlight,
     View,
-    RefreshControl
+    ToastAndroid,
+    StyleSheet
 } from "react-native";
-import styles from "../styles/styles";
+// import styles from "../styles/styles";
+import BluetoothSerial from "react-native-bluetooth-serial-next";
+import { Button, List, ListItem } from '@rneui/base';
 
+const ListModel = props => (
+    <View>
+        <Text
+          style={{
+            fontWeight: "bold",
+            fontSize: 20,
+            fontFamily: 'sans-serif',
+            paddingTop: 20,
+            paddingLeft: 15
+          }}
+        >
+            {props.title}
+        </Text>
+        <List>
+            {props.devices.map(item => (
+                <ListItem
+                  containerStyle={{
+                    backgroundColor: props.deviceId == item.id ? "green" : "white"
+                  }}
+                  key={item.id}
+                  onPressRightIcon={e => props.connect(item)}
+                  rightIcon={{ name: "bluetooth" }}
+                  title={item.name}
+                  subtitle={`ID: ${item.id}`}
+                />
+            ))}
+        </List>
+    </View>
+);
+
+class DeviceList extends Component {
+    bluetooth = BluetoothSerial
+    constructor(props) {
+        super(props);
+        this.state = {
+            paired: [],
+            unpaired: [],
+            deviceId: 0,
+            deviceName: ""
+        };
+    }
+
+    async componentDidMount() {
+        this.scanDevice();
+    }
+
+    scanDevice = async e => {
+        const unpaired = await this.bluetooth.discoverUnpairedDevices();
+        const paired = await this.bluetooth.list();
+        this.setState({ paired, unpaired });
+    };
+
+    connect = device => {
+        this.bluetooth
+         .connect(device.id)
+         .then(res => {
+            this.setState({ deviceId: device.id, deviceName: device.name });
+         })
+         .catch(error => {
+            ToastAndroid.showWithGravity(
+                `Connection Error: Device not available`,
+                6000,
+                ToastAndroid.BOTTOM,
+                0,
+                25
+            );
+         });
+    };
+
+    disconnect = () => {
+        this.bluetooth
+         .disconnect()
+         .then(res => {
+            this.setState({ deviceId: 0, deviceName: "" });
+         })
+         .catch(error => {
+            ToastAndroid.showWithGravity(
+                `Error: Cannot disconnect`,
+                6000,
+                ToastAndroid.BOTTOM,
+                0,
+                25
+            );
+         });
+    };
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <View
+                  style={{
+                    flex: 2,
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    backgroundColor: "white",
+                    marginBottom: 10
+                  }}
+                >
+                    <Button
+                      color={"white"}
+                      backgroundColor={"#0F728F"}
+                      small
+                      onPress={this.scanDevice}
+                      title={"Scan"}
+                    />
+                    <Button
+                      disabled={this.state.deviceId === 0}
+                      color={"white"}
+                      backgroundColor={"#0F728F"}
+                      small
+                      onPress={this.disconnect}
+                      title={"Disconnect"}
+                    />
+                </View>
+                <ScrollView
+                  contentContainerStyle={{
+                  }}
+                >
+                    <ListModel
+                      title={"Paired devices"}
+                      devices={this.state.paired}
+                      connect={this.connect}
+                      deviceId={this.state.deviceId}
+                    />
+                    <ListModel
+                      title={"Available devices"}
+                      devices={this.state.unpaired}
+                      connect={this.connect}
+                      deviceId={this.state.deviceId}
+                    />
+                </ScrollView>
+            </View>
+        );
+    }
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 2,
+        paddingTop: 15
+    }
+});
+
+/*
 class DeviceList extends React.Component {
     constructor(props) {
         super(props);
@@ -95,6 +242,6 @@ class DeviceList extends React.Component {
             </ScrollView>
         );
     }
-}
+} */
 
 export default DeviceList;

@@ -28,6 +28,7 @@
   - Created functinonality in app with Flutter
   - Refined robot inputs to control the robot more precisely
   - Got the video stream from the web host to play on the app
+  - Survived high blood pressure with minimal years shaved off expected lifespan
 
 ## Emily Hitchcock
   - Styled the app to appeal to user and provide usability
@@ -66,4 +67,3 @@
   - Implemented HuskyLens code, which was subsequently scrapped when HuskyLens was ruled out
   - Implemented ESP32 camera code
   - Installed mount for camera to attach it to the robot
-  - 

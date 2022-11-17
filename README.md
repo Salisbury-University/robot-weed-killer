@@ -23,12 +23,20 @@
   - Worked with ReactNippleJS before it was scrapped
   - Linked a library for ReactNippleJS
   - Researched implementation for WiFi Reborn
+  - Made executive decision with team to switch to Flutter
+  - Created byte stream from app on phone to send inputs to robot
+  - Created functinonality in app with Flutter
+  - Refined robot inputs to control the robot more precisely
+  - Got the video stream from the web host to play on the app
 
 ## Emily Hitchcock
   - Styled the app to appeal to user and provide usability
   - ReactNative app development
   - Created user interface
   - Created and implemented all the buttons on the app
+  - Recreated all app styling and user interface in Flutter from existing progress in ReactNative
+  - Positioned all buttons and UI features in user-friendly fashion
+  - Added function to visual user interface features
 
 ## Garrett Jolly
   - Completed Arduino code to run the robot and operate laser
@@ -36,17 +44,26 @@
   - Fine tuned robot to respond to user input and drive accordingly
   - Programmed bluetooth module to establish connection
   - Created outputs from the Arduino based on the pins on the board
+  - Added bluetooth functionality to robot
+  - Created web host for camera 
 
 ## Dane Akers
   - Optimized cable mamagement on robot
   - Installed bluetooth module
   - Installed laser and wired it up
-  - Will install camera and optimize it
   - Fixed damaged motor mount and corrected camber of drive wheels
-  - Created wiring harness out of loose wires
+  - Created wiring harness out of loose wires for motor power
+  - Fixed broken motor mount
+  - Installed camera onto the robot
+  - Spliced wiring harness for camera for power and video transmitting
+  - Got video to stream from camera on robot to web host
 
 ## Nick Krisulevicz
   - Researched and found camera
-  - Provided camera code
+  - Made executive decision to remove HuskyLens camera after hardware limitation was discovered
   - Worked on hardware repairs with Dane
   - Administrative tasks and organized client and professor meetings
+  - Implemented HuskyLens code, which was subsequently scrapped when HuskyLens was ruled out
+  - Implemented ESP32 camera code
+  - Installed mount for camera to attach it to the robot
+  - 

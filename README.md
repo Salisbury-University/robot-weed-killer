@@ -13,6 +13,35 @@
 * Nick Krisulevicz
 * Dane Akers
 ---
+#Contents of Repository:
+
+##Control:
+*Contains code to run the robot
+*Written in Arduino code
+*Activates laser and powers wheels
+
+##Camera:
+*Contains code to run the ESP32 camera
+*Written in Arduino code
+*Allows camera to set up web server
+*Web server has an IP address that the app connects to
+*Streams video to the web server
+
+##Images:
+*Contains images for the user interface
+*Contains images for the app logo and splash screen
+*Contains reticule for laser point of impact in app
+
+##Legacy:
+*Contains code, files and instructions from previous group who worked on the project
+*Much of the contents of this directory have been phased out or changed by current team
+
+##Bluetooth Module:
+*Contains code to allow data stream from bluetooth module on robot
+*Written in Arduino code
+*Allows for external devices to provide commands to the robot to execute
+
+---
 # Accomplishments:
 
 ## Zach Moore

@@ -1,4 +1,6 @@
-These control functions are deprecated in the sense of they are not tied to the Flutter app build of the project.
+Each folder contains the arduino code required for the vehicle to drive under the control of bluetooth or wired serial connection respectively.
+
+The Python control functions are deprecated in the sense of they are not tied to the Flutter app build of the project.
 
 The serial folder contains the Arduino code for the device to read serial input for driving and laser firing, along with the Python code to drive the car through a command prompt.
 

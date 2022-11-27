@@ -2,7 +2,7 @@
 #define relay_Pin 46
 #define LMOTOR_IN1 3
 #define LMOTOR_IN2 4
-#define LMOTOR_IN3 7 // define pins, changes might be needed
+#define LMOTOR_IN3 7
 #define LMOTOR_IN4 8
 #define RMOTOR_IN1 24
 #define RMOTOR_IN2 25
@@ -10,22 +10,18 @@
 #define RMOTOR_IN4 33
 
 void setup() {
-  
+  // configure motors with pins
   pinMode(relay_Pin, OUTPUT);
   pinMode (LMOTOR_IN1, OUTPUT);
-  pinMode (LMOTOR_IN2, OUTPUT); // sets up motors with pins
+  pinMode (LMOTOR_IN2, OUTPUT);
   pinMode (LMOTOR_IN3, OUTPUT);
   pinMode (LMOTOR_IN4, OUTPUT);
   pinMode (RMOTOR_IN1, OUTPUT);
   pinMode (RMOTOR_IN2, OUTPUT);
   pinMode (RMOTOR_IN3, OUTPUT); 
   pinMode (RMOTOR_IN4, OUTPUT);
-  // initialize serial to debug
-  Serial.begin(9600);
-  // initialize the bluetooth
-  // bluetooth.begin(9600);
-  //bluetooth.println("Bluetooth ready");
-  Brake();
+  Serial.begin(9600); // initialize serial for control & debugging
+  Brake(); // safety brake
 }
 
 // --------------------main control loop-------------------- //
@@ -145,4 +141,30 @@ void LaserBurst(){ //enables laser for specified amount of seconds in sleep func
 	digitalWrite(relay_Pin,HIGH);
 	sleep(3);
 	digitalWrite(relay_Pin,LOW);
+}
+void RobotBoogie(){ // makes the robot bust a move, used for debugging motor control
+    Left();
+    sleep(1);
+    Right;
+    sleep(1);
+    Left();
+    sleep(1);
+    Right;
+    sleep(1);
+    Left();
+    sleep(1);
+    Right;
+    sleep(1);
+    Forward();
+    sleep(1);
+    Backward();
+    sleep(1);
+    Forward();
+    sleep(1);
+    Backward();
+    sleep(1);
+    Forward();
+    sleep(1);
+    Backward();
+    sleep(1);
 }

@@ -151,8 +151,34 @@ void LaserOff(){ // toggles relay pin to disable laser
 	digitalWrite(relay_Pin,LOW);
 }
 
-void LaserBurst(){ //enables laser for specified amount of seconds in sleep function, then disables
+void LaserBurst(){ // enables laser for specified amount of seconds in sleep function, then disables
 	digitalWrite(relay_Pin,HIGH);
 	sleep(3);
 	digitalWrite(relay_Pin,LOW);
+}
+void RobotBoogie(){ // makes the robot bust a move, used for debugging motor control
+    Left();
+    sleep(1);
+    Right;
+    sleep(1);
+    Left();
+    sleep(1);
+    Right;
+    sleep(1);
+    Left();
+    sleep(1);
+    Right;
+    sleep(1);
+    Forward();
+    sleep(1);
+    Backward();
+    sleep(1);
+    Forward();
+    sleep(1);
+    Backward();
+    sleep(1);
+    Forward();
+    sleep(1);
+    Backward();
+    sleep(1);
 }

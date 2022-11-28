@@ -1,6 +1,6 @@
 # for Python control of Arduino w/ Bluetooth module HM-06
 import keyboard, serial
-bluetooth=serial.Serial('com6',9600) # declar serial object (com# differs on Windows machine, for Linux use file from /dev/)
+bluetooth=serial.Serial('com6',9600) # declare serial object (com# differs on Windows machine, for Linux use file from /dev/)
 # main loop
 while True:
     if keyboard.is_pressed(" "): # activates laser and stops car
@@ -28,6 +28,9 @@ while True:
         bluetooth.write(b'-')
         bluetooth.write(b'r')
     elif keyboard.is_pressed("a"): # left forward & deactivates laser
+        bluetooth.write(b'-')
+        bluetooth.write(b'l')
+    elif keyboard.is_pressed("l"): # activates the robot dance function
         bluetooth.write(b'-')
         bluetooth.write(b'l')
     else: # handles no input (stops car and deactivates laser)

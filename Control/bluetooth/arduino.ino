@@ -50,6 +50,9 @@ void loop() {
       else if(in_char=='s'){ // stops
         Brake();
       }
+      else if(in_char=='l'){
+        RobotBoogie();
+      }
       else if(in_char=='+'){ // laser toggle on
         LaserOn();
       }
@@ -57,7 +60,6 @@ void loop() {
         LaserOff();
       }
       tick++; // cycle completed, add tick to the counter
-
       if(tick >= max_ticks){ // check # of ticks
         tick = 0;
         Brake();

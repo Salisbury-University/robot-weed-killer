@@ -96,3 +96,6 @@
   - Implemented HuskyLens code, which was subsequently scrapped when HuskyLens was ruled out
   - Implemented ESP32 camera code
   - Installed mount for camera to attach it to the robot
+  - Updated readme on a per-meeting basis
+  - Organized directories in the repository
+  - Provided comments for all uncommented code

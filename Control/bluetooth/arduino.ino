@@ -59,12 +59,12 @@ void loop() {
       else if(in_char=='-'){ // laser toggle off
         LaserOff();
       }
-      tick++; // cycle completed, add tick to the counter
+      /*tick++; // cycle completed, add tick to the counter
       if(tick >= max_ticks){ // check # of ticks
         tick = 0;
         Brake();
         LaserOff();
-      }
+      */}
     }
 }
 
@@ -155,32 +155,32 @@ void LaserOff(){ // toggles relay pin to disable laser
 
 void LaserBurst(){ // enables laser for specified amount of seconds in sleep function, then disables
 	digitalWrite(relay_Pin,HIGH);
-	sleep(3);
+	delay(3000);
 	digitalWrite(relay_Pin,LOW);
 }
 void RobotBoogie(){ // makes the robot bust a move, used for debugging motor control
     Left();
-    sleep(1);
+    delay(1000);
     Right;
-    sleep(1);
+    delay(1000);
     Left();
-    sleep(1);
+    delay(1000);
     Right;
-    sleep(1);
+    delay(1000);
     Left();
-    sleep(1);
+    delay(1000);
     Right;
-    sleep(1);
+    delay(1000);
     Forward();
-    sleep(1);
+    delay(1000);
     Backward();
-    sleep(1);
+    delay(1000);
     Forward();
-    sleep(1);
+    delay(1000);
     Backward();
-    sleep(1);
+    delay(1000);
     Forward();
-    sleep(1);
+    delay(1000);
     Backward();
-    sleep(1);
+    delay(1000);
 }

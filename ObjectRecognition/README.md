@@ -8,5 +8,6 @@ Using this, we can determine if our camera is looking at a weed (green), and all
 This script will throw an error on non-windows devices, because it imports winsound which is tied to an OS call.
 
 censor.py will play a beep on a windows machine upon button press
-This is used to spare some of our feelings and morale when Zach's blood pressure is high and he yells at us :( 
+This is used to spare some of our feelings and morale when Zach's blood pressure is high and he yells at us :(
+
 jk :)

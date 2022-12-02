@@ -41,6 +41,10 @@
 *Written in Arduino code
 *Allows for external devices to provide commands to the robot to execute
 
+##Object Recognition
+*Contains code to process image signal from the ESP32 camera
+*Using Python with the OpenCV library
+
 ---
 # Accomplishments:
 

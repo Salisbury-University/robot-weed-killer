@@ -64,7 +64,7 @@ void loop() {
         tick = 0;
         Brake();
         LaserOff();
-      */}
+      }*/
     }
 }
 

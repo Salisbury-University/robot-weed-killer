@@ -64,11 +64,11 @@
   - Survived high blood pressure with minimal years shaved off expected lifespan
 
 ## Emily Hitchcock
+  - React Native app development
+  - Created user interface in React Native
+  - Researched best components, widgets, and packages to use for the UI
+  - Recreated the React Native UI in Flutter
   - Styled the app to appeal to user and provide usability
-  - ReactNative app development
-  - Created user interface
-  - Created and implemented all the buttons on the app
-  - Recreated all app styling and user interface in Flutter from existing progress in ReactNative
   - Positioned all buttons and UI features in user-friendly fashion
   - Added function to visual user interface features
 

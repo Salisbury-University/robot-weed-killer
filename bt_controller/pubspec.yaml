@@ -33,13 +33,20 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
+  google_fonts: ^3.0.1
+  # paint & scalable vector graphics
   flutter_svg: ^1.1.6
   flutter_neumorphic: ^3.0.1
   flutter_webview_plugin: ^0.3.11
-  webview_flutter: ^0.3.22+1
+  # webview
+  webview_flutter: ^3.0.4
+  # used for bluetooth connection functions
   flutter_bluetooth_serial: ^0.4.0
+  # button vibration
   vibration: ^1.4.0
   flutter_spinkit: "^4.1.2"
+  # joystick
+  control_pad: ^1.1.1+1
 
 dev_dependencies:
   flutter_test:

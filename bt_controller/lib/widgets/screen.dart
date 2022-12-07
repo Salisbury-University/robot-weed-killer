@@ -34,6 +34,7 @@ class _ScreenState extends State<Screen> {
             : Container(
                 height: 240,
                 width: 320,
+                color: Colors.black12,
               ));
   }
 }

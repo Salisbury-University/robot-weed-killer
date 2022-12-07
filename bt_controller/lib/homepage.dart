@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:bt_controller/widgets/gpad.dart';
 import 'package:bt_controller/widgets/screen.dart';
 import 'dart:convert';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
@@ -163,7 +162,7 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     width: 5,
                   ),
-                  GPad()
+                  /*GPad()*/
                 ],
               ),
             ),

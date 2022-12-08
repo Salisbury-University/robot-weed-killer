@@ -22,6 +22,9 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
+double? deg;
+double? dist;
+
 class _HomePageState extends State<HomePage> {
   // Initialize Bluetooth connection state to be unknown
   BluetoothState _bluetoothState = BluetoothState.UNKNOWN;
@@ -238,6 +241,7 @@ class _HomePageState extends State<HomePage> {
                     child: JoystickView(
                       innerCircleColor: Color.fromARGB(255, 6, 128, 128),
                       backgroundColor: Color.fromARGB(255, 19, 157, 139),
+                      onDirectionChanged: (degrees, distance) {},
                     ),
                   ),
                   SizedBox(

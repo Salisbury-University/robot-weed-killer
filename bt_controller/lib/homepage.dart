@@ -241,7 +241,21 @@ class _HomePageState extends State<HomePage> {
                     child: JoystickView(
                       innerCircleColor: Color.fromARGB(255, 6, 128, 128),
                       backgroundColor: Color.fromARGB(255, 19, 157, 139),
-                      onDirectionChanged: (degrees, distance) {},
+                      onDirectionChanged: (degrees, distance) {
+                        deg = degrees;
+                        dist = distance;
+                        if ((deg! >= 322 || deg! <= 32) && deg != 0) {
+                          debugPrint("FORWARD");
+                        } else if (deg! >= 230 && deg! <= 305) {
+                          debugPrint("LEFT");
+                        } else if (deg! >= 60 && deg! <= 125) {
+                          debugPrint("RIGHT");
+                        } else if (deg! >= 155 && deg! <= 225) {
+                          debugPrint("BACKWARD");
+                        } else if (deg == 0) {
+                          debugPrint("STOP");
+                        }
+                      },
                     ),
                   ),
                   SizedBox(

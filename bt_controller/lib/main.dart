@@ -11,6 +11,7 @@ void main() {
 }
 
 class RoundupApp extends StatelessWidget {
+  const RoundupApp({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

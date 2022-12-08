@@ -33,7 +33,6 @@ void setup(){
 
 // --------------------main control loop-------------------- //
 void loop() {
-    while(1){
       char in_char = bluetooth.read(); // char variable to store read byte over bluetooth   
       if (in_char=='q' || in_char=='l' || in_char=='c'){ // inputs for left turns
         Left();
@@ -50,11 +49,11 @@ void loop() {
       else if(in_char=='s'){ // stops
         Brake();
       }
-      else if(in_char=='l'){
+      else if(in_char=='p'){
         RobotBoogie();
       }
       else if(in_char=='+'){ // laser toggle on
-        LaserOn();
+        LaserBurst();
       }
       else if(in_char=='-'){ // laser toggle off
         LaserOff();
@@ -65,7 +64,7 @@ void loop() {
         Brake();
         LaserOff();
       }*/
-    }
+    
 }
 
 // --------------------robot movement functions-------------------- //
@@ -92,6 +91,7 @@ void Backward(){ // robot moves backwards
   digitalWrite(RMOTOR_IN3,LOW);
   digitalWrite(RMOTOR_IN4,HIGH);
 }
+
 void Left(){ // robot rotates counter-clockwise (left)
   digitalWrite(LMOTOR_IN1,LOW); // left side motors go backwards
   digitalWrite(LMOTOR_IN2,HIGH);
@@ -135,6 +135,7 @@ void ForwardLeft(){ // robot turns left while moving slightly forward at the sam
   digitalWrite(RMOTOR_IN3,HIGH);
   digitalWrite(RMOTOR_IN4,LOW);
 }
+
 // NOT USED: with current hardware this turn implementation is sloppy
 void ForwardRight(){ //  robot turns right while moving slightly forward at the same time
   digitalWrite(LMOTOR_IN1,HIGH); // left motors go forward
@@ -158,29 +159,31 @@ void LaserBurst(){ // enables laser for specified amount of seconds in sleep fun
 	delay(3000);
 	digitalWrite(relay_Pin,LOW);
 }
+
 void RobotBoogie(){ // makes the robot bust a move, used for debugging motor control
     Left();
-    delay(1000);
-    Right;
-    delay(1000);
+    delay(250);
+    Right();
+    delay(250);
     Left();
-    delay(1000);
-    Right;
-    delay(1000);
+    delay(250);
+    Right();
+    delay(250);
     Left();
-    delay(1000);
-    Right;
-    delay(1000);
+    delay(250);
+    Right();
+    delay(250);
     Forward();
-    delay(1000);
+    delay(250);
     Backward();
-    delay(1000);
+    delay(250);
     Forward();
-    delay(1000);
+    delay(250);
     Backward();
-    delay(1000);
+    delay(250);
     Forward();
-    delay(1000);
+    delay(250);
     Backward();
-    delay(1000);
+    delay(250);
+	Brake();
 }

@@ -246,14 +246,27 @@ class _HomePageState extends State<HomePage> {
                         dist = distance;
                         if ((deg! >= 322 || deg! <= 32) && deg != 0) {
                           debugPrint("FORWARD");
+                          if (_connected) {
+                            _sendForwardMessageToBluetooth();
+                          }
                         } else if (deg! >= 230 && deg! <= 305) {
                           debugPrint("LEFT");
+                          if (_connected) {
+                            _sendLeftMessageToBluetooth();
+                          }
                         } else if (deg! >= 60 && deg! <= 125) {
                           debugPrint("RIGHT");
+                          if (_connected) {
+                            _sendRightMessageToBluetooth();
+                          }
                         } else if (deg! >= 155 && deg! <= 225) {
                           debugPrint("BACKWARD");
+                          if (_connected) {
+                            _sendBackMessageToBluetooth();
+                          }
                         } else if (deg == 0) {
                           debugPrint("STOP");
+                          if (_connected) {}
                         }
                       },
                     ),
@@ -625,6 +638,15 @@ class _HomePageState extends State<HomePage> {
     connection!.output.add(Uint8List.fromList(utf8.encode("b")));
     await connection!.output.allSent;
     show('Device Moved Backward');
+    setState(() {
+      _deviceState = -1;
+    });
+  }
+
+  void _sendBrakeMessageToBluetooth() async {
+    connection!.output.add(Uint8List.fromList(utf8.encode("s")));
+    await connection!.output.allSent;
+    show('Device Stopped');
     setState(() {
       _deviceState = -1;
     });

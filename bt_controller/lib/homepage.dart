@@ -1,13 +1,21 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:bt_controller/widgets/gpad.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:bt_controller/widgets/screen.dart';
 import 'dart:convert';
+import 'dart:io';
+import 'package:control_pad/control_pad.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vibration/vibration.dart';
+// ignore: depend_on_referenced_packages
+import 'package:bt_controller/widgets/screen.dart';
+import 'package:material_color_utilities/material_color_utilities.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -133,13 +141,13 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Colors.lightBlue,
+      backgroundColor: Color.fromARGB(255, 17, 17, 17),
       body: Padding(
         padding: const EdgeInsets.only(
-          right: 8,
-          left: 8,
-          top: 20,
-          bottom: 5,
+          right: 2,
+          left: 2,
+          top: 2,
+          bottom: 2,
         ),
         child: Stack(
           alignment: Alignment.topRight,
@@ -149,21 +157,134 @@ class _HomePageState extends State<HomePage> {
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(50)),
-                  color: Colors.white),
+                  // Foreground color
+                  color: Color.fromARGB(255, 44, 32, 52)),
+              child: Row(
+                // Row 1
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment(0, .4),
+                    child: NeumorphicButton(
+                      onPressed: () {},
+                      style: NeumorphicStyle(
+                        shadowDarkColor: Colors.black,
+                        shadowLightColor: Colors.black,
+                        lightSource: LightSource.bottom,
+                        color: Color.fromARGB(255, 26, 222, 197),
+                      ),
+                      child: Text(
+                        'Auto',
+                        style: GoogleFonts.montserrat(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black,
+                            letterSpacing: .1,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 35,
+                  ),
+
+                  Align(
+                    alignment: new Alignment(0, .4),
+                    child: NeumorphicButton(
+                      onPressed: () {},
+                      style: NeumorphicStyle(
+                          shadowLightColor: Colors.black,
+                          lightSource: LightSource.bottom,
+                          color: Color.fromARGB(255, 177, 236, 157)),
+                      child: Text(
+                        'Stop',
+                        style: GoogleFonts.montserrat(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black,
+                            letterSpacing: .1,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  //controller(),
+                  SizedBox(
+                    width: 55,
+                  ),
+                  //Screen(_isScreenOn),
+                  /*SizedBox(
+                    width: 5,
+                  ),*/
+                ],
+              ),
+            ),
+            SizedBox(
+              height: double.infinity,
+              width: double.infinity,
               child: Row(
                 children: <Widget>[
                   SizedBox(
-                    width: 5,
+                    width: 25,
                   ),
-                  controller(),
+                  Neumorphic(
+                    style: NeumorphicStyle(
+                      boxShape: NeumorphicBoxShape.circle(),
+                      depth: 10,
+                      lightSource: LightSource.bottom,
+                      shadowLightColor: Colors.black,
+                    ),
+                    child: JoystickView(
+                      innerCircleColor: Color.fromARGB(255, 6, 128, 128),
+                      backgroundColor: Color.fromARGB(255, 19, 157, 139),
+                    ),
+                  ),
                   SizedBox(
-                    width: 5,
+                    width: 65,
                   ),
-                  Screen(_isScreenOn),
+                  Neumorphic(
+                    style: NeumorphicStyle(
+                      depth: 10,
+                      lightSource: LightSource.bottom,
+                      shadowLightColor: Colors.black,
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(9)),
+                          border: Border.all(
+                            color: Color.fromARGB(255, 112, 148, 100),
+                            width: 2.5,
+                          )),
+                      child: Screen(_isScreenOn), // Webview
+                    ),
+                  ),
                   SizedBox(
-                    width: 5,
+                    width: 100,
                   ),
-                  GPad()
+                  Align(
+                    alignment: Alignment(0, -.2),
+                    child: Neumorphic(
+                      style: NeumorphicStyle(
+                        boxShape: NeumorphicBoxShape.circle(),
+                        shadowLightColor: Colors.black,
+                        lightSource: LightSource.bottom,
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Color.fromARGB(255, 234, 19, 19),
+                            foregroundColor: Colors.black,
+                            shape: CircleBorder(),
+                            padding: EdgeInsets.all(30)),
+                        child: Icon(
+                          Icons.local_fire_department_sharp,
+                          color: Colors.white,
+                          size: 40,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -180,10 +301,10 @@ class _HomePageState extends State<HomePage> {
                     builder: (context) {
                       return Dialog(
                         elevation: 16,
-                        child: Container(
+                        child: SizedBox(
                           height: 450.0,
                           width: 360.0,
-                          child: Container(
+                          child: SizedBox(
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
@@ -505,170 +626,6 @@ class _HomePageState extends State<HomePage> {
         ),
         duration: duration,
       ),
-    );
-  }
-
-  // controller()
-  Widget controller() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Neumorphic(
-          style: NeumorphicStyle(
-              shape: NeumorphicShape.convex,
-              boxShape: NeumorphicBoxShape.circle(),
-              depth: 10,
-              oppositeShadowLightSource: false,
-              shadowLightColor: Colors.white,
-              color: Colors.grey.withOpacity(0.7)),
-          child: Container(
-            height: 150,
-            width: 150,
-            decoration: BoxDecoration(shape: BoxShape.circle),
-            child: Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                Neumorphic(
-                  style: NeumorphicStyle(
-                      shape: NeumorphicShape.convex,
-                      boxShape: NeumorphicBoxShape.circle(),
-                      depth: 10,
-                      shadowLightColor: Colors.white,
-                      color: Colors.grey.withOpacity(0.7)),
-                  child: Container(
-                    height: 100,
-                    width: 100,
-                    decoration: BoxDecoration(shape: BoxShape.circle),
-                  ),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
-                        Vibration.vibrate(
-                          duration: 100,
-                        );
-                        if (_connected) {
-                          _sendForwardMessageToBluetooth();
-                        }
-                      },
-                      child: Container(
-                          height: 60,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              color: Colors.black12,
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(35),
-                                  bottomRight: Radius.circular(35))),
-                          child: SvgPicture.asset(
-                            "../assets/up.svg",
-                            fit: BoxFit.fill,
-                          )),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        GestureDetector(
-                          onTap: () {
-                            Vibration.vibrate(
-                              duration: 100,
-                            );
-                            if (_connected) {
-                              _sendLeftMessageToBluetooth();
-                            }
-                          },
-                          child: Container(
-                            height: 40,
-                            width: 60,
-                            child: SvgPicture.asset(
-                              "../assets/left.svg",
-                              fit: BoxFit.fill,
-                            ),
-                            decoration: BoxDecoration(
-                                color: Colors.black12,
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(30),
-                                    bottomRight: Radius.circular(30))),
-                          ),
-                        ),
-                        Expanded(child: Container()),
-                        GestureDetector(
-                          onTap: () {
-                            Vibration.vibrate(
-                              duration: 100,
-                            );
-                            if (_connected) {
-                              _sendRightMessageToBluetooth();
-                            }
-                          },
-                          child: Container(
-                            height: 40,
-                            width: 60,
-                            decoration: BoxDecoration(
-                                color: Colors.black12,
-                                borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(30),
-                                    topLeft: Radius.circular(30))),
-                            child: SvgPicture.asset(
-                              "../assets/right.svg",
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    // DOWN GESTURE
-                    GestureDetector(
-                      onTap: () {
-                        Vibration.vibrate(
-                          duration: 100,
-                        );
-                        if (_connected) {
-                          _sendBackMessageToBluetooth();
-                        }
-                      },
-                      child: Container(
-                        height: 50,
-                        width: 40,
-                        decoration: BoxDecoration(
-                            color: Colors.black12,
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(30),
-                                topRight: Radius.circular(30))),
-                        child: SvgPicture.asset(
-                          "../assets/bottom.svg",
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ElevatedButton(
-            onPressed: () {
-              if (_isScreenOn == false) {
-                setState(() {
-                  _isScreenOn = true;
-                });
-              } else {
-                setState(() {
-                  _isScreenOn = false;
-                });
-              }
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.grey,
-            ),
-            child: _isScreenOn ? Text("stop") : Text("start"),
-          ),
-        )
-      ],
     );
   }
 }

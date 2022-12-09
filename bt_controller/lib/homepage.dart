@@ -22,6 +22,9 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
+double? deg;
+double? dist;
+
 class _HomePageState extends State<HomePage> {
   // Initialize Bluetooth connection state to be unknown
   BluetoothState _bluetoothState = BluetoothState.UNKNOWN;
@@ -192,21 +195,42 @@ class _HomePageState extends State<HomePage> {
                   Align(
                     alignment: new Alignment(0, .4),
                     child: NeumorphicButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (_isScreenOn == false) {
+                          setState(() {
+                            _isScreenOn = true;
+                          });
+                        } else {
+                          setState(() {
+                            _isScreenOn = false;
+                          });
+                        }
+                      },
                       style: NeumorphicStyle(
                           shadowLightColor: Colors.black,
                           lightSource: LightSource.bottom,
                           color: Color.fromARGB(255, 177, 236, 157)),
-                      child: Text(
-                        'Stop',
-                        style: GoogleFonts.montserrat(
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            color: Colors.black,
-                            letterSpacing: .1,
-                          ),
-                        ),
-                      ),
+                      child: _isScreenOn
+                          ? Text(
+                              'Stop',
+                              style: GoogleFonts.montserrat(
+                                textStyle: TextStyle(
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.black,
+                                  letterSpacing: .1,
+                                ),
+                              ),
+                            )
+                          : Text(
+                              'Start',
+                              style: GoogleFonts.montserrat(
+                                textStyle: TextStyle(
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.black,
+                                  letterSpacing: .1,
+                                ),
+                              ),
+                            ),
                     ),
                   ),
                   //controller(),
@@ -238,6 +262,36 @@ class _HomePageState extends State<HomePage> {
                     child: JoystickView(
                       innerCircleColor: Color.fromARGB(255, 6, 128, 128),
                       backgroundColor: Color.fromARGB(255, 19, 157, 139),
+                      onDirectionChanged: (degrees, distance) {
+                        deg = degrees;
+                        dist = distance;
+                        if ((deg! >= 322 || deg! <= 32) && deg != 0) {
+                          //debugPrint("FORWARD");
+                          if (_connected) {
+                            _sendForwardMessageToBluetooth();
+                          }
+                        } else if (deg! >= 230 && deg! <= 305) {
+                          //debugPrint("LEFT");
+                          if (_connected) {
+                            _sendLeftMessageToBluetooth();
+                          }
+                        } else if (deg! >= 60 && deg! <= 125) {
+                          //debugPrint("RIGHT");
+                          if (_connected) {
+                            _sendRightMessageToBluetooth();
+                          }
+                        } else if (deg! >= 155 && deg! <= 225) {
+                          //debugPrint("BACKWARD");
+                          if (_connected) {
+                            _sendBackMessageToBluetooth();
+                          }
+                        } else if (deg == 0) {
+                          //debugPrint("STOP");
+                          if (_connected) {
+                            _sendBrakeMessageToBluetooth();
+                          }
+                        }
+                      },
                     ),
                   ),
                   SizedBox(
@@ -271,7 +325,11 @@ class _HomePageState extends State<HomePage> {
                         lightSource: LightSource.bottom,
                       ),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (_connected) {
+                            _sendLaserOnToBluetooth();
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Color.fromARGB(255, 234, 19, 19),
                             foregroundColor: Colors.black,
@@ -607,6 +665,23 @@ class _HomePageState extends State<HomePage> {
     connection!.output.add(Uint8List.fromList(utf8.encode("b")));
     await connection!.output.allSent;
     show('Device Moved Backward');
+    setState(() {
+      _deviceState = -1;
+    });
+  }
+
+  void _sendBrakeMessageToBluetooth() async {
+    connection!.output.add(Uint8List.fromList(utf8.encode("s")));
+    await connection!.output.allSent;
+    show('Device Stopped');
+    setState(() {
+      _deviceState = -1;
+    });
+  }
+
+  void _sendLaserOnToBluetooth() async {
+    connection!.output.add(Uint8List.fromList(utf8.encode("+")));
+    await connection!.output.allSent;
     setState(() {
       _deviceState = -1;
     });

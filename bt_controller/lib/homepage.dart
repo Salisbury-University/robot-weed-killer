@@ -9,11 +9,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:control_pad/control_pad.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vibration/vibration.dart';
 // ignore: depend_on_referenced_packages
-import 'package:bt_controller/widgets/screen.dart';
 import 'package:material_color_utilities/material_color_utilities.dart';
 import 'package:google_fonts/google_fonts.dart';
 

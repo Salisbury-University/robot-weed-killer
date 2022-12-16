@@ -4,7 +4,9 @@
 ### Client: Dr. Giulia Franchi
 
 #### Team: Kids Against Weed
-![alt text](https://github.com/Salisbury-University/robot-weed-killer/blob/main/Images/logo/WeedKillerLogo.jpg?raw=true)
+
+![My Image](Images/WeedKillerLogo.png)
+
 ---
 ### Teammates:
 * Zach Moore

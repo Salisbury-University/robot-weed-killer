@@ -1,5 +1,8 @@
 # Roundup: Robot Control App
 
+![Bouncy Dog](Images/1601239092241.gif)
+
+
 ### Course: COSC 425/426
 ### Client: Dr. Giulia Franchi
 

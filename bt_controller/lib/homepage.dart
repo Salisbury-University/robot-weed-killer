@@ -163,28 +163,6 @@ class _HomePageState extends State<HomePage> {
                 // Row 1
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  Align(
-                    alignment: Alignment(0, .4),
-                    child: NeumorphicButton(
-                      onPressed: () {},
-                      style: NeumorphicStyle(
-                        shadowDarkColor: Colors.black,
-                        shadowLightColor: Colors.black,
-                        lightSource: LightSource.bottom,
-                        color: Color.fromARGB(255, 26, 222, 197),
-                      ),
-                      child: Text(
-                        'Auto',
-                        style: GoogleFonts.montserrat(
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            color: Colors.black,
-                            letterSpacing: .1,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
                   SizedBox(
                     width: 35,
                   ),

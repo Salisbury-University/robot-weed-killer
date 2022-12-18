@@ -27,13 +27,14 @@ class _ScreenState extends State<Screen> {
         child: widget._isScreenOn
             ? Container(
                 height: 240,
-                width: 320,
+                width: 350,
                 child: WebView(
                   initialUrl: "http://192.168.4.1",
                 ))
             : Container(
+                // height 240, width 320
                 height: 240,
-                width: 320,
+                width: 350,
                 color: Colors.black12,
               ));
   }

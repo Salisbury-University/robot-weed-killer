@@ -3,7 +3,7 @@
 ![Bouncy Dog](Images/1601239092241.gif)
 
 
-### Course: COSC 425/426
+### Course: COSC 426
 ### Client: Dr. Giulia Franchi
 
 #### Team: Kids Against Weed

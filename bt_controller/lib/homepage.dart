@@ -213,9 +213,9 @@ class _HomePageState extends State<HomePage> {
                     width: 55,
                   ),
                   //Screen(_isScreenOn),
-                  /*SizedBox(
+                  SizedBox(
                     width: 5,
-                  ),*/
+                  ),
                 ],
               ),
             ),

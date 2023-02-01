@@ -26,8 +26,8 @@ class _ScreenState extends State<Screen> {
             )),
         child: widget._isScreenOn
             ? Container(
-                height: 240,
-                width: 350,
+                height: 300,
+                width: 400,
                 child: WebView(
                   initialUrl: "http://192.168.4.1",
                 ))

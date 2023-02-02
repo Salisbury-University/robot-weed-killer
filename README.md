@@ -1,7 +1,7 @@
 # Roundup: Robot Control App
 
-![Bouncy Dog](Images/1601239092241.gif)
-![Dancing Dog](Images/dance.gif)
+![Bouncy Dog](Images/woogie.gif)
+![Dancing Dog](Images/boogie.gif)
 
 ### Course: COSC 426
 ### Client: Dr. Giulia Franchi

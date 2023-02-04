@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './homepage.dart';
+import './menu_screen/menu.dart';
 import 'package:flutter/services.dart';
 
 void main() {
@@ -18,7 +19,7 @@ class RoundupApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
       title: "Roundup Controller",
-      home: HomePage(),
+      home: MenuScreen(),
     );
   }
 }

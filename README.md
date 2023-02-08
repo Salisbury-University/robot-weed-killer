@@ -18,7 +18,7 @@
 * Nick Krisulevicz
 * Dane Akers
 
-#Installation Instructions
+## Installation Instructions
 
 ```
 Currently installed by running command in Flutter: will be updated with final release of product

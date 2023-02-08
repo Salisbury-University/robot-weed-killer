@@ -1,6 +1,5 @@
 #include <SoftwareSerial.h> // module for arduino to use BT
 // ---define pins--- //
-#define BTpin 11
 #define relay_Pin 46
 #define LMOTOR_IN1 3
 #define LMOTOR_IN2 4
@@ -13,8 +12,8 @@
 SoftwareSerial bluetooth(12, 13); // declare bluetooth serial object, with established pins for Rx and Tx 
 long tick = 0; // to hold # of times the main loop has been ran through
 long max_ticks = 75000; // max amount of ticks to trigger emergency brake and laser disable
-bool is_connected = false; // boolean for bluetooth connection
-const byte BTpin = 4; // byte to read bluetooth status from state pin
+bool BTconnected = false; // boolean for bluetooth connection
+const byte BTpin = 5; // byte to read bluetooth status from state pin
 void setup(){
 	// configure motors with pins
 	pinMode(relay_Pin, OUTPUT);
@@ -32,7 +31,7 @@ void setup(){
 	Brake(); // inital brake call for safety
     while(!BTconnected){ // wait for HC-05 bluetooth connection
         if(digitalRead(BTpin)==HIGH){
-            is_connected = true;
+            BTconnected = true;
         }
     }
 }

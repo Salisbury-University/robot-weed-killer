@@ -1,7 +1,5 @@
 #include <SoftwareSerial.h> // module for arduino to use BT
-SoftwareSerial bluetooth(12, 13); // declare bluetooth serial object, with established pins for Rx and Tx 
-// define pins
-#define BTpin 11
+// ---define pins--- //
 #define relay_Pin 46
 #define LMOTOR_IN1 3
 #define LMOTOR_IN2 4
@@ -11,9 +9,11 @@ SoftwareSerial bluetooth(12, 13); // declare bluetooth serial object, with estab
 #define RMOTOR_IN2 25
 #define RMOTOR_IN3 32
 #define RMOTOR_IN4 33
+SoftwareSerial bluetooth(12, 13); // declare bluetooth serial object, with established pins for Rx and Tx 
 long tick = 0; // to hold # of times the main loop has been ran through
 long max_ticks = 75000; // max amount of ticks to trigger emergency brake and laser disable
-bool is_connected = false;
+bool BTconnected = false; // boolean for bluetooth connection
+const byte BTpin = 5; // byte to read bluetooth status from state pin
 void setup(){
 	// configure motors with pins
 	pinMode(relay_Pin, OUTPUT);
@@ -29,42 +29,43 @@ void setup(){
 	Serial.begin(9600); // initialize serial channel
 	bluetooth.begin(9600); // initialize bluetooth channel
 	Brake(); // inital brake call for safety
+    while(!BTconnected){ // wait for HC-05 bluetooth connection
+        if(digitalRead(BTpin)==HIGH){
+            BTconnected = true;
+        }
+    }
 }
 
 // --------------------main control loop-------------------- //
 void loop() {
-      char in_char = bluetooth.read(); // char variable to store read byte over bluetooth   
-      if (in_char=='q' || in_char=='l' || in_char=='c'){ // inputs for left turns
-        Left();
-      }
-      else if(in_char=='e' || in_char=='z' || in_char=='r'){ // inputs for right turns
-        Right();
-      }
-      else if(in_char=='b'){ // backwards
-        Backward();
-      }
-      else if(in_char=='f'){ // forwards
-        Forward();
-      }
-      else if(in_char=='s'){ // stops
-        Brake();
-      }
-      else if(in_char=='p'){
-        RobotBoogie();
-      }
-      else if(in_char=='+'){ // laser toggle on
-        LaserBurst();
-      }
-      else if(in_char=='-'){ // laser toggle off
-        LaserOff();
-      }
-      /*tick++; // cycle completed, add tick to the counter
-      if(tick >= max_ticks){ // check # of ticks
-        tick = 0;
-        Brake();
-        LaserOff();
-      }*/
-    
+  while(digitalRead(BTpin)==HIGH){ // only run drive code when connection is active
+    char in_char = bluetooth.read(); // char variable to store read byte over bluetooth   
+    if (in_char=='q' || in_char=='l' || in_char=='c'){ // inputs for left turns
+      Left();
+    }
+    else if(in_char=='e' || in_char=='z' || in_char=='r'){ // inputs for right turns
+      Right();
+    }
+    else if(in_char=='b'){ // backwards
+      Backward();
+    }
+    else if(in_char=='f'){ // forwards
+      Forward();
+    }
+    else if(in_char=='s'){ // stops
+      Brake();
+    }
+    else if(in_char=='p'){
+      RobotBoogie();
+    }
+    else if(in_char=='+'){ // laser toggle on
+      LaserBurst();
+    }
+    else if(in_char=='-'){ // laser toggle off
+      LaserOff();
+    }
+  }
+  Brake(); // brake on broken connection
 }
 
 // --------------------robot movement functions-------------------- //
@@ -161,29 +162,29 @@ void LaserBurst(){ // enables laser for specified amount of seconds in sleep fun
 }
 
 void RobotBoogie(){ // makes the robot bust a move, used for debugging motor control
-    Left();
-    delay(250);
-    Right();
-    delay(250);
-    Left();
-    delay(250);
-    Right();
-    delay(250);
-    Left();
-    delay(250);
-    Right();
-    delay(250);
-    Forward();
-    delay(250);
-    Backward();
-    delay(250);
-    Forward();
-    delay(250);
-    Backward();
-    delay(250);
-    Forward();
-    delay(250);
-    Backward();
-    delay(250);
+  Left();
+  delay(250);
+  Right();
+  delay(250);
+  Left();
+  delay(250);
+  Right();
+  delay(250);
+  Left();
+  delay(250);
+  Right();
+  delay(250);
+  Forward();
+  delay(250);
+  Backward();
+  delay(250);
+  Forward();
+  delay(250);
+  Backward();
+  delay(250);
+  Forward();
+  delay(250);
+  Backward();
+  delay(250);
 	Brake();
 }

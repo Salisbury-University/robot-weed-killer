@@ -39,7 +39,7 @@ dependencies:
   flutter_neumorphic: ^3.0.1
   flutter_webview_plugin: ^0.3.11
   # webview
-  webview_flutter: ^3.0.4
+  webview_flutter: ^2.0.13
   # used for bluetooth connection functions
   flutter_bluetooth_serial: ^0.4.0
   # button vibration
@@ -50,6 +50,12 @@ dependencies:
 
   # splashscreen
   flutter_native_splash: ^2.2.16
+  # webviewx
+  path: ^1.8.2
+  pointer_interceptor: ^0.9.3+4
+  uuid: ^3.0.7
+  http: ^0.13.5
+  webviewx: ^0.2.1
 
 flutter_native_splash:
   color: "#FFFFFF"

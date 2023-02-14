@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_constructors
+// ignore: depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,13 +11,16 @@ import 'dart:io';
 import 'package:control_pad/control_pad.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:vibration/vibration.dart';
-// ignore: depend_on_referenced_packages
 import 'package:material_color_utilities/material_color_utilities.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:webviewx/webviewx.dart';
 
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
+  // webviewx
+  late WebViewXController webviewController;
+  
 }
 
 double? deg;
@@ -141,33 +145,32 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Color.fromARGB(255, 17, 17, 17),
-      body: Padding(
-        padding: const EdgeInsets.only(
-          right: 2,
-          left: 2,
-          top: 2,
-          bottom: 2,
-        ),
-        child: Stack(
-          alignment: Alignment.topRight,
-          children: <Widget>[
-            Container(
-              height: double.infinity,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(50)),
-                  // Foreground color
-                  color: Color.fromARGB(255, 44, 32, 52)),
+      body: Stack(
+        children: <Widget>[
+          // Webviewx Widget 
+          Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: WebViewX(width: 900, height: 900),
+                  ),
+                ),
+            ]),
+          ),
+           
+            
+            
+          Container( 
+            child: WebViewAware(
               child: Row(
                 // Row 1
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  SizedBox(
-                    width: 35,
-                  ),
-
-                  Align(
+                  Container(
+                    child: Align(
                     alignment: new Alignment(0, .4),
                     child: NeumorphicButton(
                       onPressed: () {
@@ -181,10 +184,6 @@ class _HomePageState extends State<HomePage> {
                           });
                         }
                       },
-                      style: NeumorphicStyle(
-                          shadowLightColor: Colors.black,
-                          lightSource: LightSource.bottom,
-                          color: Color.fromARGB(255, 177, 236, 157)),
                       child: _isScreenOn
                           ? Text(
                               'Stop',
@@ -208,16 +207,12 @@ class _HomePageState extends State<HomePage> {
                             ),
                     ),
                   ),
+                  ),
                   //controller(),
-                  SizedBox(
-                    width: 55,
-                  ),
-                  //Screen(_isScreenOn),
-                  SizedBox(
-                    width: 5,
-                  ),
+
                 ],
               ),
+             ),
             ),
             SizedBox(
               height: double.infinity,
@@ -227,7 +222,8 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     width: 25,
                   ),
-                  Neumorphic(
+                  WebViewAware( 
+                    child:Neumorphic(
                     style: NeumorphicStyle(
                       boxShape: NeumorphicBoxShape.circle(),
                       depth: 10,
@@ -269,25 +265,11 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                   ),
+                  ),
                   SizedBox(
                     width: 65,
                   ),
-                  Neumorphic(
-                    style: NeumorphicStyle(
-                      depth: 10,
-                      lightSource: LightSource.bottom,
-                      shadowLightColor: Colors.black,
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(9)),
-                          border: Border.all(
-                            color: Color.fromARGB(255, 112, 148, 100),
-                            width: 2.5,
-                          )),
-                      child: Screen(_isScreenOn), // Webview
-                    ),
-                  ),
+                  //Screen(_isScreenOn), // Webview
                   SizedBox(
                     width: 100,
                   ),
@@ -530,8 +512,7 @@ class _HomePageState extends State<HomePage> {
             )
           ],
         ),
-      ),
-    );
+      );
   }
 
   List<DropdownMenuItem<BluetoothDevice>> _getDeviceItems() {
@@ -679,3 +660,4 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+

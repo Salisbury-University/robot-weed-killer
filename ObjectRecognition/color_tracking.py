@@ -29,12 +29,12 @@ while True:
 			imageFrame = cv2.rectangle(imageFrame, (x, y),
 									(x + w, y + h),
 									(0, 255, 0), 2)
-			cv2.putText(imageFrame, "Green Colour", (x, y),
+			cv2.putText(imageFrame, "Green Color", (x, y),
 						cv2.FONT_HERSHEY_SIMPLEX,
 						1.0, (0, 255, 0))
 
 	# quit on 'q' press
-	cv2.imshow("Multiple Color Detection in Real-TIme", imageFrame)
+	cv2.imshow("Green Detection", imageFrame)
 	if cv2.waitKey(10) & 0xFF == ord('q'):
 		cap.release()
 		cv2.destroyAllWindows()

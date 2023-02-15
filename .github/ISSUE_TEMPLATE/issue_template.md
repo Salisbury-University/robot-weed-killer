@@ -1,7 +1,7 @@
 ---
 name: Bug Issue
 about: This template is for reporting bugs
-title: "[DATE]: [BUG]"
+title: "[BUG NAME]"
 labels: bug
 ---
 

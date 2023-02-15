@@ -1,5 +1,5 @@
 name: "🛠 Hardware Addition"
-description: Create a new ticket for a new feature request
+description: Create a new ticket for a new addition to the robot
 title: "🛠 [HARDWARE] - <title>"
 labels: [
   "hardware",

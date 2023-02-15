@@ -59,7 +59,7 @@ void loop() {
       RobotBoogie();
     }
     else if(in_char=='+'){ // laser toggle on
-      LaserBurst();
+      LaserOn();
     }
     else if(in_char=='-'){ // laser toggle off
       LaserOff();

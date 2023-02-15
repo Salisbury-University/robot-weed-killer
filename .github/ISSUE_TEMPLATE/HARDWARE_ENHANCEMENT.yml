@@ -1,0 +1,40 @@
+name: "🛠 Hardware Addition"
+description: Create a new ticket for a new feature request
+title: "🛠 [HARDWARE] - <title>"
+labels: [
+  "hardware",
+  "enhancement"
+]
+body:
+  - type: input
+    id: start_date
+    attributes:
+      label: "Start Date"
+      description: Start of development
+      placeholder: "month/day/year"
+    validations:
+      required: false
+  - type: textarea
+    id: reference_issues
+    attributes:
+      label: "Reference Issues"
+      description: Common issues
+      placeholder: "#Issues IDs"
+    validations:
+      required: false
+  - type: textarea
+    id: summary
+    attributes:
+      label: "Summary"
+      description: Provide a brief explanation of the feature
+      placeholder: Describe in a few lines your hardware addition
+    validations:
+      required: true
+  - type: textarea
+    id: basic_example
+    attributes:
+      label: "Basic Uses"
+      description: Indicate here some basic examples of your feature.
+      placeholder: A situation where your hardware addition will be used.
+    validations:
+      required: true

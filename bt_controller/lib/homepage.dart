@@ -166,13 +166,10 @@ class _HomePageState extends State<HomePage> {
           Container( 
             child: WebViewAware(
               child: Row(
-                // Row 1
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Container(
-                    child: Align(
-                    alignment: new Alignment(0, .4),
-                    child: NeumorphicButton(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Container(
+                  child: NeumorphicButton(
                       onPressed: () {
                         if (_isScreenOn == false) {
                           setState(() {
@@ -206,7 +203,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                     ),
-                  ),
+                  
                   ),
                   //controller(),
 
@@ -218,10 +215,8 @@ class _HomePageState extends State<HomePage> {
               height: double.infinity,
               width: double.infinity,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  SizedBox(
-                    width: 25,
-                  ),
                   WebViewAware( 
                     child:Neumorphic(
                     style: NeumorphicStyle(
@@ -266,21 +261,13 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   ),
-                  SizedBox(
-                    width: 65,
-                  ),
                   //Screen(_isScreenOn), // Webview
                   SizedBox(
-                    width: 100,
+                    width: 420,
                   ),
                   Align(
-                    alignment: Alignment(0, -.2),
-                    child: Neumorphic(
-                      style: NeumorphicStyle(
-                        boxShape: NeumorphicBoxShape.circle(),
-                        shadowLightColor: Colors.black,
-                        lightSource: LightSource.bottom,
-                      ),
+                    alignment: Alignment(0, 0),
+                    
                       child: ElevatedButton(
                         onPressed: () {
                           if (_connected) {
@@ -299,7 +286,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                  ),
+                  
                 ],
               ),
             ),
@@ -660,4 +647,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-

@@ -16,7 +16,7 @@ class MenuScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text('Rupert!',
+                Text('R.U.P.E.R.T',
                   style: TextStyle(color: Colors.black,),
                   textAlign: TextAlign.center,),
                 Container(
@@ -26,7 +26,7 @@ class MenuScreen extends StatelessWidget {
                     color: Colors.black,
                   ),
                 ),
-          // Manual Button
+                // Manual Button
                 Container(
                   child: Align(
                     child: SizedBox(
@@ -40,7 +40,6 @@ class MenuScreen extends StatelessWidget {
                                 }),
                               );
                             },
-              
                           child: Text('Manual',),
                         ),
                     ),

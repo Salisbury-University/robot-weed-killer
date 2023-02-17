@@ -32,7 +32,7 @@ while True:
         bluetooth.write(b'l')
     elif keyboard.is_pressed("l"): # activates the robot dance function
         bluetooth.write(b'-')
-        bluetooth.write(b'l')
+        bluetooth.write(b'p')
     else: # handles no input (stops car and deactivates laser)
         bluetooth.write(b's')
         bluetooth.write(b'-')

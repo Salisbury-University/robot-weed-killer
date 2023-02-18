@@ -17,13 +17,13 @@ class MenuScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text('R.U.P.E.R.T',
-                  style: TextStyle(color: Colors.black,),
+                  style: TextStyle(color: Color.fromARGB(255, 255, 255, 255),),
                   textAlign: TextAlign.center,),
                 Container(
                   padding:EdgeInsets.all(15),
                   child: Divider(
                     thickness: 2,
-                    color: Colors.black,
+                    color: Color.fromARGB(255, 255, 255, 255),
                   ),
                 ),
                 // Manual Button
@@ -32,6 +32,10 @@ class MenuScreen extends StatelessWidget {
                     child: SizedBox(
                       width: 200,
                         child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black, // background (button) color
+                            foregroundColor: Colors.white, // foreground (text) color
+                          ),
                             // Navigate to view page (currently named "homepage.dart")
                             onPressed: () {
                               Navigator.of(context).push(
@@ -50,6 +54,10 @@ class MenuScreen extends StatelessWidget {
                     child: SizedBox(
                       width: 200,
                       child: ElevatedButton(  
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black, // background (button) color
+                          foregroundColor: Colors.white, // foreground (text) color
+                      ),
                         // Navigate to view page (currently named "homepage.dart")
                         onPressed: () {
                         Navigator.of(context).push(

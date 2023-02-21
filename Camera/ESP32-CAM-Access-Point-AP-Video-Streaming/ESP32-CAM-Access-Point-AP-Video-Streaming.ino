@@ -191,7 +191,7 @@ void startCameraServer(){
     .method    = HTTP_GET,
     .handler   = stream_handler,
     .user_ctx  = NULL
-  }
+  };
   httpd_uri_t status_uri = {
     .uri       = "/status",
     .method    = HTTP_GET,

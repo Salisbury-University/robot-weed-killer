@@ -1,7 +1,13 @@
 import numpy as np
 import cv2
 
-cap = cv2.VideoCapture(0) # video capture
+try:
+	print("Trying connection")
+	cap = cv2.VideoCapture(0) # video capture
+	print("Connected")
+except:
+	print("No connection :(")
+
 # main loop
 while True:
 

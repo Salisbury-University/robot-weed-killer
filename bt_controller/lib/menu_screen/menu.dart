@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import '../homepage.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 
 
@@ -34,20 +35,30 @@ class MenuScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                // Text('R.U.P.E.R.T',
-                //   style: TextStyle(color: Color.fromARGB(255, 255, 255, 255),),
-                //   textAlign: TextAlign.center,),
-                NeumorphicText(
-                    "R.U.P.E.R.T",
-                    style: NeumorphicStyle(
-                      depth: 4,  //customize depth here
-                      color: Colors.white, //customize color here
-                      intensity: .4,
-                    ),
-                    textStyle: NeumorphicTextStyle(
-                      fontSize: 18, 
-                    ),
-                ),
+                Stack(
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    Container(
+                    child: Image(
+                      height: 150,
+                      width: 150,
+                      image: AssetImage('assets/RoboticsLogo.png'),
+                  ),),
+
+                    Positioned( 
+                      top: 125,
+
+                      child: NeumorphicText(
+                        "R.U.P.E.R.T",
+                        style: NeumorphicStyle(
+                          depth: 4,  //customize depth here
+                          color: Color.fromARGB(255, 0, 0, 0), //customize color here
+                          intensity: .4,
+                        ),
+                        textStyle: NeumorphicTextStyle(
+                          fontSize: 25, 
+                        ),
+                  ), ), ]),
                 Container(
                   padding:EdgeInsets.all(15),
                   child: Divider(

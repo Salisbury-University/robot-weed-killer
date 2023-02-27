@@ -3,10 +3,12 @@
 ![Bouncy Dog](Images/woogie.gif)
 ![Dancing Dog](Images/boogie.gif)
 
-### Course: COSC 426
-### Client: Dr. Giulia Franchi
+---
 
-#### Team: Kids Against Weed
+## Course: COSC 426
+## Client: Dr. Giulia Franchi
+
+## Team: Kids Against Weed
 
 ![My Image](Images/WeedKillerLogo.png)
 
@@ -17,13 +19,13 @@
 * Garrett Jolly
 * Nick Krisulevicz
 * Dane Akers
-
+---
 ## Installation Instructions
 
 ```
 Currently installed by running command in Flutter: will be updated with final release of product
 ```
-
+---
 ## Contents of Repository
 
 ### Control
@@ -58,4 +60,12 @@ Contains the flutter app created for the project.
 ```
 Contains a python script which uses OpenCV and Numpy to detect colors. OpenCV allows for use of a filter that only 
 displays certain color hues.
+```
+---
+## Client Updates
+
+```
+Meeting 1:
+Team was instructed to finish robot design using existing hardware.
+Team was given the milestone of having functional autonomous program before spring break
 ```

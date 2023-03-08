@@ -14,13 +14,14 @@
 #define RMOTOR_IN4 33
 #define TRIG 52
 #define ECHO 50 
+#define MAX_DIST 400
 
 SoftwareSerial bluetooth(12, 13);
 bool BTconnected = false;
 const byte BTpin = 5;
 
 
-NewPing sonar(TRIG, ECHO, 400);
+NewPing sonar(TRIG, ECHO, MAX_DIST);
 // -------------------------------------------------------------------------- //
 
 void setup() {

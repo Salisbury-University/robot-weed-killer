@@ -2,8 +2,11 @@
 
 ![Bouncy Dog](Images/woogie.gif)
 ![Dancing Dog](Images/boogie.gif)
-
+https://user-images.githubusercontent.com/95944392/224509408-8cf81484-2df1-4522-b72b-3398e59669f4.mp4
 ---
+
+
+
 
 ## Course: COSC 426
 ## Client: Dr. Giulia Franchi

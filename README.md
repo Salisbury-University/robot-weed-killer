@@ -36,15 +36,16 @@ Currently installed by running command in Flutter: will be updated with final re
 ### Control
 
 ```
-Contains Arduino code to control the robot, which includes: Laser Activation/Deactivation, and navigation control.
+Contains Arduino code to control the robot, which includes: Laser Activation/Deactivation, and navigation
+control.
 ```
 
 ### Camera
 
 ```
-Contains Arduino source code for the ESP32 camera. The ESP32 can broadcast an IP address that can be accessed remotely 
-from a web browser, i.e: Google Chrome, Firefox, etc. The broadcast streams video with adjustable resolution and 
-filters.
+Contains Arduino source code for the ESP32 camera. The ESP32 can broadcast an IP address that can be accessed
+remotely from a web browser, i.e: Google Chrome, Firefox, etc. The broadcast streams video with
+adjustable resolution and filters.
 ```
 
 ### Images

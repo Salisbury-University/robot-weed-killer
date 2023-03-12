@@ -52,15 +52,12 @@ void setup() { //I/O setup function
 
 void loop(digitalRead(BTpin) == HIGH) { //loop main function
   
-  /*
-  Serial.print("Distance = ");
-  Serial.print(sonar.ping_cm()); //print sonar distance in cm
-  Serial.println(" cm");
-  delay(250); //potentially get rid of 
-  */
+  bool LeftTurn = false;
+  bool RightTurn = false;
+  bool Straight = false;
 
 
-  while(sonar.ping_cm() >= 10){ //drive forward while distance >= 10 cm
+  if(sonar.ping_cm() >= 10){ //drive forward while distance >= 10 cm
     Forward();
     Serial.print("Distance = ");
     Serial.print(sonar.ping_cm());
@@ -68,6 +65,7 @@ void loop(digitalRead(BTpin) == HIGH) { //loop main function
   }
 
   if(sonar.ping_cm() < 10){ //when object is too close, first turn left
+    LeftTurn = true;
     Left();
     Serial.print("Distance = ");
     Serial.print(sonar.ping_cm());
@@ -75,20 +73,35 @@ void loop(digitalRead(BTpin) == HIGH) { //loop main function
     delay(750);
   }
 
-  if(sonar.ping_cm() < 10){ //if left is not clear, turn right
+  if(LeftTurn && sonar.ping_cm() < 10){ //if left is not clear, turn right
+    RightTurn = true;
     Right();
     Serial.print("Distance = ");
     Serial.print(sonar.ping_cm());
     Serial.println(" cm");
+    LeftTurn = false;
     delay(1500);
   }
 
   if(sonar.ping_cm() < 10){ //if right is not clear, turn around
+    
+    /*
     Right();
     Serial.print("Distance = ");
     Serial.print(sonar.ping_cm());
     Serial.println(" cm");
     delay(1500); //this value will likely need to be tweaked
+    */
+    Backward();
+    Serial.print("Distance = ");
+    Serial.print(sonar.ping_cm());
+    Serial.println(" cm");
+    RightTurn = false;
+    LeftTurn = false;
+    delay(1500);
+    RightTurn = true;
+    Right();
+    delay(750);    
   }
 
   if(digitalRead(BTpin) != HIGH){ //stop robot if connection is lost

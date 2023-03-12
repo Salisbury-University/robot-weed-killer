@@ -22,10 +22,10 @@ const byte BTpin = 5;
 
 
 NewPing sonar(TRIG, ECHO, MAX_DIST);
+
 // -------------------------------------------------------------------------- //
 
-void setup() {
-  // put your setup code here, to run once:
+void setup() { //I/O setup function
   pinMode(relay_Pin, OUTPUT);
   pinMode(LMOTOR_IN1, OUTPUT);
   pinMode(LMOTOR_IN2, OUTPUT);
@@ -48,18 +48,55 @@ void setup() {
       BTconnected = true;
     }
   }
-
 }
-void loop(digitalRead(BTpin) == HIGH) {
-//void loop() {
-  // put your main code here, to run repeatedly:
-  // sends a low pulse for 5 microseconds to ensure the high pulse is not muddled.
-  // the sensor is triggered by a high pulse of 10 microseconds.
 
+void loop(digitalRead(BTpin) == HIGH) { //loop main function
+  
+  /*
   Serial.print("Distance = ");
-  Serial.print(sonar.ping_cm());
+  Serial.print(sonar.ping_cm()); //print sonar distance in cm
   Serial.println(" cm");
-  delay(250);
+  delay(250); //potentially get rid of 
+  */
+
+
+  while(sonar.ping_cm() >= 10){ //drive forward while distance >= 10 cm
+    Forward();
+    Serial.print("Distance = ");
+    Serial.print(sonar.ping_cm());
+    Serial.println(" cm");
+  }
+
+  if(sonar.ping_cm() < 10){ //when object is too close, first turn left
+    Left();
+    Serial.print("Distance = ");
+    Serial.print(sonar.ping_cm());
+    Serial.println(" cm");
+    delay(750);
+  }
+
+  if(sonar.ping_cm() < 10){ //if left is not clear, turn right
+    Right();
+    Serial.print("Distance = ");
+    Serial.print(sonar.ping_cm());
+    Serial.println(" cm");
+    delay(1500);
+  }
+
+  if(sonar.ping_cm() < 10){ //if right is not clear, turn around
+    Right();
+    Serial.print("Distance = ");
+    Serial.print(sonar.ping_cm());
+    Serial.println(" cm");
+    delay(1500); //this value will likely need to be tweaked
+  }
+
+  if(digitalRead(BTpin) != HIGH){ //stop robot if connection is lost
+    Brake();
+  }
+
+  //need to add condition for laser turning on when object recognition can be integrated
+      
 }
 
 // --------------------robot movement functions-------------------- //

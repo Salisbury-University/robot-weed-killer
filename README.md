@@ -37,7 +37,7 @@ Currently installed by running command in Flutter: will be updated with final re
 
 ```
 Contains Arduino code to control the robot, which includes: Laser Activation/Deactivation, and navigation
-control.
+control. Both manual control and autonomous control source code resides within this directory
 ```
 
 ### Camera
@@ -72,6 +72,20 @@ displays certain color hues.
 
 ```
 Meeting 1:
-Team was instructed to finish robot design using existing hardware.
-Team was given the milestone of having functional autonomous program before spring break
+-Team was instructed to finish robot design using existing hardware.
+  -Suggested chassis redesign was tabled for later focus by client
+  -The team is to continue with acrylic robot chassis currently in use
+-Team was given the milestone of having functional autonomous program before 03/17/2023
+  -The milestone requirements are as follows:
+    -Have a basic autonomous driving algorithm in place
+    -Have object recognition algorithm in place
+    -
+
+Meeting 2:
+-Team demonstrated object recognition to client
+-Team demonstrated currently functioning app to the client
+-Client laod out expectations between then and the end of the first milestone.
+
+Meeting 3:
+-Details to follow - meeting scheduled for 03/14/2023
 ```

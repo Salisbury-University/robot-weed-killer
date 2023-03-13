@@ -91,14 +91,6 @@ void loop() { //loop main function
 
   Forward();
   if(sonar.ping_cm() < 15){ //if right is not clear, turn around
-    
-    /*
-    Right();
-    Serial.print("Distance = ");
-    Serial.print(sonar.ping_cm());
-    Serial.println(" cm");
-    delay(1500); //this value will likely need to be tweaked
-    */
     Backward();
     delay(250);
     Brake();

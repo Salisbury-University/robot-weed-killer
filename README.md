@@ -84,7 +84,7 @@ Meeting 1:
 Meeting 2:
 -Team demonstrated object recognition to client
 -Team demonstrated currently functioning app to the client
--Client laod out expectations between then and the end of the first milestone. 
+-Client laid out expectations between then and the end of the first milestone. 
 
 Meeting 3:
 -Details to follow - meeting scheduled for 03/14/2023

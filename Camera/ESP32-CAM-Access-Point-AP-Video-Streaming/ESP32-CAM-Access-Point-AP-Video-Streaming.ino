@@ -1,19 +1,3 @@
-/*********
-  Rui Santos
-  Complete project details at https://RandomNerdTutorials.com/esp32-cam-video-streaming-web-server-camera-home-assistant/
-  
-  IMPORTANT!!! 
-   - Select Board "AI Thinker ESP32-CAM"
-   - GPIO 0 must be connected to GND to upload a sketch
-   - After connecting GPIO 0 to GND, press the ESP32-CAM on-board RESET button to put your board in flashing mode
-  
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files.
-
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
-*********/
-
 #include "esp_camera.h"
 #include <WiFi.h>
 #include "esp_timer.h"
@@ -195,19 +179,19 @@ void startCameraServer(){
   httpd_uri_t status_uri = {
     .uri       = "/status",
     .method    = HTTP_GET,
-    .handler   = status_handler,
+   // .handler   = status_handler,
     .user_ctx  = NULL
   };
   httpd_uri_t cmd_uri = {
     .uri       = "/control",
     .method    = HTTP_GET,
-    .handler   = cmd_handler,
+   // .handler   = cmd_handler,
     .user_ctx  = NULL
   };
   httpd_uri_t capture_uri = {
     .uri       = "/capture",
     .method    = HTTP_GET,
-    .handler   = capture_handler,
+    //.handler   = capture_handler,
     .user_ctx  = NULL
   };
   httpd_uri_t stream_uri = {

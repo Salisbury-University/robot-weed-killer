@@ -28,13 +28,26 @@ while True:
 
 	# contour to track green
 	contours, hierarchy = cv2.findContours(green_mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-	for pic, contour in enumerate(contours):
+	for pic, contour in enumerate(contours): # loop through the contours
 		area = cv2.contourArea(contour)
 		if(area > 300):
-			x, y, w, h = cv2.boundingRect(contour)
-			imageFrame = cv2.rectangle(imageFrame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-			cv2.putText(imageFrame, "Green Color" + " ({}, {})".format(x, y), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0))
+			x, y, w, h = cv2.boundingRect(contour) # coordinates to draw the rectangle
+			imageFrame = cv2.rectangle(imageFrame, (x, y), (x + w, y + h), (0, 255, 0), 2) # draw rectangle
+			cv2.putText(imageFrame, "Green Color" + " ({}, {})".format(x, y), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0)) # show text and coordinates
+		print("Found green object at ({}, {})".format(x, y)) # print found object to console
+		'''
+		# framesize 1024 x 768
 
+		if(x > cap.get(cv2.CAP_PROP_FRAME_WIDTH)/2): # left side object
+			print("Object to the left of the robot, turning left...")
+			bluetooth.write('l')
+		elif(x < cap.get(cv2.CAP_PROP_FRAME_WIDTH)/2): # right side object
+			print("Object to the right of the robot, turning right...")
+			bluetooth.write('r')
+		else:
+			print("No objects detected")
+			
+		'''
 	# quit on 'q' press
 	cv2.imshow("Green Detection", imageFrame)
 	if cv2.waitKey(10) & 0xFF == ord('q'):

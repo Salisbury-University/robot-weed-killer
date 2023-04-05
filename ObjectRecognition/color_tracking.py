@@ -32,12 +32,8 @@ while True:
 		area = cv2.contourArea(contour)
 		if(area > 300):
 			x, y, w, h = cv2.boundingRect(contour)
-			imageFrame = cv2.rectangle(imageFrame, (x, y),
-									(x + w, y + h),
-									(0, 255, 0), 2)
-			cv2.putText(imageFrame, "Green Color", (x, y),
-						cv2.FONT_HERSHEY_SIMPLEX,
-						1.0, (0, 255, 0))
+			imageFrame = cv2.rectangle(imageFrame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+			cv2.putText(imageFrame, "Green Color" + " ({}, {})".format(x, y), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0))
 
 	# quit on 'q' press
 	cv2.imshow("Green Detection", imageFrame)

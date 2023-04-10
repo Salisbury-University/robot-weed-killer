@@ -30,7 +30,7 @@ while True:
             x, y, w, h = cv2.boundingRect(contour) # coordinates to draw the rectangle
             imageFrame = cv2.rectangle(imageFrame, (x, y), (x + w, y + h), (0, 255, 0), 2) # draw rectangle
             cv2.putText(imageFrame, "Green Color" + " ({}, {})".format(x, y), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0)) # show text and coordinates
-        print("Found green object at ({}, {})".format(x, y)) # print found object to console
+            print("Found green object at ({}, {})".format(x, y)) # print found object to console
  
     cv2.imshow("Green Detection", imageFrame) # show processed image frame
 

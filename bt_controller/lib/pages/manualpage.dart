@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_constructors
+// ignore: depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,13 +11,17 @@ import 'dart:io';
 import 'package:control_pad/control_pad.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:vibration/vibration.dart';
-// ignore: depend_on_referenced_packages
 import 'package:material_color_utilities/material_color_utilities.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:webviewx/webviewx.dart';
+import '../menu_screen/menu.dart';
 
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
+  // webviewx
+  late WebViewXController webviewController;
+  
 }
 
 double? deg;
@@ -57,6 +62,11 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
     // hide sytem bar
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.bottom]);
@@ -141,56 +151,36 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Color.fromARGB(255, 17, 17, 17),
-      body: Padding(
-        padding: const EdgeInsets.only(
-          right: 2,
-          left: 2,
-          top: 2,
-          bottom: 2,
-        ),
-        child: Stack(
-          alignment: Alignment.topRight,
-          children: <Widget>[
-            Container(
-              height: double.infinity,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(50)),
-                  // Foreground color
-                  color: Color.fromARGB(255, 44, 32, 52)),
-              child: Row(
-                // Row 1
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment(0, .4),
-                    child: NeumorphicButton(
-                      onPressed: () {},
-                      style: NeumorphicStyle(
-                        shadowDarkColor: Colors.black,
-                        shadowLightColor: Colors.black,
-                        lightSource: LightSource.bottom,
-                        color: Color.fromARGB(255, 26, 222, 197),
-                      ),
-                      child: Text(
-                        'Auto',
-                        style: GoogleFonts.montserrat(
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            color: Colors.black,
-                            letterSpacing: .1,
-                          ),
-                        ),
-                      ),
-                    ),
+      body: Stack(
+        children: <Widget>[
+          // Webviewx Widget 
+          Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Expanded(
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: WebViewX(width: 900, height: 900),
                   ),
-                  SizedBox(
-                    width: 35,
-                  ),
-
-                  Align(
-                    alignment: new Alignment(0, .4),
+                ),
+            ]),
+          ),
+           
+            
+            
+          Container( 
+            child: WebViewAware(
+              child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              //crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                Container(
+                  height: 290
+                ),
+                Container(
+                  child:  Align(
+                    alignment: FractionalOffset.bottomCenter,
                     child: NeumorphicButton(
                       onPressed: () {
                         if (_isScreenOn == false) {
@@ -204,9 +194,8 @@ class _HomePageState extends State<HomePage> {
                         }
                       },
                       style: NeumorphicStyle(
-                          shadowLightColor: Colors.black,
-                          lightSource: LightSource.bottom,
-                          color: Color.fromARGB(255, 177, 236, 157)),
+                        color:  Color.fromARGB(255, 96, 96, 96),
+                      ),
                       child: _isScreenOn
                           ? Text(
                               'Stop',
@@ -223,33 +212,30 @@ class _HomePageState extends State<HomePage> {
                               style: GoogleFonts.montserrat(
                                 textStyle: TextStyle(
                                   fontWeight: FontWeight.w800,
-                                  color: Colors.black,
+                                  color: Color.fromARGB(255, 216, 216, 216),
                                   letterSpacing: .1,
                                 ),
                               ),
                             ),
                     ),
+                    
+                    ),
                   ),
+
                   //controller(),
-                  SizedBox(
-                    width: 55,
-                  ),
-                  //Screen(_isScreenOn),
-                  /*SizedBox(
-                    width: 5,
-                  ),*/
+
                 ],
               ),
+             ),
             ),
             SizedBox(
               height: double.infinity,
               width: double.infinity,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  SizedBox(
-                    width: 25,
-                  ),
-                  Neumorphic(
+                  WebViewAware( 
+                    child:Neumorphic(
                     style: NeumorphicStyle(
                       boxShape: NeumorphicBoxShape.circle(),
                       depth: 10,
@@ -257,8 +243,8 @@ class _HomePageState extends State<HomePage> {
                       shadowLightColor: Colors.black,
                     ),
                     child: JoystickView(
-                      innerCircleColor: Color.fromARGB(255, 6, 128, 128),
-                      backgroundColor: Color.fromARGB(255, 19, 157, 139),
+                      innerCircleColor: Color.fromARGB(255, 20, 20, 20),
+                      backgroundColor: Color.fromARGB(255, 62, 62, 62),
                       onDirectionChanged: (degrees, distance) {
                         deg = degrees;
                         dist = distance;
@@ -291,48 +277,31 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                   ),
-                  SizedBox(
-                    width: 65,
                   ),
-                  Neumorphic(
-                    style: NeumorphicStyle(
-                      depth: 10,
-                      lightSource: LightSource.bottom,
-                      shadowLightColor: Colors.black,
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(9)),
-                          border: Border.all(
-                            color: Color.fromARGB(255, 112, 148, 100),
-                            width: 2.5,
-                          )),
-                      child: Screen(_isScreenOn), // Webview
-                    ),
-                  ),
+                  //Screen(_isScreenOn), // Webview
                   SizedBox(
-                    width: 100,
+                    width: 420,
                   ),
                   Align(
-                    alignment: Alignment(0, -.2),
-                    child: Neumorphic(
-                      style: NeumorphicStyle(
-                        boxShape: NeumorphicBoxShape.circle(),
-                        shadowLightColor: Colors.black,
-                        lightSource: LightSource.bottom,
-                      ),
-                      child: ElevatedButton(
+                    alignment: Alignment(0, 0),
+                      child: SizedBox( height: 100, width: 100,
+                       child: NeumorphicButton(
                         onPressed: () {
                           if (_connected) {
                             _sendLaserOnToBluetooth();
                           }
                         },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Color.fromARGB(255, 234, 19, 19),
-                            foregroundColor: Colors.black,
-                            shape: CircleBorder(),
-                            padding: EdgeInsets.all(30)),
-                        child: Icon(
+                        style: NeumorphicStyle (
+                            color: Color.fromARGB(255, 234, 19, 19),
+                            boxShape: NeumorphicBoxShape.circle(),
+                            depth: 10,
+                            lightSource: LightSource.topRight,
+                            shadowLightColor: Colors.black54,
+                        ),
+                        
+                        child:Align(
+                          alignment: Alignment.center,
+                          child: Icon(
                           Icons.local_fire_department_sharp,
                           color: Colors.white,
                           size: 40,
@@ -340,220 +309,28 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
+                    ),
+                  
                 ],
               ),
             ),
             RawMaterialButton(
-              fillColor: Colors.blue[200],
+              fillColor: Color.fromARGB(255, 0, 135, 253),
               shape: CircleBorder(),
               child: Icon(
-                Icons.bluetooth,
+                Icons.arrow_left,
                 color: Colors.white,
               ),
               onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return Dialog(
-                        elevation: 16,
-                        child: SizedBox(
-                          height: 450.0,
-                          width: 360.0,
-                          child: SizedBox(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                Visibility(
-                                  visible: _isButtonUnavailable &&
-                                      _bluetoothState ==
-                                          BluetoothState.STATE_ON,
-                                  child: LinearProgressIndicator(
-                                    backgroundColor: Colors.yellow,
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                        Colors.red),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(5),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Text(
-                                          'Enable Bluetooth',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ),
-                                      Switch(
-                                        value: _bluetoothState.isEnabled,
-                                        onChanged: (bool value) {
-                                          future() async {
-                                            if (value) {
-                                              await FlutterBluetoothSerial
-                                                  .instance
-                                                  .requestEnable();
-                                            } else {
-                                              await FlutterBluetoothSerial
-                                                  .instance
-                                                  .requestDisable();
-                                            }
-
-                                            await getPairedDevices();
-                                            _isButtonUnavailable = false;
-
-                                            if (_connected) {
-                                              _disconnect();
-                                            }
-                                          }
-
-                                          future().then((_) {
-                                            setState(() {});
-                                          });
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Stack(
-                                  children: <Widget>[
-                                    Column(
-                                      children: <Widget>[
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8),
-                                          child: Text(
-                                            "PAIRED DEVICES",
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                color: Colors.blue),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(5.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: <Widget>[
-                                              Text(
-                                                'Device:',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              DropdownButton(
-                                                items: _getDeviceItems(),
-                                                onChanged: (value) => setState(
-                                                    () => _device = value),
-                                                value: _devicesList.isNotEmpty
-                                                    ? _device
-                                                    : null,
-                                              ),
-                                              ElevatedButton(
-                                                onPressed: _isButtonUnavailable
-                                                    ? null
-                                                    : _connected
-                                                        ? _disconnect
-                                                        : _connect,
-                                                child: Text(_connected
-                                                    ? 'Disconnect'
-                                                    : 'Connect'),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(10.0),
-                                          child: Card(
-                                            shape: RoundedRectangleBorder(
-                                              side: new BorderSide(
-                                                  color: _deviceState == 0
-                                                      ? colors[
-                                                          'neutralBorderColor']!
-                                                      : _deviceState == 1
-                                                          ? colors[
-                                                              'onBorderColor']!
-                                                          : colors[
-                                                              'offBorderColor']!,
-                                                  width: 3),
-                                              borderRadius:
-                                                  BorderRadius.circular(4.0),
-                                            ),
-                                            elevation:
-                                                _deviceState == 0 ? 4 : 0,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Expanded(
-                                                    child: Text(
-                                                      "DEVICE 1",
-                                                      style: TextStyle(
-                                                        fontSize: 20,
-                                                        color: _deviceState == 0
-                                                            ? colors[
-                                                                'neutralTextColor']
-                                                            : _deviceState == 1
-                                                                ? colors[
-                                                                    'onTextColor']
-                                                                : colors[
-                                                                    'offTextColor'],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: Center(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Text(
-                                            "NOTE: If you cannot find the device in the list, please pair the device by going to the bluetoth settings",
-                                            style: TextStyle(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.red,
-                                            ),
-                                          ),
-                                          ElevatedButton(
-                                            child: Text("Bluetooth Settings"),
-                                            onPressed: () {
-                                              FlutterBluetoothSerial.instance
-                                                  .openSettings();
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    });
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) { 
+                  return MenuPage(); })
+                ); 
               },
             )
           ],
         ),
-      ),
-    );
+      );
   }
 
   List<DropdownMenuItem<BluetoothDevice>> _getDeviceItems() {

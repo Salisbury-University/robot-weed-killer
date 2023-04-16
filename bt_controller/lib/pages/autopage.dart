@@ -5,18 +5,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:bt_controller/widgets/screen.dart';
-
-import 'dart:convert';
-import 'dart:io';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:webviewx/webviewx.dart';
-import '../menu_screen/menu.dart';
 
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'dart:convert';
+import '../menu_screen/menu.dart';
 import '../const.dart';
 import '../constants/marker.dart';
 

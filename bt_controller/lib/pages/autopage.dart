@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 // ignore: depend_on_referenced_packages
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -9,11 +10,7 @@ import 'package:bt_controller/widgets/screen.dart';
 
 import 'dart:convert';
 import 'dart:io';
-import 'package:control_pad/control_pad.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
-import 'package:vibration/vibration.dart';
-import 'package:material_color_utilities/material_color_utilities.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:webviewx/webviewx.dart';
 import '../menu_screen/menu.dart';
 
@@ -23,9 +20,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../const.dart';
 import '../constants/marker.dart';
 
+// ignore: must_be_immutable
 class AutoPage extends StatefulWidget {
   @override
-  _AutoPageState createState() => _AutoPageState();
+  State<AutoPage> createState() => _AutoPageState();
   // webviewx
   late WebViewXController webviewController;
 
@@ -151,7 +149,9 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
     try {
       devices = await _bluetooth.getBondedDevices();
     } on PlatformException {
-      print("Error");
+      if (kDebugMode) {
+        print("Error");
+      }
     }
 
     // Unless mounted is true, calling [setState] throws an error.

@@ -207,6 +207,52 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
                           zoom: 11,
                           center: currentLocation,
                         ),
+                        children: [
+                          TileLayer(
+                            urlTemplate:
+                                "https://api.mapbox.com/styles/v1/zm009/clfzq1jz4003p01k6mwpn89kq/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoiem0wMDkiLCJhIjoiY2xlejMxcnR4MG41ZTNwcnhrZGxqNmM5dCJ9.wbrN7cncpM0-phqVxms6Ug",
+                            additionalOptions: {
+                              'mapStyleId': AppConstants.mapBoxStyleId,
+                              'accessToken': AppConstants.mapBoxAccessToken,
+                            },
+                          ),
+                          MarkerLayer(
+                            markers: [
+                              for (int i = 0; i < mapMarkers.length; i++)
+                                Marker(
+                                    height: 40,
+                                    width: 40,
+                                    point: mapMarkers[i].location ??
+                                        AppConstants.myLocation,
+                                    builder: (_) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          selectedIndex = i;
+                                          currentLocation =
+                                              mapMarkers[i].location ??
+                                                  AppConstants.myLocation;
+                                          _animatedMapMove(
+                                              currentLocation, 11.5);
+                                          setState(() {});
+                                        },
+                                        child: AnimatedScale(
+                                          duration:
+                                              const Duration(milliseconds: 500),
+                                          scale: selectedIndex == i ? 1 : 0.7,
+                                          child: AnimatedOpacity(
+                                              duration: const Duration(
+                                                  milliseconds: 500),
+                                              opacity:
+                                                  selectedIndex == i ? 1 : 0.5,
+                                              child: SvgPicture.asset(
+                                                  'assets/icons/map-marker.svg')),
+                                        ),
+                                      );
+                                    })
+                            ],
+                          )
+                        ],
+                        /*
                         layers: [
                           TileLayerOptions(
                             // tile layer template link for the navigation map
@@ -258,7 +304,7 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
                                 ),
                             ],
                           ),
-                        ],
+                        ],*/
                       ),
                     ),
                   ),

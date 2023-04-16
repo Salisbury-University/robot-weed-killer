@@ -175,30 +175,12 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
                   Expanded(
                     child: SizedBox(
                       width: double.infinity,
-                      child: WebViewX(width: 900, height: 900),
-                    ),
-                  ),
-                ]),
-          ),
+                      
 
-          Container(
-            child: WebViewAware(
-              child: Column(
-                //mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.all(7),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        border: Border.all(
-                          color: Colors.blue,
-                          width: 2.0,
-                        )),
-                    child: SizedBox(
-                      height: 200,
-                      width: 200,
-                      child: FlutterMap(
+
+
+
+                    child: FlutterMap(
                         mapController: mapController,
                         // there are more available options on map than just these settings
                         options: MapOptions(
@@ -306,6 +288,36 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
                           ),
                         ],*/
                       ),
+
+                    ),
+                  ),
+                ]),
+          ),
+
+          Container(
+            child: WebViewAware(
+              child: Column(
+                //mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.all(7),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                        border: Border.all(
+                          color: Colors.blue,
+                          width: 2.0,
+                        )),
+                    child: SizedBox(
+                      height: 200,
+                      width: 200,
+                      
+
+
+                      child: WebViewX(width: 200, height: 200),
+
+
+
                     ),
                   ),
                   Container(height: 70),

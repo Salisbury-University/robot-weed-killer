@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 // ignore: depend_on_referenced_packages
+// ignore_for_file: unused_field
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -168,132 +169,73 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
       body: Stack(
         children: <Widget>[
           // Webviewx Widget
+          // ignore: avoid_unnecessary_containers
           Container(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: SizedBox(
-                      width: double.infinity,
-                      
-
-
-
-
-                    child: FlutterMap(
-                        mapController: mapController,
-                        // there are more available options on map than just these settings
-                        options: MapOptions(
-                          minZoom: 5,
-                          maxZoom: 18,
-                          zoom: 11,
-                          center: currentLocation,
-                        ),
-                        children: [
-                          TileLayer(
-                            urlTemplate:
-                                "https://api.mapbox.com/styles/v1/zm009/clfzq1jz4003p01k6mwpn89kq/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoiem0wMDkiLCJhIjoiY2xlejMxcnR4MG41ZTNwcnhrZGxqNmM5dCJ9.wbrN7cncpM0-phqVxms6Ug",
-                            additionalOptions: {
-                              'mapStyleId': AppConstants.mapBoxStyleId,
-                              'accessToken': AppConstants.mapBoxAccessToken,
-                            },
-                          ),
-                          MarkerLayer(
-                            markers: [
-                              for (int i = 0; i < mapMarkers.length; i++)
-                                Marker(
-                                    height: 40,
-                                    width: 40,
-                                    point: mapMarkers[i].location ??
-                                        AppConstants.myLocation,
-                                    builder: (_) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          selectedIndex = i;
-                                          currentLocation =
-                                              mapMarkers[i].location ??
-                                                  AppConstants.myLocation;
-                                          _animatedMapMove(
-                                              currentLocation, 11.5);
-                                          setState(() {});
-                                        },
-                                        child: AnimatedScale(
-                                          duration:
-                                              const Duration(milliseconds: 500),
-                                          scale: selectedIndex == i ? 1 : 0.7,
-                                          child: AnimatedOpacity(
-                                              duration: const Duration(
-                                                  milliseconds: 500),
-                                              opacity:
-                                                  selectedIndex == i ? 1 : 0.5,
-                                              child: SvgPicture.asset(
-                                                  'assets/icons/map-marker.svg')),
-                                        ),
-                                      );
-                                    })
-                            ],
-                          )
-                        ],
-                        /*
-                        layers: [
-                          TileLayerOptions(
-                            // tile layer template link for the navigation map
-                            // used to import the map created with Mapbox Studio
-                            urlTemplate:
-                                "https://api.mapbox.com/styles/v1/zm009/clfzq1jz4003p01k6mwpn89kq/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoiem0wMDkiLCJhIjoiY2xlejMxcnR4MG41ZTNwcnhrZGxqNmM5dCJ9.wbrN7cncpM0-phqVxms6Ug",
-                            additionalOptions: {
-                              'mapStyleId': AppConstants.mapBoxStyleId,
-                              'accessToken': AppConstants.mapBoxAccessToken,
-                            },
-                          ),
-                          MarkerLayerOptions(
-                            markers: [
-                              // loops through list of markers to update their location with the constant
-                              // AppConstants.myLocation, until the end of the markers list is reached.
-                              for (int i = 0; i < mapMarkers.length; i++)
-                                Marker(
-                                  height: 40,
-                                  width: 40,
-                                  point: mapMarkers[i].location ??
-                                      AppConstants.myLocation,
-                                  builder: (_) {
-                                    return GestureDetector(
-                                      /// gesture detector uses onTap method to detect a tap on any
-                                      /// map markers. When a marker is selected, the page controller uses an
-                                      /// animation method to ease-in the information of the selected location (lasts 500 milliseconds)
-                                      onTap: () {
-                                        selectedIndex = i;
-                                        currentLocation =
-                                            mapMarkers[i].location ??
-                                                AppConstants.myLocation;
-                                        _animatedMapMove(currentLocation, 11.5);
-                                        setState(() {});
-                                      },
-                                      child: AnimatedScale(
-                                        duration:
-                                            const Duration(milliseconds: 500),
-                                        scale: selectedIndex == i ? 1 : 0.7,
-                                        child: AnimatedOpacity(
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: <
+                    Widget>[
+              Expanded(
+                child: SizedBox(
+                  width: double.infinity,
+                  child: FlutterMap(
+                    mapController: mapController,
+                    // there are more available options on map than just these settings
+                    options: MapOptions(
+                      minZoom: 5,
+                      maxZoom: 18,
+                      zoom: 11,
+                      center: currentLocation,
+                    ),
+                    children: [
+                      TileLayer(
+                        urlTemplate:
+                            "https://api.mapbox.com/styles/v1/zm009/clfzq1jz4003p01k6mwpn89kq/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoiem0wMDkiLCJhIjoiY2xlejMxcnR4MG41ZTNwcnhrZGxqNmM5dCJ9.wbrN7cncpM0-phqVxms6Ug",
+                        additionalOptions: {
+                          'mapStyleId': AppConstants.mapBoxStyleId,
+                          'accessToken': AppConstants.mapBoxAccessToken,
+                        },
+                      ),
+                      MarkerLayer(
+                        markers: [
+                          for (int i = 0; i < mapMarkers.length; i++)
+                            Marker(
+                                height: 40,
+                                width: 40,
+                                point: mapMarkers[i].location ??
+                                    AppConstants.myLocation,
+                                builder: (_) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      selectedIndex = i;
+                                      currentLocation =
+                                          mapMarkers[i].location ??
+                                              AppConstants.myLocation;
+                                      _animatedMapMove(currentLocation, 11.5);
+                                      setState(() {});
+                                    },
+                                    child: AnimatedScale(
+                                      duration:
+                                          const Duration(milliseconds: 500),
+                                      scale: selectedIndex == i ? 1 : 0.7,
+                                      child: AnimatedOpacity(
                                           duration:
                                               const Duration(milliseconds: 500),
                                           opacity: selectedIndex == i ? 1 : 0.5,
                                           child: SvgPicture.asset(
-                                              'assets/icons/map-marker.svg'),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                            ],
-                          ),
-                        ],*/
-                      ),
-
-                    ),
+                                              'assets/icons/map-marker.svg')),
+                                    ),
+                                  );
+                                })
+                        ],
+                      )
+                    ],
                   ),
-                ]),
+                ),
+              ),
+            ]),
           ),
 
+          // ignore: avoid_unnecessary_containers
           Container(
             child: WebViewAware(
               child: Column(
@@ -311,13 +253,7 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
                     child: SizedBox(
                       height: 200,
                       width: 200,
-                      
-
-
                       child: WebViewX(width: 200, height: 200),
-
-
-
                     ),
                   ),
                   Container(height: 70),
@@ -434,6 +370,7 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
             } else {
               print('Disconnected remotely');
             }
+            // ignore: unnecessary_this
             if (this.mounted) {
               setState(() {});
             }

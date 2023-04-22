@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
@@ -107,5 +109,73 @@ mixin BluetoothHandler<T extends StatefulWidget> on State<T> {
     setState(() {
       _devicesList = devices;
     });
+  }
+
+  List<DropdownMenuItem<BluetoothDevice>> _getDeviceItems() {
+    List<DropdownMenuItem<BluetoothDevice>> items = [];
+    if (_devicesList.isEmpty) {
+      items.add(DropdownMenuItem(
+        child: Text('NONE'),
+      ));
+    } else {
+      // ignore: avoid_function_literals_in_foreach_calls
+      _devicesList.forEach((device) {
+        items.add(DropdownMenuItem(child: Text(device.name!), value: device));
+      });
+    }
+    return items;
+  }
+
+  // Method to connect to bluetooth
+  void _connect() async {
+    setState(() {
+      _isButtonUnavailable = true;
+    });
+    if (_device == null) {
+      debugPrint('No device selected');
+    } else {
+      if (!isConnected) {
+        await BluetoothConnection.toAddress(_device?.address)
+            .then((_connection) {
+          debugPrint('Connected to device');
+          connection = _connection;
+          setState(() {
+            _connected = true;
+          });
+
+          connection!.input!.listen(null).onDone(() {
+            if (isDisconnecting) {
+              debugPrint('Disconnecting locally');
+            } else {
+              debugPrint('Disconnecting remotely');
+            }
+            if (this.mounted) {
+              setState(() {});
+            }
+          });
+        }).catchError((error) {
+          debugPrint('Cannot connect, exception occurred');
+          debugPrint(error);
+        });
+
+        setState(() => _isButtonUnavailable = false);
+      }
+    }
+  }
+
+  // method to disconnect bluetooth
+  void _disconnect() async {
+    setState(() {
+      _isButtonUnavailable = true;
+      _deviceState = 0;
+    });
+
+    await connection?.close();
+    if (!connection!.isConnected) {
+      setState(() {
+        _connected = false;
+        _isButtonUnavailable = false;
+      });
+    }
   }
 }

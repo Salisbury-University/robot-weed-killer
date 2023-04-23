@@ -34,6 +34,7 @@ dependencies:
 
   cupertino_icons: ^1.0.2
   google_fonts: ^3.0.1
+  page_transition: "^2.0.9"
   # paint & scalable vector graphics
   flutter_svg: ^1.1.6
   flutter_neumorphic: ^3.0.1

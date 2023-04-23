@@ -5,6 +5,7 @@ import '../pages/manualpage.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:page_transition/page_transition.dart';
 
 
 class MenuPage extends StatefulWidget {
@@ -193,12 +194,20 @@ class _MenuScreenState extends State<MenuPage> {
                     height: 55,
                     child: NeumorphicButton(
                       onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) { 
-                            return HomePage(); 
-                          }),
-                        );
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.fade,
+                            child: HomePage() ), 
+                          );
                       },
+                      // onPressed: () {
+                      //   Navigator.of(context).push(
+                      //     MaterialPageRoute(builder: (context) { 
+                      //       return HomePage(); 
+                      //     }),
+                      //   );
+                      // },
                       style: NeumorphicStyle(
                         shape: NeumorphicShape.flat,
                         boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(30)),

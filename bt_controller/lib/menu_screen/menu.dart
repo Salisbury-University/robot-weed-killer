@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import '../pages/autopage.dart';
 import '../pages/manualpage.dart';
@@ -6,22 +7,20 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:page_transition/page_transition.dart';
-
+import 'package:webviewx/webviewx.dart';
 
 class MenuPage extends StatefulWidget {
   @override
   _MenuScreenState createState() => _MenuScreenState();
   // webviewx
-  //late WebViewXController webviewController;
-  
+  late WebViewXController webviewController;
 }
 
 double? deg;
 double? dist;
 
-
 class _MenuScreenState extends State<MenuPage> {
-   // Initialize Bluetooth connection state to be unknown
+  // Initialize Bluetooth connection state to be unknown
   BluetoothState _bluetoothState = BluetoothState.UNKNOWN;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   // Get instance of the Bluetooth
@@ -139,354 +138,365 @@ class _MenuScreenState extends State<MenuPage> {
     });
   }
 
-
-  @override 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(115, 60, 60, 60),
       body: Center(
         child: Container(
-          color:Color.fromARGB(255, 64, 64, 64),
-          width: 350, 
+          color: Color.fromARGB(255, 64, 64, 64),
+          width: 350,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
+            children: <Widget>[
+              SizedBox(height: 90),
 
-                SizedBox( height: 90),
-
-                Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[                                                          // Robotics Logo 
-                    Image.asset( 'assets/RoboticsLogo.png',
-                      fit: BoxFit.fitWidth ,
-                      height: 320,
-                      ),
-                                                                                   // Title 
-                    Positioned( 
-                      top: 272,
-                      child: Text (
-                        "R.U.P.E.R.T",
-                        style: GoogleFonts.secularOne(
-                          fontSize: 45,
-                          fontWeight: FontWeight.w900,
-                          color: Color.fromARGB(255, 0, 0, 0),
-                        ),
-                      ), 
-                    ), 
-                  ] 
+              Stack(alignment: Alignment.center, children: <Widget>[
+                // Robotics Logo
+                Image.asset(
+                  'assets/RoboticsLogo.png',
+                  fit: BoxFit.fitWidth,
+                  height: 320,
                 ),
-                                                
-                SizedBox( height: 25),
-                                                                                       // Divider 
-                Container(
-                  padding:EdgeInsets.all(15),
-                  child: Divider(
-                    thickness: 3,
-                    color: Color.fromARGB(255, 30, 30, 30),
-                  ),
-                ),
-
-                SizedBox(height: 40),
-                                                                                     // Manual Button
-                Align(
-                  child: SizedBox(
-                    width: 300,
-                    height: 55,
-                    child: NeumorphicButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.fade,
-                            child: HomePage() ), 
-                          );
-                      },
-                      // onPressed: () {
-                      //   Navigator.of(context).push(
-                      //     MaterialPageRoute(builder: (context) { 
-                      //       return HomePage(); 
-                      //     }),
-                      //   );
-                      // },
-                      style: NeumorphicStyle(
-                        shape: NeumorphicShape.flat,
-                        boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(30)),
-                        intensity: .2,
-                        surfaceIntensity: .5,
-                        depth: 20,
-                        color: Color.fromARGB(255, 46, 46, 46),
-                      ),  
-                      child:Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Manual',
-                            style: GoogleFonts.adamina(
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromARGB(255, 228, 228, 228),
-                            fontSize: 20,
-                           )),
-                      ),
+                // Title
+                Positioned(
+                  top: 272,
+                  child: Text(
+                    "R.U.P.E.R.T",
+                    style: GoogleFonts.secularOne(
+                      fontSize: 45,
+                      fontWeight: FontWeight.w900,
+                      color: Color.fromARGB(255, 0, 0, 0),
                     ),
                   ),
                 ),
-               
-                SizedBox(height: 40),
-                
-                Align(
-                  child: SizedBox(
-                    width: 300,
-                    height: 55,
-                    child: NeumorphicButton(
-                      // Navigate to autopage.dart
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.fade,
-                            child: AutoPage() ), 
-                          );
-                      },
-                      style: NeumorphicStyle(
-                          shape: NeumorphicShape.flat,
-                          intensity: .2,
-                          boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(30)),
-                          depth: 9,
-                          color: Color.fromARGB(255, 46, 46, 46),
-                          //lightSource:LightSource.topRight
-                        ),
-                          
-                        child:Align(
-                          alignment: Alignment.center,
-                          child: Text('Automatic',
-                            style: GoogleFonts.adamina(
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromARGB(255, 228, 228, 228),
-                            fontSize: 20,
-                           ),
-                        ),),
-                      ),
-                    ),
+              ]),
+
+              SizedBox(height: 25),
+              // Divider
+              Container(
+                padding: EdgeInsets.all(15),
+                child: Divider(
+                  thickness: 3,
+                  color: Color.fromARGB(255, 30, 30, 30),
                 ),
-               
-               
-                SizedBox(height: 40),
-                
-                SizedBox(
-                    height: 60,
-                    width: 60,
-                    child: RawMaterialButton(
-                    fillColor: Color.fromARGB(255, 75, 164, 237),
-                    shape: CircleBorder(),
-                    child: Icon(
-                      Icons.bluetooth,
-                      color: Colors.white,
-                    ),
+              ),
+
+              SizedBox(height: 40),
+              // Manual Button
+              Align(
+                child: SizedBox(
+                  width: 300,
+                  height: 55,
+                  child: NeumorphicButton(
                     onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return Dialog(
-                              elevation: 16,
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.fade, child: HomePage()),
+                      );
+                    },
+                    // onPressed: () {
+                    //   Navigator.of(context).push(
+                    //     MaterialPageRoute(builder: (context) {
+                    //       return HomePage();
+                    //     }),
+                    //   );
+                    // },
+                    style: NeumorphicStyle(
+                      shape: NeumorphicShape.flat,
+                      boxShape: NeumorphicBoxShape.roundRect(
+                          BorderRadius.circular(30)),
+                      intensity: .2,
+                      surfaceIntensity: .5,
+                      depth: 20,
+                      color: Color.fromARGB(255, 46, 46, 46),
+                    ),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text('Manual',
+                          style: GoogleFonts.adamina(
+                            fontWeight: FontWeight.w500,
+                            color: Color.fromARGB(255, 228, 228, 228),
+                            fontSize: 20,
+                          )),
+                    ),
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 40),
+
+              Align(
+                child: SizedBox(
+                  width: 300,
+                  height: 55,
+                  child: NeumorphicButton(
+                    // Navigate to autopage.dart
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.fade, child: AutoPage()),
+                      );
+                    },
+                    style: NeumorphicStyle(
+                      shape: NeumorphicShape.flat,
+                      intensity: .2,
+                      boxShape: NeumorphicBoxShape.roundRect(
+                          BorderRadius.circular(30)),
+                      depth: 9,
+                      color: Color.fromARGB(255, 46, 46, 46),
+                      //lightSource:LightSource.topRight
+                    ),
+
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Automatic',
+                        style: GoogleFonts.adamina(
+                          fontWeight: FontWeight.w500,
+                          color: Color.fromARGB(255, 228, 228, 228),
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 40),
+
+              SizedBox(
+                height: 60,
+                width: 60,
+                child: RawMaterialButton(
+                  fillColor: Color.fromARGB(255, 75, 164, 237),
+                  shape: CircleBorder(),
+                  child: Icon(
+                    Icons.bluetooth,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Dialog(
+                            elevation: 16,
+                            child: SizedBox(
+                              height: 450.0,
+                              width: 360.0,
                               child: SizedBox(
-                                height: 450.0,
-                                width: 360.0,
-                                child: SizedBox(
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: <Widget>[
-                                      Visibility(
-                                        visible: _isButtonUnavailable &&
-                                            _bluetoothState ==
-                                                BluetoothState.STATE_ON,
-                                        child: LinearProgressIndicator(
-                                          backgroundColor: Colors.yellow,
-                                          valueColor: AlwaysStoppedAnimation<Color>(
-                                              Colors.red),
-                                        ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[
+                                    Visibility(
+                                      visible: _isButtonUnavailable &&
+                                          _bluetoothState ==
+                                              BluetoothState.STATE_ON,
+                                      child: LinearProgressIndicator(
+                                        backgroundColor: Colors.yellow,
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                                Colors.red),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(5),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: <Widget>[
-                                            Expanded(
-                                              child: Text(
-                                                'Enable Bluetooth',
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 16,
-                                                ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: Text(
+                                              'Enable Bluetooth',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 16,
                                               ),
                                             ),
-                                            Switch(
-                                              value: _bluetoothState.isEnabled,
-                                              onChanged: (bool value) {
-                                                future() async {
-                                                  if (value) {
-                                                    await FlutterBluetoothSerial
-                                                        .instance
-                                                        .requestEnable();
-                                                  } else {
-                                                    await FlutterBluetoothSerial
-                                                        .instance
-                                                        .requestDisable();
-                                                  }
-
-                                                  await getPairedDevices();
-                                                  _isButtonUnavailable = false;
-
-                                                  if (_connected) {
-                                                    _disconnect();
-                                                  }
+                                          ),
+                                          Switch(
+                                            value: _bluetoothState.isEnabled,
+                                            onChanged: (bool value) {
+                                              future() async {
+                                                if (value) {
+                                                  await FlutterBluetoothSerial
+                                                      .instance
+                                                      .requestEnable();
+                                                } else {
+                                                  await FlutterBluetoothSerial
+                                                      .instance
+                                                      .requestDisable();
                                                 }
 
-                                                future().then((_) {
-                                                  setState(() {});
-                                                });
-                                              },
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Stack(
-                                        children: <Widget>[
-                                          Column(
-                                            children: <Widget>[
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.only(top: 8),
-                                                child: Text(
-                                                  "PAIRED DEVICES",
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      color: Colors.blue),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.all(5.0),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.spaceBetween,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      'Device:',
-                                                      style: TextStyle(
-                                                        fontWeight: FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                    DropdownButton(
-                                                      items: _getDeviceItems(),
-                                                      onChanged: (value) => setState(
-                                                          () => _device = value),
-                                                      value: _devicesList.isNotEmpty
-                                                          ? _device
-                                                          : null,
-                                                    ),
-                                                    ElevatedButton(
-                                                      onPressed: _isButtonUnavailable
-                                                          ? null
-                                                          : _connected
-                                                              ? _disconnect
-                                                              : _connect,
-                                                      child: Text(_connected
-                                                          ? 'Disconnect'
-                                                          : 'Connect'),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.all(10.0),
-                                                child: Card(
-                                                  shape: RoundedRectangleBorder(
-                                                    side: new BorderSide(
-                                                        color: _deviceState == 0
-                                                            ? colors[
-                                                                'neutralBorderColor']!
-                                                            : _deviceState == 1
-                                                                ? colors[
-                                                                    'onBorderColor']!
-                                                                : colors[
-                                                                    'offBorderColor']!,
-                                                        width: 3),
-                                                    borderRadius:
-                                                        BorderRadius.circular(4.0),
-                                                  ),
-                                                  elevation:
-                                                      _deviceState == 0 ? 4 : 0,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(8.0),
-                                                    child: Row(
-                                                      children: <Widget>[
-                                                        Expanded(
-                                                          child: Text(
-                                                            "DEVICE 1",
-                                                            style: TextStyle(
-                                                              fontSize: 20,
-                                                              color: _deviceState == 0
-                                                                  ? colors[
-                                                                      'neutralTextColor']
-                                                                  : _deviceState == 1
-                                                                      ? colors[
-                                                                          'onTextColor']
-                                                                      : colors[
-                                                                          'offTextColor'],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                  ],
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: Center(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Text(
-                                            "NOTE: If you cannot find the device in the list, please pair the device by going to the bluetoth settings",
-                                            style: TextStyle(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.red,
-                                            ),
-                                          ),
-                                          ElevatedButton(
-                                            child: Text("Bluetooth Settings"),
-                                            onPressed: () {
-                                              FlutterBluetoothSerial.instance
-                                                  .openSettings();
+                                                await getPairedDevices();
+                                                _isButtonUnavailable = false;
+
+                                                if (_connected) {
+                                                  _disconnect();
+                                                }
+                                              }
+
+                                              future().then((_) {
+                                                setState(() {});
+                                              });
                                             },
-                                          ),
+                                          )
                                         ],
                                       ),
                                     ),
-                                  ),
-                                )
-                              ],
+                                    Stack(
+                                      children: <Widget>[
+                                        Column(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.only(top: 8),
+                                              child: Text(
+                                                "PAIRED DEVICES",
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Colors.blue),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(5.0),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  Text(
+                                                    'Device:',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  DropdownButton(
+                                                    items: _getDeviceItems(),
+                                                    onChanged: (value) =>
+                                                        setState(() =>
+                                                            _device = value),
+                                                    value:
+                                                        _devicesList.isNotEmpty
+                                                            ? _device
+                                                            : null,
+                                                  ),
+                                                  ElevatedButton(
+                                                    onPressed:
+                                                        _isButtonUnavailable
+                                                            ? null
+                                                            : _connected
+                                                                ? _disconnect
+                                                                : _connect,
+                                                    child: Text(_connected
+                                                        ? 'Disconnect'
+                                                        : 'Connect'),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(10.0),
+                                              child: Card(
+                                                shape: RoundedRectangleBorder(
+                                                  side: new BorderSide(
+                                                      color: _deviceState == 0
+                                                          ? colors[
+                                                              'neutralBorderColor']!
+                                                          : _deviceState == 1
+                                                              ? colors[
+                                                                  'onBorderColor']!
+                                                              : colors[
+                                                                  'offBorderColor']!,
+                                                      width: 3),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0),
+                                                ),
+                                                elevation:
+                                                    _deviceState == 0 ? 4 : 0,
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Row(
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                        child: Text(
+                                                          "DEVICE 1",
+                                                          style: TextStyle(
+                                                            fontSize: 20,
+                                                            color: _deviceState ==
+                                                                    0
+                                                                ? colors[
+                                                                    'neutralTextColor']
+                                                                : _deviceState ==
+                                                                        1
+                                                                    ? colors[
+                                                                        'onTextColor']
+                                                                    : colors[
+                                                                        'offTextColor'],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10),
+                                        child: Center(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              Text(
+                                                "NOTE: If you cannot find the device in the list, please pair the device by going to the bluetoth settings",
+                                                style: TextStyle(
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.red,
+                                                ),
+                                              ),
+                                              ElevatedButton(
+                                                child:
+                                                    Text("Bluetooth Settings"),
+                                                onPressed: () {
+                                                  FlutterBluetoothSerial
+                                                      .instance
+                                                      .openSettings();
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      );
-                    });
-              },
-            ),
-           ),
-          ],
-        ),
+                          );
+                        });
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-      );
+    );
   }
 
   List<DropdownMenuItem<BluetoothDevice>> _getDeviceItems() {
@@ -560,7 +570,4 @@ class _MenuScreenState extends State<MenuPage> {
       });
     }
   }
-  
-
-
-  }
+}

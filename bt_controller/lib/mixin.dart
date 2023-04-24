@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
@@ -111,7 +113,7 @@ mixin BluetoothHandler<T extends StatefulWidget> on State<T> {
     });
   }
 
-  List<DropdownMenuItem<BluetoothDevice>> _getDeviceItems() {
+  List<DropdownMenuItem<BluetoothDevice>> getDeviceItems() {
     List<DropdownMenuItem<BluetoothDevice>> items = [];
     if (_devicesList.isEmpty) {
       items.add(DropdownMenuItem(
@@ -127,7 +129,7 @@ mixin BluetoothHandler<T extends StatefulWidget> on State<T> {
   }
 
   // Method to connect to bluetooth
-  void _connect() async {
+  void connect() async {
     setState(() {
       _isButtonUnavailable = true;
     });
@@ -164,7 +166,7 @@ mixin BluetoothHandler<T extends StatefulWidget> on State<T> {
   }
 
   // method to disconnect bluetooth
-  void _disconnect() async {
+  void disconnect() async {
     setState(() {
       _isButtonUnavailable = true;
       _deviceState = 0;
@@ -177,5 +179,65 @@ mixin BluetoothHandler<T extends StatefulWidget> on State<T> {
         _isButtonUnavailable = false;
       });
     }
+  }
+
+  // method to send message
+  void sendRightMessageToBluetooth() async {
+    connection!.output.add(Uint8List.fromList(utf8.encode("r")));
+    await connection!.output.allSent;
+    setState(() {
+      _deviceState = 1;
+    });
+  }
+
+  // Turn left
+  void sendLeftMessageToBluetooth() async {
+    connection!.output.add(Uint8List.fromList(utf8.encode("l")));
+    await connection!.output.allSent;
+    setState(() {
+      _deviceState = -1;
+    });
+  }
+
+  // Method to move car forward
+  void sendForwardMessageToBluetooth() async {
+    connection!.output.add(Uint8List.fromList(utf8.encode("f")));
+    await connection!.output.allSent;
+    setState(() {
+      _deviceState = 1;
+    });
+  }
+
+  void sendBackMessageToBluetooth() async {
+    connection!.output.add(Uint8List.fromList(utf8.encode("b")));
+    await connection!.output.allSent;
+    setState(() {
+      _deviceState = -1;
+    });
+  }
+
+  void sendBrakeMessageToBluetooth() async {
+    connection!.output.add(Uint8List.fromList(utf8.encode("s")));
+    //connection!.output.add(Uint8List.fromList(utf8.encode("s")));
+    await connection!.output.allSent;
+    setState(() {
+      _deviceState = -1;
+    });
+  }
+
+  void sendLaserOnToBluetooth() async {
+    connection!.output.add(Uint8List.fromList(utf8.encode("+")));
+    await connection!.output.allSent;
+    setState(() {
+      _deviceState = -1;
+    });
+  }
+
+  void setControlTransition() async {
+    connection!.output.add(Uint8List.fromList(utf8.encode("t")));
+    await connection!.output.allSent;
+    setState(() {
+      _deviceState = -1;
+    });
   }
 }

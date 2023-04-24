@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 // ignore: depend_on_referenced_packages
 // ignore_for_file: unused_field
-
+import 'package:page_transition/page_transition.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -320,10 +320,13 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
               color: Colors.white,
             ),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return MenuPage();
-              }));
-            },
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.fade,
+                            child: MenuPage() ), 
+                          );
+                      }
           )
         ],
       ),

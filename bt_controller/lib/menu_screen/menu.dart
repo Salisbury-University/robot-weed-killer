@@ -239,10 +239,12 @@ class _MenuScreenState extends State<MenuPage> {
                     child: NeumorphicButton(
                       // Navigate to autopage.dart
                       onPressed: () {
-                        Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) { 
-                          return AutoPage(); })
-                        );
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.fade,
+                            child: AutoPage() ), 
+                          );
                       },
                       style: NeumorphicStyle(
                           shape: NeumorphicShape.flat,

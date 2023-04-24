@@ -15,6 +15,7 @@ import 'package:material_color_utilities/material_color_utilities.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:webviewx/webviewx.dart';
 import '../menu_screen/menu.dart';
+import 'package:page_transition/page_transition.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -322,11 +323,13 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.white,
               ),
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) { 
-                  return MenuPage(); })
-                ); 
-              },
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.fade,
+                            child: MenuPage() ), 
+                          );
+                      }
             )
           ],
         ),

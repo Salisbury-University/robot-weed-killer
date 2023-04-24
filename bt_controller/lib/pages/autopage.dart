@@ -67,15 +67,6 @@ class _AutoPageState extends State<AutoPage>
   bool _isButtonUnavailable = false;
   bool _isScreenOn = false;
 
-  Map<String, Color> colors = {
-    'onBorderColor': Colors.green,
-    'offBorderColor': Colors.red,
-    'neutralBorderColor': Colors.transparent,
-    'onTextColor': Colors.green[700]!,
-    'offTextColor': Colors.red[700]!,
-    'neutralTextColor': Colors.blue,
-  };
-
   @override
   void initState() {
     super.initState();

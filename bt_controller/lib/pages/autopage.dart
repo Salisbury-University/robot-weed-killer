@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 // ignore: depend_on_referenced_packages
 // ignore_for_file: unused_field
+
+import 'package:bt_controller/mixin.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +34,8 @@ class AutoPage extends StatefulWidget {
 double? deg;
 double? dist;
 
-class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
+class _AutoPageState extends State<AutoPage>
+    with TickerProviderStateMixin, BluetoothHandler {
   // Map
   // declared to show relevant information when a marker is tapped on the map
   final pageController = PageController();
@@ -58,7 +61,7 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
   bool get isConnected => connection != null && connection!.isConnected;
 
   // Defined for later, as needed
-  List<BluetoothDevice> _devicesList = [];
+  /* List<BluetoothDevice> _devicesList = []; */
   BluetoothDevice? _device;
   bool _connected = false;
   bool _isButtonUnavailable = false;
@@ -109,7 +112,7 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
       });
     });
   }
-
+/*
   @override
   void dispose() {
     // Avoid any memory leaks and disconnect
@@ -137,8 +140,8 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
       await getPairedDevices();
     }
     return false;
-  }
-
+  } */
+/*
   // For retrieving and storing paired devices in a list
   Future<void> getPairedDevices() async {
     List<BluetoothDevice> devices = [];
@@ -160,7 +163,7 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
     setState(() {
       _devicesList = devices;
     });
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -313,168 +316,20 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
             width: double.infinity,
           ),
           RawMaterialButton(
-            fillColor: Color.fromARGB(255, 0, 135, 253),
-            shape: CircleBorder(),
-            child: Icon(
-              Icons.arrow_left,
-              color: Colors.white,
-            ),
-            onPressed: () {
-                        Navigator.push(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.fade,
-                            child: MenuPage() ), 
-                          );
-                      }
-          )
+              fillColor: Color.fromARGB(255, 0, 135, 253),
+              shape: CircleBorder(),
+              child: Icon(
+                Icons.arrow_left,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.fade, child: MenuPage()),
+                );
+              })
         ],
-      ),
-    );
-  }
-
-  List<DropdownMenuItem<BluetoothDevice>> _getDeviceItems() {
-    List<DropdownMenuItem<BluetoothDevice>> items = [];
-    if (_devicesList.isEmpty) {
-      items.add(DropdownMenuItem(
-        child: Text('NONE'),
-      ));
-    } else {
-      _devicesList.forEach((device) {
-        items.add(DropdownMenuItem(
-          child: Text(device.name!),
-          value: device,
-        ));
-      });
-    }
-    return items;
-  }
-
-  // Method to connect to bluetooth
-  void _connect() async {
-    setState(() {
-      _isButtonUnavailable = true;
-    });
-    if (_device == null) {
-      show('No device selected');
-    } else {
-      if (!isConnected) {
-        await BluetoothConnection.toAddress(_device?.address)
-            .then((_connection) {
-          print('Connectedto the device');
-          connection = _connection;
-          setState(() {
-            _connected = true;
-          });
-
-          connection!.input!.listen(null).onDone(() {
-            if (isDisconnecting) {
-              print('Disconnecting locally!');
-            } else {
-              print('Disconnected remotely');
-            }
-            // ignore: unnecessary_this
-            if (this.mounted) {
-              setState(() {});
-            }
-          });
-        }).catchError((error) {
-          print('Cannot connect, exception occurred');
-          print(error);
-        });
-        show('Device connected');
-
-        setState(() => _isButtonUnavailable = false);
-      }
-    }
-  }
-
-  // method to disconnect bluetooth
-  void _disconnect() async {
-    setState(() {
-      _isButtonUnavailable = true;
-      _deviceState = 0;
-    });
-
-    await connection?.close();
-    show('Device disconnected');
-    if (!connection!.isConnected) {
-      setState(() {
-        _connected = false;
-        _isButtonUnavailable = false;
-      });
-    }
-  }
-
-  // method to send message
-  void _sendRightMessageToBluetooth() async {
-    connection!.output.add(Uint8List.fromList(utf8.encode("r")));
-    await connection!.output.allSent;
-    show('Device Turned Right');
-    setState(() {
-      _deviceState = 1;
-    });
-  }
-
-  // Turn left
-  void _sendLeftMessageToBluetooth() async {
-    connection!.output.add(Uint8List.fromList(utf8.encode("l")));
-    await connection!.output.allSent;
-    show('Device Turned Left');
-    setState(() {
-      _deviceState = -1;
-    });
-  }
-
-  // Method to move car forward
-  void _sendForwardMessageToBluetooth() async {
-    connection!.output.add(Uint8List.fromList(utf8.encode("f")));
-    await connection!.output.allSent;
-    show('Device Moved Forward');
-    setState(() {
-      _deviceState = 1;
-    });
-  }
-
-  void _sendBackMessageToBluetooth() async {
-    connection!.output.add(Uint8List.fromList(utf8.encode("b")));
-    await connection!.output.allSent;
-    show('Device Moved Backward');
-    setState(() {
-      _deviceState = -1;
-    });
-  }
-
-  void _sendBrakeMessageToBluetooth() async {
-    connection!.output.add(Uint8List.fromList(utf8.encode("s")));
-    await connection!.output.allSent;
-    show('Device Stopped');
-    setState(() {
-      _deviceState = -1;
-    });
-  }
-
-  void _sendLaserOnToBluetooth() async {
-    connection!.output.add(Uint8List.fromList(utf8.encode("+")));
-    await connection!.output.allSent;
-    setState(() {
-      _deviceState = -1;
-    });
-  }
-
-  Future show(
-    String message, {
-    Duration duration: const Duration(seconds: 3),
-  }) async {
-    await new Future.delayed(new Duration(milliseconds: 100));
-    // tryhing without below method
-    //_scaffoldKey.currentState!.showSnackBar(
-    ScaffoldMessenger.of(context).showSnackBar(
-      new SnackBar(
-        content: new Text(
-          message,
-        ),
-        duration: duration,
       ),
     );
   }

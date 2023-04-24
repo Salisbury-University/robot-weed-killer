@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:bt_controller/mixin.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import '../pages/autopage.dart';
 import '../pages/manualpage.dart';
@@ -11,7 +12,7 @@ import 'package:webviewx/webviewx.dart';
 
 class MenuPage extends StatefulWidget {
   @override
-  _MenuScreenState createState() => _MenuScreenState();
+  State<MenuPage> createState() => _MenuScreenState();
   // webviewx
   late WebViewXController webviewController;
 }
@@ -19,7 +20,7 @@ class MenuPage extends StatefulWidget {
 double? deg;
 double? dist;
 
-class _MenuScreenState extends State<MenuPage> {
+class _MenuScreenState extends State<MenuPage> with BluetoothHandler {
   // Initialize Bluetooth connection state to be unknown
   BluetoothState _bluetoothState = BluetoothState.UNKNOWN;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -87,7 +88,7 @@ class _MenuScreenState extends State<MenuPage> {
       });
     });
   }
-
+/*
   @override
   void dispose() {
     // Avoid any memory leaks and disconnect
@@ -115,8 +116,8 @@ class _MenuScreenState extends State<MenuPage> {
       await getPairedDevices();
     }
     return false;
-  }
-
+  } */
+/*
   // For retrieving and storing paired devices in a list
   Future<void> getPairedDevices() async {
     List<BluetoothDevice> devices = [];
@@ -136,7 +137,7 @@ class _MenuScreenState extends State<MenuPage> {
     setState(() {
       _devicesList = devices;
     });
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -334,7 +335,7 @@ class _MenuScreenState extends State<MenuPage> {
                                                 _isButtonUnavailable = false;
 
                                                 if (_connected) {
-                                                  _disconnect();
+                                                  disconnect();
                                                 }
                                               }
 
@@ -377,7 +378,7 @@ class _MenuScreenState extends State<MenuPage> {
                                                     ),
                                                   ),
                                                   DropdownButton(
-                                                    items: _getDeviceItems(),
+                                                    items: getDeviceItems(),
                                                     onChanged: (value) =>
                                                         setState(() =>
                                                             _device = value),
@@ -391,8 +392,8 @@ class _MenuScreenState extends State<MenuPage> {
                                                         _isButtonUnavailable
                                                             ? null
                                                             : _connected
-                                                                ? _disconnect
-                                                                : _connect,
+                                                                ? disconnect
+                                                                : connect,
                                                     child: Text(_connected
                                                         ? 'Disconnect'
                                                         : 'Connect'),
@@ -498,7 +499,7 @@ class _MenuScreenState extends State<MenuPage> {
       ),
     );
   }
-
+/*
   List<DropdownMenuItem<BluetoothDevice>> _getDeviceItems() {
     List<DropdownMenuItem<BluetoothDevice>> items = [];
     if (_devicesList.isEmpty) {
@@ -569,5 +570,5 @@ class _MenuScreenState extends State<MenuPage> {
         _isButtonUnavailable = false;
       });
     }
-  }
+  } */
 }

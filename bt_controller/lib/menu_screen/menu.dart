@@ -190,20 +190,20 @@ class _MenuScreenState extends State<MenuPage> with BluetoothHandler {
                   width: 300,
                   height: 55,
                   child: NeumorphicButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.fade, child: HomePage()),
-                      );
-                    },
                     // onPressed: () {
-                    //   Navigator.of(context).push(
-                    //     MaterialPageRoute(builder: (context) {
-                    //       return HomePage();
-                    //     }),
+                    //   Navigator.push(
+                    //     context,
+                    //     PageTransition(
+                    //         type: PageTransitionType.fade, child: HomePage()),
                     //   );
                     // },
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) {
+                          return HomePage();
+                        }),
+                      );
+                    },
                     style: NeumorphicStyle(
                       shape: NeumorphicShape.flat,
                       boxShape: NeumorphicBoxShape.roundRect(
@@ -234,11 +234,18 @@ class _MenuScreenState extends State<MenuPage> with BluetoothHandler {
                   height: 55,
                   child: NeumorphicButton(
                     // Navigate to autopage.dart
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.fade, child: AutoPage()),
+                    // onPressed: () {
+                    //   Navigator.push(
+                    //     context,
+                    //     PageTransition(
+                    //         type: PageTransitionType.fade, child: AutoPage()),
+                    //   );
+                    // },
+                      onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) {
+                          return AutoPage();
+                        }),
                       );
                     },
                     style: NeumorphicStyle(

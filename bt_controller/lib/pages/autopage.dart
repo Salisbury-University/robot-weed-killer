@@ -313,13 +313,21 @@ class _AutoPageState extends State<AutoPage>
                 Icons.arrow_left,
                 color: Colors.white,
               ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  PageTransition(
-                      type: PageTransitionType.fade, child: MenuPage()),
-                );
-              })
+              // onPressed: () {
+              //   Navigator.push(
+              //     context,
+              //     PageTransition(
+              //         type: PageTransitionType.fade, child: MenuPage()),
+              //   );
+              // }
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) {
+                        return MenuPage();
+                       }),
+                      );
+                    },
+          )
         ],
       ),
     );

@@ -168,8 +168,6 @@ class _HomePageState extends State<HomePage> {
             ]),
           ),
            
-            
-            
           Container( 
             child: WebViewAware(
               child: Column(
@@ -322,14 +320,21 @@ class _HomePageState extends State<HomePage> {
                 Icons.arrow_left,
                 color: Colors.white,
               ),
-              onPressed: () {
-                        Navigator.push(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.fade,
-                            child: MenuPage() ), 
-                          );
-                      }
+              // onPressed: () {
+              //           Navigator.push(
+              //             context,
+              //             PageTransition(
+              //               type: PageTransitionType.fade,
+              //               child: MenuPage() ), 
+              //             );
+              //         }
+                  onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) {
+                          return MenuPage();
+                        }),
+                      );
+                    },
             )
           ],
         ),

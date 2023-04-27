@@ -8,7 +8,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:bt_controller/widgets/screen.dart';
 import 'dart:convert';
 import 'dart:io';
-import 'package:control_pad/control_pad.dart';
+import 'package:control_pad_plus/control_pad_plus.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:vibration/vibration.dart';
 import 'package:material_color_utilities/material_color_utilities.dart';
@@ -22,7 +22,6 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
   // webviewx
   late WebViewXController webviewController;
-  
 }
 
 double? deg;
@@ -154,87 +153,83 @@ class _HomePageState extends State<HomePage> {
       key: _scaffoldKey,
       body: Stack(
         children: <Widget>[
-          // Webviewx Widget 
+          // Webviewx Widget
           Container(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Expanded(
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: WebViewX(width: 900, height: 900),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: WebViewX(width: 900, height: 900),
+                    ),
                   ),
-                ),
-            ]),
+                ]),
           ),
-           
-          Container( 
+
+          Container(
             child: WebViewAware(
               child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              //crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                Container(
-                  height: 290
-                ),
-                Container(
-                  child:  Align(
-                    alignment: FractionalOffset.bottomCenter,
-                    child: NeumorphicButton(
-                      onPressed: () {
-                        if (_isScreenOn == false) {
-                          setState(() {
-                            _isScreenOn = true;
-                          });
-                        } else {
-                          setState(() {
-                            _isScreenOn = false;
-                          });
-                        }
-                      },
-                      style: NeumorphicStyle(
-                        color:  Color.fromARGB(255, 96, 96, 96),
+                mainAxisAlignment: MainAxisAlignment.center,
+                //crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Container(height: 290),
+                  Container(
+                    child: Align(
+                      alignment: FractionalOffset.bottomCenter,
+                      child: NeumorphicButton(
+                        onPressed: () {
+                          if (_isScreenOn == false) {
+                            setState(() {
+                              _isScreenOn = true;
+                            });
+                          } else {
+                            setState(() {
+                              _isScreenOn = false;
+                            });
+                          }
+                        },
+                        style: NeumorphicStyle(
+                          color: Color.fromARGB(255, 96, 96, 96),
+                        ),
+                        child: _isScreenOn
+                            ? Text(
+                                'Stop',
+                                style: GoogleFonts.montserrat(
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.w800,
+                                    color: Colors.black,
+                                    letterSpacing: .1,
+                                  ),
+                                ),
+                              )
+                            : Text(
+                                'Start',
+                                style: GoogleFonts.montserrat(
+                                  textStyle: TextStyle(
+                                    fontWeight: FontWeight.w800,
+                                    color: Color.fromARGB(255, 216, 216, 216),
+                                    letterSpacing: .1,
+                                  ),
+                                ),
+                              ),
                       ),
-                      child: _isScreenOn
-                          ? Text(
-                              'Stop',
-                              style: GoogleFonts.montserrat(
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.black,
-                                  letterSpacing: .1,
-                                ),
-                              ),
-                            )
-                          : Text(
-                              'Start',
-                              style: GoogleFonts.montserrat(
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  color: Color.fromARGB(255, 216, 216, 216),
-                                  letterSpacing: .1,
-                                ),
-                              ),
-                            ),
-                    ),
-                    
                     ),
                   ),
 
                   //controller(),
-
                 ],
               ),
-             ),
             ),
-            SizedBox(
-              height: double.infinity,
-              width: double.infinity,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  WebViewAware( 
-                    child:Neumorphic(
+          ),
+          SizedBox(
+            height: double.infinity,
+            width: double.infinity,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                WebViewAware(
+                  child: Neumorphic(
                     style: NeumorphicStyle(
                       boxShape: NeumorphicBoxShape.circle(),
                       depth: 10,
@@ -276,31 +271,32 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                   ),
-                  ),
-                  //Screen(_isScreenOn), // Webview
-                  SizedBox(
-                    width: 420,
-                  ),
-                  Align(
-                    alignment: Alignment(0, 0),
-                      child: SizedBox( height: 100, width: 100,
-                       child: NeumorphicButton(
-                        onPressed: () {
-                          if (_connected) {
-                            _sendLaserOnToBluetooth();
-                          }
-                        },
-                        style: NeumorphicStyle (
-                            color: Color.fromARGB(255, 234, 19, 19),
-                            boxShape: NeumorphicBoxShape.circle(),
-                            depth: 10,
-                            lightSource: LightSource.topRight,
-                            shadowLightColor: Colors.black54,
-                        ),
-                        
-                        child:Align(
-                          alignment: Alignment.center,
-                          child: Icon(
+                ),
+                //Screen(_isScreenOn), // Webview
+                SizedBox(
+                  width: 420,
+                ),
+                Align(
+                  alignment: Alignment(0, 0),
+                  child: SizedBox(
+                    height: 100,
+                    width: 100,
+                    child: NeumorphicButton(
+                      onPressed: () {
+                        if (_connected) {
+                          _sendLaserOnToBluetooth();
+                        }
+                      },
+                      style: NeumorphicStyle(
+                        color: Color.fromARGB(255, 234, 19, 19),
+                        boxShape: NeumorphicBoxShape.circle(),
+                        depth: 10,
+                        lightSource: LightSource.topRight,
+                        shadowLightColor: Colors.black54,
+                      ),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Icon(
                           Icons.local_fire_department_sharp,
                           color: Colors.white,
                           size: 40,
@@ -308,37 +304,36 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
-                    ),
-                  
-                ],
-              ),
+                ),
+              ],
             ),
-            RawMaterialButton(
-              fillColor: Color.fromARGB(255, 0, 135, 253),
-              shape: CircleBorder(),
-              child: Icon(
-                Icons.arrow_left,
-                color: Colors.white,
-              ),
-              // onPressed: () {
-              //           Navigator.push(
-              //             context,
-              //             PageTransition(
-              //               type: PageTransitionType.fade,
-              //               child: MenuPage() ), 
-              //             );
-              //         }
-                  onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) {
-                          return MenuPage();
-                        }),
-                      );
-                    },
-            )
-          ],
-        ),
-      );
+          ),
+          RawMaterialButton(
+            fillColor: Color.fromARGB(255, 0, 135, 253),
+            shape: CircleBorder(),
+            child: Icon(
+              Icons.arrow_left,
+              color: Colors.white,
+            ),
+            // onPressed: () {
+            //           Navigator.push(
+            //             context,
+            //             PageTransition(
+            //               type: PageTransitionType.fade,
+            //               child: MenuPage() ),
+            //             );
+            //         }
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) {
+                  return MenuPage();
+                }),
+              );
+            },
+          )
+        ],
+      ),
+    );
   }
 
   List<DropdownMenuItem<BluetoothDevice>> _getDeviceItems() {

@@ -81,6 +81,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1+1"
+  control_pad_plus:
+    dependency: "direct main"
+    description:
+      name: control_pad_plus
+      sha256: "33f67c28ad2e1a3216fa03e4b55ae4a319a0c2e7a0088bdb4feae195068efce0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   convert:
     dependency: transitive
     description:
@@ -678,5 +686,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.18.4 <3.0.0"
+  dart: ">=2.19.3 <3.0.0"
   flutter: ">=3.3.0"

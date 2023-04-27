@@ -18,7 +18,7 @@ long tick = 0; // to hold # of times the main loop has been ran through
 long max_ticks = 75000; // max amount of ticks to trigger emergency brake and laser disable
 bool BTconnected = false; // boolean for bluetooth connection
 const byte BTpin = 5; // byte to read bluetooth status from state pin
-bool autonomous = false; // toggle variable to switch between autonomous
+bool auto_toggle = false; // toggle variable to switch between autonomous
 char in_char;
 NewPing sonar(TRIG, ECHO, MAX_DIST);
 void setup(){
@@ -45,102 +45,22 @@ void setup(){
 }
 
 // --------------------main control loop-------------------- //
-void loop() {
+void loop(){
   while(digitalRead(BTpin)==HIGH){ // only run drive code when connection is active
-  if(autonomous == false){
-    char in_char = bluetooth.read(); // char variable to store read byte over bluetooth   
-    if (in_char=='q' || in_char=='l' || in_char=='c'){ // inputs for left turns
-      Left();
+  in_char == bluetooth.read();
+    if(auto_toggle == false || in_char == 'y'){
+      Serial.println("manual");
+      manual();
     }
-    else if(in_char=='e' || in_char=='z' || in_char=='r'){ // inputs for right turns
-      Right();
-    }
-    else if(in_char=='b'){ // backwards
-      Backward();
-    }
-    else if(in_char=='f'){ // forwards
-      Forward();
-    }
-    else if(in_char=='s'){ // stops
-      Brake();
-    }
-    else if(in_char=='p'){
-      RobotBoogie();
-    }
-    else if(in_char=='+'){ // laser toggle on
-      LaserOn();
-    }
-    else if(in_char=='-'){ // laser toggle off
-      LaserOff();
-    }
-    else if(in_char == 't'){ // toggle to autonomous
-      autonomous = true;
+    else{
+      Serial.println("auto");
+      if (bluetooth.read() == 'y'){
+        auto_toggle = false;
+        return;
+      }
+      autonomous();
     }
   }
-  else if (autonomous = true){
-    in_char = bluetooth.read(); // char variable to store read byte over bluetooth 
-    bool LeftTurn = false;
-    bool RightTurn = false;
-    bool Straight = false;
-
-
-    if(sonar.ping_cm() >= 15){ //drive forward while distance >= 10 cm
-      Forward();
-      Serial.print("Distance = ");
-      Serial.print(sonar.ping_cm());
-      Serial.println(" cm");
-    }
-
-    Forward();
-    if(sonar.ping_cm() < 15){ //when object is too close, first turn left
-      Brake();
-      delay(250);
-      LeftTurn = true;
-      Left();
-      Serial.print("Distance = ");
-      Serial.print(sonar.ping_cm());
-      Serial.println(" cm");
-      delay(500);
-    }
-
-    Forward();
-    if(LeftTurn && sonar.ping_cm() < 15){ //if left is not clear, turn right
-      Brake();
-      delay(250);
-      RightTurn = true;
-      Right();
-      Serial.print("Distance = ");
-      Serial.print(sonar.ping_cm());
-      Serial.println(" cm");
-      LeftTurn = false;
-      delay(750);
-    }
-
-    Forward();
-    if(sonar.ping_cm() < 15){ //if right is not clear, turn around
-      Backward();
-      delay(250);
-      Brake();
-      delay(250);
-      Serial.print("Distance = ");
-      Serial.print(sonar.ping_cm());
-      Serial.println(" cm");
-      RightTurn = false;
-      LeftTurn = false;
-      delay(500);
-      RightTurn = true;
-      Right();
-      delay(250);    
-    }
-
-    if(in_char == 'i'){
-      autonomous = false;
-    }
-  }
-  
-
-  }
-  Brake(); // brake on broken connection
 }
 
 // --------------------robot movement functions-------------------- //
@@ -262,4 +182,118 @@ void RobotBoogie(){ // makes the robot bust a move, used for debugging motor con
   Backward();
   delay(250);
 	Brake();
+}
+
+void manual(){
+  char in_char = bluetooth.read(); // char variable to store read byte over bluetooth
+  auto_toggle = false;   
+  if (in_char=='q' || in_char=='l' || in_char=='c'){ // inputs for left turns
+    Left();
+  }
+  else if(in_char=='e' || in_char=='z' || in_char=='r'){ // inputs for right turns
+    Right();
+  }
+  else if(in_char=='b'){ // backwards
+    Backward();
+  }
+  else if(in_char=='f'){ // forwards
+    Forward();
+  }
+  else if(in_char=='s'){ // stops
+    Brake();
+  }
+  else if(in_char=='p'){
+    RobotBoogie();
+  }
+  else if(in_char=='+'){ // laser toggle on
+    LaserOn();
+  }
+  else if(in_char=='-'){ // laser toggle off
+    LaserOff();
+  }
+  else if(in_char == 't'){ // toggle to autonomous
+    auto_toggle = true;
+  }
+}
+
+void autonomous(){
+  in_char = bluetooth.read(); // char variable to store read byte over bluetooth 
+  bool LeftTurn = false;
+  bool RightTurn = false;
+  bool Straight = false;
+
+  if(sonar.ping_cm() >= 15){ //drive forward while distance >= 10 cm
+    if(bluetooth.read() == 'y'){
+      auto_toggle = false;
+      Serial.print("quit");
+      return;
+    }
+    Forward();
+    Serial.print("Distance = ");
+    Serial.print(sonar.ping_cm());
+    Serial.println(" cm");
+
+  }
+  Forward();
+  if(sonar.ping_cm() < 15){ //when object is too close, first turn left
+    if(bluetooth.read() == 'y'){
+      auto_toggle = false;
+      Serial.print("quit");
+      return;
+    }
+    Brake();
+    delay(250);
+    LeftTurn = true;
+    Left();
+    Serial.print("Distance = ");
+    Serial.print(sonar.ping_cm());
+    Serial.println(" cm");
+    delay(500);
+  }
+
+  Forward();
+  if(LeftTurn && sonar.ping_cm() < 15){ //if left is not clear, turn right
+    if(bluetooth.read() == 'y'){
+      auto_toggle = false;
+      Serial.print("quit");
+      return;
+    }
+    Brake();
+    delay(250);
+    RightTurn = true;
+    Right();
+    Serial.print("Distance = ");
+    Serial.print(sonar.ping_cm());
+    Serial.println(" cm");
+    LeftTurn = false;
+    delay(750);
+  }
+
+  Forward();
+  if(sonar.ping_cm() < 15){ //if right is not clear, turn around
+    if(bluetooth.read() == 'y'){
+      auto_toggle = false;
+      Serial.print("quit");
+      return;
+    }
+    Backward();
+    delay(250);
+    Brake();
+    delay(250);
+    Serial.print("Distance = ");
+    Serial.print(sonar.ping_cm());
+    Serial.println(" cm");
+    RightTurn = false;
+    LeftTurn = false;
+    delay(500);
+    RightTurn = true;
+    Right();
+    delay(250);    
+  }
+  Serial.println("Done Sonar");
+  if(bluetooth.read() == 'y'){
+      auto_toggle = false;
+      Serial.print("quit");
+      return;
+    }
 }

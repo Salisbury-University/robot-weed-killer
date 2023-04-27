@@ -46,7 +46,6 @@ dependencies:
   # button vibration
   vibration: ^1.4.0
   # joystick
-  control_pad: ^1.1.1+1
 
   # splashscreen
   flutter_native_splash: ^2.2.16

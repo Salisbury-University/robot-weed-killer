@@ -73,14 +73,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.17.0"
-  control_pad:
-    dependency: "direct main"
-    description:
-      name: control_pad
-      sha256: "16df2bf8e9385555d842f024644c50d21ec39cd1f8eff6bde588a9a8d9ecb4f6"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.1+1"
   control_pad_plus:
     dependency: "direct main"
     description:

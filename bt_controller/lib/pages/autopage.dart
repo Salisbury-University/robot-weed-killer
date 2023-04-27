@@ -247,7 +247,13 @@ class _AutoPageState extends State<AutoPage>
                     child: SizedBox(
                       height: 200,
                       width: 200,
-                      child: WebViewX(width: 200, height: 200),
+                      child: WebViewX( width: 200, height: 200,
+                          initialContent: 'http://192.168.4.1',
+                          initialSourceType: SourceType.url,
+                          onWebViewCreated: (controller) {
+                          controller.loadContent('http://192.168.4.1', SourceType.url);
+                        },
+                      ),
                     ),
                   ),
                   Container(height: 70),

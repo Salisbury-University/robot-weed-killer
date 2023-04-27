@@ -17,6 +17,7 @@ import 'package:webviewx/webviewx.dart';
 import '../menu_screen/menu.dart';
 import 'package:page_transition/page_transition.dart';
 
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -161,7 +162,13 @@ class _HomePageState extends State<HomePage> {
                   Expanded(
                     child: SizedBox(
                       width: double.infinity,
-                      child: WebViewX(width: 900, height: 900),
+                      child: WebViewX( width: 900, height: 900,
+                          initialContent: 'http://192.168.4.1',
+                          initialSourceType: SourceType.url,
+                          onWebViewCreated: (controller) {
+                          controller.loadContent('http://192.168.4.1', SourceType.url);
+                          },
+                          )
                     ),
                   ),
                 ]),

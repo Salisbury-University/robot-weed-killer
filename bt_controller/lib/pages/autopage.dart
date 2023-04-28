@@ -10,11 +10,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:webviewx/webviewx.dart';
-
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'dart:convert';
 import '../menu_screen/menu.dart';
 import '../const.dart';
@@ -166,8 +164,8 @@ class _AutoPageState extends State<AutoPage>
           // ignore: avoid_unnecessary_containers
           Container(
             child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: <
-                    Widget>[
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: 
+                <Widget>[
               Expanded(
                 child: SizedBox(
                   width: double.infinity,
@@ -248,11 +246,11 @@ class _AutoPageState extends State<AutoPage>
                       height: 200,
                       width: 200,
                       child: WebViewX( width: 200, height: 200,
-                          initialContent: 'http://192.168.4.1',
+                         /* initialContent: 'http://192.168.4.1',
                           initialSourceType: SourceType.url,
                           onWebViewCreated: (controller) {
                           controller.loadContent('http://192.168.4.1', SourceType.url);
-                        },
+                        }, */
                       ),
                     ),
                   ),

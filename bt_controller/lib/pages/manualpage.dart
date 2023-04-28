@@ -163,11 +163,11 @@ class _HomePageState extends State<HomePage> {
                     child: SizedBox(
                       width: double.infinity,
                       child: WebViewX( width: 900, height: 900,
-                          initialContent: 'http://192.168.4.1',
+                          /*initialContent: 'http://192.168.4.1',
                           initialSourceType: SourceType.url,
                           onWebViewCreated: (controller) {
                           controller.loadContent('http://192.168.4.1', SourceType.url);
-                          },
+                          }, */
                           )
                     ),
                   ),
@@ -181,7 +181,7 @@ class _HomePageState extends State<HomePage> {
                 //crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   Container(height: 290),
-                  Container(
+                  /* Container(
                     child: Align(
                       alignment: FractionalOffset.bottomCenter,
                       child: NeumorphicButton(
@@ -222,7 +222,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                       ),
                     ),
-                  ),
+                  ), */
 
                   //controller(),
                 ],
@@ -295,7 +295,7 @@ class _HomePageState extends State<HomePage> {
                         }
                       },
                       style: NeumorphicStyle(
-                        color: Color.fromARGB(255, 234, 19, 19),
+                        color: Color.fromARGB(255, 201, 17, 17),
                         boxShape: NeumorphicBoxShape.circle(),
                         depth: 10,
                         lightSource: LightSource.topRight,

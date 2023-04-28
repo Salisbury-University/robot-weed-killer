@@ -147,8 +147,8 @@ class _MenuScreenState extends State<MenuPage> with BluetoothHandler {
       backgroundColor: Color.fromARGB(115, 60, 60, 60),
       body: Center(
         child: Container(
-          color: Color.fromARGB(255, 64, 64, 64),
-          width: 350,
+          color: Color.fromARGB(255, 247, 247, 247),
+          width: 370,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
@@ -163,12 +163,12 @@ class _MenuScreenState extends State<MenuPage> with BluetoothHandler {
                 ),
                 // Title
                 Positioned(
-                  top: 272,
+                  top: 277,
                   child: Text(
                     "R.U.P.E.R.T",
-                    style: GoogleFonts.secularOne(
-                      fontSize: 45,
-                      fontWeight: FontWeight.w900,
+                    style: GoogleFonts.roboto(
+                      fontSize: 43,
+                      fontWeight: FontWeight.w500,
                       color: Color.fromARGB(255, 0, 0, 0),
                     ),
                   ),
@@ -185,12 +185,12 @@ class _MenuScreenState extends State<MenuPage> with BluetoothHandler {
                 ),
               ),
 
-              SizedBox(height: 40),
+              SizedBox(height: 45),
               // Manual Button
               Align(
                 child: SizedBox(
-                  width: 300,
-                  height: 55,
+                  width: 295,
+                  height: 60,
                   child: NeumorphicButton(
                     // onPressed: () {
                     //   Navigator.push(
@@ -213,27 +213,27 @@ class _MenuScreenState extends State<MenuPage> with BluetoothHandler {
                       intensity: .2,
                       surfaceIntensity: .5,
                       depth: 20,
-                      color: Color.fromARGB(255, 46, 46, 46),
+                      color: Color.fromARGB(255, 145, 3, 3),
                     ),
                     child: Align(
                       alignment: Alignment.center,
                       child: Text('Manual',
-                          style: GoogleFonts.adamina(
+                          style: GoogleFonts.roboto(
                             fontWeight: FontWeight.w500,
                             color: Color.fromARGB(255, 228, 228, 228),
-                            fontSize: 20,
+                            fontSize: 24,
                           )),
                     ),
                   ),
                 ),
               ),
 
-              SizedBox(height: 40),
+              SizedBox(height: 45),
 
               Align(
                 child: SizedBox(
-                  width: 300,
-                  height: 55,
+                  width: 295,
+                  height: 60,
                   child: NeumorphicButton(
                     // Navigate to autopage.dart
                     // onPressed: () {
@@ -256,7 +256,7 @@ class _MenuScreenState extends State<MenuPage> with BluetoothHandler {
                       boxShape: NeumorphicBoxShape.roundRect(
                           BorderRadius.circular(30)),
                       depth: 9,
-                      color: Color.fromARGB(255, 46, 46, 46),
+                      color: Color.fromARGB(255, 145, 3, 3),
                       //lightSource:LightSource.topRight
                     ),
 
@@ -264,10 +264,10 @@ class _MenuScreenState extends State<MenuPage> with BluetoothHandler {
                       alignment: Alignment.center,
                       child: Text(
                         'Automatic',
-                        style: GoogleFonts.adamina(
+                        style: GoogleFonts.roboto(
                           fontWeight: FontWeight.w500,
                           color: Color.fromARGB(255, 228, 228, 228),
-                          fontSize: 20,
+                          fontSize: 24,
                         ),
                       ),
                     ),
@@ -275,7 +275,7 @@ class _MenuScreenState extends State<MenuPage> with BluetoothHandler {
                 ),
               ),
 
-              SizedBox(height: 40),
+              SizedBox(height: 45),
 
               SizedBox(
                 height: 60,

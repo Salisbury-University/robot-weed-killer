@@ -163,11 +163,11 @@ class _HomePageState extends State<HomePage> {
                     child: SizedBox(
                       width: double.infinity,
                       child: WebViewX( width: 900, height: 900,
-                          /*initialContent: 'http://192.168.4.1',
+                          initialContent: 'http://192.168.4.1',
                           initialSourceType: SourceType.url,
                           onWebViewCreated: (controller) {
                           controller.loadContent('http://192.168.4.1', SourceType.url);
-                          }, */
+                          },
                           )
                     ),
                   ),
@@ -315,6 +315,7 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
+          SizedBox(height: 10,),
           RawMaterialButton(
             fillColor: Color.fromARGB(255, 0, 135, 253),
             shape: CircleBorder(),

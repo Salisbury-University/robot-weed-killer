@@ -144,7 +144,7 @@ class _MenuScreenState extends State<MenuPage> with BluetoothHandler {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(115, 60, 60, 60),
+      backgroundColor: Color.fromARGB(115, 135, 135, 135),
       body: Center(
         child: Container(
           color: Color.fromARGB(255, 247, 247, 247),

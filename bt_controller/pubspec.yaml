@@ -57,13 +57,13 @@ dependencies:
 
 flutter_native_splash:
   color: "#FFFFFF"
-  image: assets/splash.png
+  image: assets/RoboticsLogo.png
   android: true
 
 flutter_icons: 
   android: "launcher_icon"
   ios: true
-  image_path: "assets/splash.png"
+  image_path: "assets/RoboticsLogo.png"
   min_sdk_android: 21 # minimum req'd: 16, default version: 21
 
 dev_dependencies:
@@ -90,7 +90,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/splash.png
+  #  - assets/splash.png
     - assets/RoboticsLogo.png
     - assets/icons/
     - assets/images/

@@ -1,0 +1,16 @@
+1st sonar sensor: LEFT FRONT, DIGITAL, echo = 50, trigger = 52, (Original lone sensor)
+Left sensor: VCC = Red wire, GND = Green wire
+
+2nd sonar sensor: RIGHT FRONT, DIGITAL, echo = 40, trigger = 42
+Right sensor: VCC = Grey wire, GND = Green wire
+
+3rd sonar sensor: REAR, DIGITAL, trigger = 10, echo = 9
+Rear sensor: VCC = White wire, GND = Grey wire
+
+WIRING (IN ORDER OF LEFT TO RIGHT)
+
+Left sensor: green, yellow, orange, red
+
+Right sensor: green, blue, purple, grey
+
+Rear sensor: grey, green, purple, white

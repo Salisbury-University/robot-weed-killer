@@ -1,26 +1,25 @@
 // ignore_for_file: prefer_const_constructors
 // ignore: depend_on_referenced_packages
+import 'dart:convert';
+import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:bt_controller/widgets/screen.dart';
-import 'dart:convert';
-import 'dart:io';
+
 import 'package:control_pad_plus/control_pad_plus.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:vibration/vibration.dart';
 import 'package:material_color_utilities/material_color_utilities.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:webviewx/webviewx.dart';
-import '../menu_screen/menu.dart';
+import 'package:bt_controller/menu_screen/menu.dart';
 import 'package:page_transition/page_transition.dart';
-
 
 class HomePage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
   // webviewx
   late WebViewXController webviewController;
 }
@@ -161,15 +160,17 @@ class _HomePageState extends State<HomePage> {
                 children: <Widget>[
                   Expanded(
                     child: SizedBox(
-                      width: double.infinity,
-                      child: WebViewX( width: 900, height: 900,
+                        width: double.infinity,
+                        child: WebViewX(
+                          width: 900,
+                          height: 900,
                           initialContent: 'http://192.168.4.1',
                           initialSourceType: SourceType.url,
                           onWebViewCreated: (controller) {
-                          controller.loadContent('http://192.168.4.1', SourceType.url);
+                            controller.loadContent(
+                                'http://192.168.4.1', SourceType.url);
                           },
-                          )
-                    ),
+                        )),
                   ),
                 ]),
           ),
@@ -315,7 +316,9 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           RawMaterialButton(
             fillColor: Color.fromARGB(255, 0, 135, 253),
             shape: CircleBorder(),

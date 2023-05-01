@@ -176,30 +176,6 @@ void startCameraServer(){
     .handler   = stream_handler,
     .user_ctx  = NULL
   };
-  httpd_uri_t status_uri = {
-    .uri       = "/status",
-    .method    = HTTP_GET,
-   // .handler   = status_handler,
-    .user_ctx  = NULL
-  };
-  httpd_uri_t cmd_uri = {
-    .uri       = "/control",
-    .method    = HTTP_GET,
-   // .handler   = cmd_handler,
-    .user_ctx  = NULL
-  };
-  httpd_uri_t capture_uri = {
-    .uri       = "/capture",
-    .method    = HTTP_GET,
-    //.handler   = capture_handler,
-    .user_ctx  = NULL
-  };
-  httpd_uri_t stream_uri = {
-    .uri       = "/stream",
-    .method    = HTTP_GET,
-    .handler   = stream_handler,
-    .user_ctx  = NULL
-  };
   
   //Serial.printf("Starting web server on port: '%d'\n", config.server_port);
   if (httpd_start(&stream_httpd, &config) == ESP_OK) {

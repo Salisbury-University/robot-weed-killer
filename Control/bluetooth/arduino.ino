@@ -10,8 +10,14 @@
 #define RMOTOR_IN2 25
 #define RMOTOR_IN3 32
 #define RMOTOR_IN4 33
-#define TRIG 52
-#define ECHO 50 
+
+//Sonar sensor pins, accomodates all three current sensors
+#define TRIGLEFT 52
+#define ECHOLEFT 50
+#define TRIGRIGHT 42
+#define ECHORIGHT 40
+#define TRIGREAR 10
+#define ECHOREAR 9
 #define MAX_DIST 400
 SoftwareSerial bluetooth(12, 13); // declare bluetooth serial object, with established pins for Rx and Tx 
 long tick = 0; // to hold # of times the main loop has been ran through
@@ -21,6 +27,14 @@ const byte BTpin = 5; // byte to read bluetooth status from state pin
 bool auto_toggle = false; // toggle variable to switch between autonomous
 char in_char;
 NewPing sonar(TRIG, ECHO, MAX_DIST);
+//1st sonar sensor (left) is DIGITAL PIN: echo: 50, and trigger: 52
+//2nd sonar sensor (right) is DIGITAL PIN: echo: 40, trigger: 42
+//3rd sonar sensor (rear) is DIGITAL PIN: echo: 9, and trigger: 10
+//New sonar sensor ping initialization
+NewPing sonarleft(TRIGLEFT, ECHOLEFT, MAX_DIST);
+NewPing sonarright(TRIGRIGHT, ECHORIGHT, MAX_DIST);
+NewPing sonarrear(TRIGREAR, ECHOREAR, MAX_DIST);
+int distleft, distright, distrear;
 void setup(){
 	// configure motors with pins
 	pinMode(relay_Pin, OUTPUT);
@@ -54,7 +68,7 @@ void loop(){
     }
     else{
       Serial.println("auto");
-      if (bluetooth.read() == 'y'){
+      if (in_char == 'y'){
         auto_toggle = false;
         return;
       }
@@ -185,7 +199,7 @@ void RobotBoogie(){ // makes the robot bust a move, used for debugging motor con
 }
 
 void manual(){
-  char in_char = bluetooth.read(); // char variable to store read byte over bluetooth
+  in_char = bluetooth.read(); // char variable to store read byte over bluetooth
   auto_toggle = false;   
   if (in_char=='q' || in_char=='l' || in_char=='c'){ // inputs for left turns
     Left();
@@ -217,83 +231,157 @@ void manual(){
 }
 
 void autonomous(){
-  in_char = bluetooth.read(); // char variable to store read byte over bluetooth 
+  in_char = bluetooth.read(); // char variable to store read byte over bluetooth
+  if (in_char == 'y'){
+    auto_toggle = false;
+    return;
+  }
+  //Flags for turn statuses
   bool LeftTurn = false;
   bool RightTurn = false;
   bool Straight = false;
+  bool Reversing = false;
 
-  if(sonar.ping_cm() >= 15){ //drive forward while distance >= 10 cm
-    if(bluetooth.read() == 'y'){
-      auto_toggle = false;
-      Serial.print("quit");
-      return;
-    }
+  distleft = sonarleft.ping_cm();
+  distright = sonarright.ping_cm();
+  distrear = sonarrear.ping_cm();
+
+  if(distleft >= 15 && distright >= 15){ //if left and right are clear, drive forward
+    //Serial.println("MAIN DRIVE FORWARD CONDITION");
+    Straight = true;
     Forward();
-    Serial.print("Distance = ");
-    Serial.print(sonar.ping_cm());
+    //Serial.println("CALL FORWARD 99");
+    Serial.print("Left distance: ");
+    Serial.print(distleft);
     Serial.println(" cm");
-
+    Serial.print("Right distance: ");
+    Serial.print(distright);
+    Serial.println(" cm");
+    Serial.print("Rear distance: ");
+    Serial.print(distrear);
+    Serial.println(" cm");
   }
+
   Forward();
-  if(sonar.ping_cm() < 15){ //when object is too close, first turn left
-    if(bluetooth.read() == 'y'){
-      auto_toggle = false;
-      Serial.print("quit");
-      return;
-    }
+  //Serial.println("CALL FORWARD 112");
+  if(distleft < 15 && distright >= 15){ //if left sensor detects obstacle within 15 cm, turn right
+    //Serial.println("LEFT SENSOR IS BLOCKED CONDITION");
     Brake();
+    //Serial.println("CALL BRAKE 116");
+    Straight = false;
     delay(250);
-    LeftTurn = true;
+    //Serial.println("CALL DELAY 119");
+    RightTurn = true;
+    Right();
+    //Serial.println("CALL RIGHT 122");
+    Serial.print("Left distance: ");
+    Serial.print(distleft);
+    Serial.println(" cm");
+    Serial.print("Right distance: ");
+    Serial.print(distright);
+    Serial.println(" cm");
+    Serial.print("Rear distance: ");
+    Serial.print(distrear);
+    Serial.println(" cm");
+    delay(500);
+    //Serial.println("CALL DELAY 133");
+  }
+  RightTurn = false;
+
+  Straight = true;
+  Forward();
+  //Serial.println("CALL FORWARD 139");
+  if(distright < 15 && distleft >= 15){ //if right sensor detects obstacle within 15 cm, turn left
+    //Serial.println("RIGHT SENSOR IS BLOCKED CONDITION");
+    Brake();
+    //Serial.println("CALL BRAKE 143");
+    Straight = false;
+    delay(250);
+    //Serial.println("CALL DELAY 146");
     Left();
-    Serial.print("Distance = ");
-    Serial.print(sonar.ping_cm());
+    //Serial.println("CALL LEFT 148");
+    Serial.print("Left distance: ");
+    Serial.print(distleft);
+    Serial.println(" cm");
+    Serial.print("Right distance: ");
+    Serial.print(distright);
+    Serial.println(" cm");
+    Serial.print("Rear distance: ");
+    Serial.print(distrear);
     Serial.println(" cm");
     delay(500);
+    //Serial.println("CALL DELAY 159");
   }
+  LeftTurn = false;
 
+  Straight = true;
   Forward();
-  if(LeftTurn && sonar.ping_cm() < 15){ //if left is not clear, turn right
-    if(bluetooth.read() == 'y'){
-      auto_toggle = false;
-      Serial.print("quit");
-      return;
-    }
+  //Serial.println("CALL FORWARD 165");
+  if(distright < 15 && distleft < 15){ //if both front sensors are obstructed, drive in reverse
+    //Serial.println("BOTH FRONT SENSORS ARE BLOCKED CONDITION");
     Brake();
+    //Serial.println("CALL BRAKE 169");
+    Straight = false;
     delay(250);
-    RightTurn = true;
-    Right();
-    Serial.print("Distance = ");
-    Serial.print(sonar.ping_cm());
-    Serial.println(" cm");
-    LeftTurn = false;
-    delay(750);
-  }
-
-  Forward();
-  if(sonar.ping_cm() < 15){ //if right is not clear, turn around
-    if(bluetooth.read() == 'y'){
-      auto_toggle = false;
-      Serial.print("quit");
-      return;
-    }
+    //Serial.println("CALL DELAY 172");
+    Reversing = true;
     Backward();
-    delay(250);
-    Brake();
-    delay(250);
-    Serial.print("Distance = ");
-    Serial.print(sonar.ping_cm());
+    //Serial.println("CALL BACKWARD 175");
+    Serial.print("Left distance: ");
+    Serial.print(distleft);
     Serial.println(" cm");
-    RightTurn = false;
-    LeftTurn = false;
-    delay(500);
-    RightTurn = true;
-    Right();
-    delay(250);    
-  }
-  Serial.println("Done Sonar");
-  if(bluetooth.read() == 'y'){
-      auto_toggle = false;
-      Serial.print("quit");
-      return;
+    Serial.print("Right distance: ");
+    Serial.print(distright);
+    Serial.println(" cm");
+    Serial.print("Rear distance: ");
+    Serial.print(distrear);
+    Serial.println(" cm");
+    if(distrear > 15){ //if rear sensor is blocked, turn right
+      //Serial.println("REAR SENSOR IS BLOCKED CONDITION");
+      Brake();
+      //Serial.println("CALL BRAKE 188");
+      Reversing = false;
+      RightTurn = true;
+      Right();
+      //Serial.println("CALL RIGHT 192");
+      Serial.print("Left distance: ");
+      Serial.print(distleft);
+      Serial.println(" cm");
+      Serial.print("Right distance: ");
+      Serial.print(distright);
+      Serial.println(" cm");
+      Serial.print("Rear distance: ");
+      Serial.print(distrear);
+      Serial.println(" cm");
+      delay(250);
+      //Serial.println("CALL DELAY 203");
+      RightTurn = false;
     }
+    else{ //if rear sensor is clear, turn right after half second of reversing
+      Serial.println("REAR SENSOR IS CLEAR CONDITION");
+      delay(500);
+      //Serial.println("CALL DELAY 209");
+      Reversing = false;
+      RightTurn = true;
+      Right();
+      //Serial.println("CALL RIGHT 213");
+      Serial.print("Left distance: ");
+      Serial.print(distleft);
+      Serial.println(" cm");
+      Serial.print("Right distance: ");
+      Serial.print(distright);
+      Serial.println(" cm");
+      Serial.print("Rear distance: ");
+      Serial.print(distrear);
+      Serial.println(" cm");
+      delay(250);
+      //Serial.println("CALL DELAY 224");
+      RightTurn = false;
+    }
+  }
+
+  Straight = true;
+  Forward();
+  //Serial.println("CALL FORWARD 231");
+
 }

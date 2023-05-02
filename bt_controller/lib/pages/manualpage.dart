@@ -7,13 +7,9 @@ import 'package:bt_controller/mixin.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:bt_controller/widgets/screen.dart';
 
 import 'package:control_pad_plus/control_pad_plus.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
-import 'package:vibration/vibration.dart';
-import 'package:material_color_utilities/material_color_utilities.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:webviewx/webviewx.dart';
 import 'package:bt_controller/menu_screen/menu.dart';
 import 'package:page_transition/page_transition.dart';

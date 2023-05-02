@@ -3,8 +3,6 @@
 // ignore_for_file: unused_field
 
 import 'package:bt_controller/mixin.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -13,7 +11,6 @@ import 'package:webviewx/webviewx.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'dart:convert';
 import '../menu_screen/menu.dart';
 import '../const.dart';
 import '../constants/marker.dart';
@@ -32,8 +29,7 @@ class AutoPage extends StatefulWidget {
 double? deg;
 double? dist;
 
-class _AutoPageState extends State<AutoPage>
-    with TickerProviderStateMixin, BluetoothHandler {
+class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
   // Map
   // declared to show relevant information when a marker is tapped on the map
   final pageController = PageController();
@@ -41,29 +37,8 @@ class _AutoPageState extends State<AutoPage>
   var currentLocation = AppConstants.myLocation;
 
   final MapController mapController = MapController();
-
-  // Bluetooth
-  // Initialize Bluetooth connection state to be unknown
-  BluetoothState _bluetoothState = BluetoothState.UNKNOWN;
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   // Get instance of the Bluetooth
-  FlutterBluetoothSerial _bluetooth = FlutterBluetoothSerial.instance;
-  // Track the Bluetooth connection with the remote device
-  BluetoothConnection? connection;
-
-  late int _deviceState;
-
-  bool isDisconnecting = false;
-  var _isSwitchOn = false;
-
-  bool get isConnected => connection != null && connection!.isConnected;
-
-  // Defined for later, as needed
-  /* List<BluetoothDevice> _devicesList = []; */
-  BluetoothDevice? _device;
-  bool _connected = false;
-  bool _isButtonUnavailable = false;
-  bool _isScreenOn = false;
 
   @override
   void initState() {
@@ -75,31 +50,6 @@ class _AutoPageState extends State<AutoPage>
     // hide sytem bar
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.bottom]);
-    // Get current state
-    FlutterBluetoothSerial.instance.state.then((state) {
-      setState(() {
-        _bluetoothState = state;
-      });
-    });
-
-    _deviceState = 0; // neutral
-
-    // If the bluetooth of the device is not enabled, then request
-    // permission to turn on bluetooth as the app starts up
-    enableBluetooth();
-
-    // Listen for further state changes
-    FlutterBluetoothSerial.instance
-        .onStateChanged()
-        .listen((BluetoothState state) {
-      setState(() {
-        _bluetoothState = state;
-        if (_bluetoothState == BluetoothState.STATE_OFF) {
-          _isButtonUnavailable = true;
-        }
-        getPairedDevices();
-      });
-    });
   }
 /*
   @override
@@ -164,8 +114,8 @@ class _AutoPageState extends State<AutoPage>
           // ignore: avoid_unnecessary_containers
           Container(
             child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: 
-                <Widget>[
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: <
+                    Widget>[
               Expanded(
                 child: SizedBox(
                   width: double.infinity,
@@ -245,12 +195,15 @@ class _AutoPageState extends State<AutoPage>
                     child: SizedBox(
                       height: 180,
                       width: 320,
-                      child: WebViewX( width: 200, height: 200,
-                          initialContent: 'http://192.168.4.1',
-                          initialSourceType: SourceType.url,
-                          onWebViewCreated: (controller) {
-                          controller.loadContent('http://192.168.4.1', SourceType.url);
-                        }, 
+                      child: WebViewX(
+                        width: 200,
+                        height: 200,
+                        initialContent: 'http://192.168.4.1',
+                        initialSourceType: SourceType.url,
+                        onWebViewCreated: (controller) {
+                          controller.loadContent(
+                              'http://192.168.4.1', SourceType.url);
+                        },
                       ),
                     ),
                   ),
@@ -311,26 +264,26 @@ class _AutoPageState extends State<AutoPage>
             width: double.infinity,
           ),
           RawMaterialButton(
-              fillColor: Color.fromARGB(255, 0, 135, 253),
-              shape: CircleBorder(),
-              child: Icon(
-                Icons.arrow_left,
-                color: Colors.white,
-              ),
-              // onPressed: () {
-              //   Navigator.push(
-              //     context,
-              //     PageTransition(
-              //         type: PageTransitionType.fade, child: MenuPage()),
-              //   );
-              // }
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) {
-                        return MenuPage();
-                       }),
-                      );
-                    },
+            fillColor: Color.fromARGB(255, 0, 135, 253),
+            shape: CircleBorder(),
+            child: Icon(
+              Icons.arrow_left,
+              color: Colors.white,
+            ),
+            // onPressed: () {
+            //   Navigator.push(
+            //     context,
+            //     PageTransition(
+            //         type: PageTransitionType.fade, child: MenuPage()),
+            //   );
+            // }
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) {
+                  return MenuPage();
+                }),
+              );
+            },
           )
         ],
       ),

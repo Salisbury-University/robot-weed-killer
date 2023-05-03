@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
-mixin BluetoothHandlerMixin<T extends StatefulWidget> on State<T> {
+mixin BluetoothHandlerMixin<T extends StatefulWidget> on State<T>
+    implements AutomaticKeepAliveClientMixin {
   BluetoothState bluetoothState = BluetoothState.UNKNOWN;
   FlutterBluetoothSerial _bluetooth = FlutterBluetoothSerial.instance;
   BluetoothConnection? connection;

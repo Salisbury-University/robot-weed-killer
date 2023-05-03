@@ -77,10 +77,10 @@ packages:
     dependency: "direct main"
     description:
       name: control_pad_plus
-      sha256: "1420978f84c4696f2578a9817c1da9279def5dbb7d243684905d1aa4f51fc6d1"
+      sha256: "4bcedcb2b473c53e7179d7d35afcacc0b6ccb4209b13dc300abe93bd862f2586"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.2"
+    version: "0.1.0"
   convert:
     dependency: transitive
     description:

@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:convert';
+
 import 'package:bt_controller/mixin.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import '../pages/autopage.dart';
@@ -443,6 +445,24 @@ class _MenuScreenState extends State<MenuPage> with BluetoothHandlerMixin {
         ),
       ),
     );
+  }
+
+  void _sendToggleManualToBluetooth() async {
+    connection!.output.add(Uint8List.fromList(utf8.encode("y")));
+    await connection!.output.allSent;
+    show('Manual Toggled');
+    setState(() {
+      deviceState = -1;
+    });
+  }
+
+  void _sendToggleAutoToBluetooth() async {
+    connection!.output.add(Uint8List.fromList(utf8.encode("t")));
+    await connection!.output.allSent;
+    show('Auto Toggled');
+    setState(() {
+      deviceState = -1;
+    });
   }
 /*
   List<DropdownMenuItem<BluetoothDevice>> _getDeviceItems() {

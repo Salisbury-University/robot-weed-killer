@@ -138,6 +138,7 @@ class _MenuScreenState extends State<MenuPage> with BluetoothHandlerMixin {
                     //   );
                     // },
                     onPressed: () {
+                      _sendToggleManualToBluetooth();
                       Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) {
                           return HomePage();
@@ -182,6 +183,7 @@ class _MenuScreenState extends State<MenuPage> with BluetoothHandlerMixin {
                     //   );
                     // },
                     onPressed: () {
+                      _sendToggleAutoToBluetooth();
                       Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) {
                           return AutoPage();

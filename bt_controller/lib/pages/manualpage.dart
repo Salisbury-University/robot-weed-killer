@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
-import 'package:control_pad_plus/control_pad_plus.dart';
+import 'package:control_pad/control_pad.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:webviewx/webviewx.dart';
 import 'package:bt_controller/menu_screen/menu.dart';

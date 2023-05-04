@@ -16,7 +16,8 @@ class MenuPage extends StatefulWidget {
   State<MenuPage> createState() => _MenuScreenState();
 }
 
-class _MenuScreenState extends State<MenuPage> with BluetoothHandlerMixin {
+class _MenuScreenState extends State<MenuPage>
+    with BluetoothHandlerMixin, AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
@@ -80,7 +81,12 @@ class _MenuScreenState extends State<MenuPage> with BluetoothHandlerMixin {
   } */
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(
+        context); // AutomaticClientMixin annotates widget with super.build()
     return Scaffold(
       backgroundColor: Color.fromARGB(115, 135, 135, 135),
       body: Center(

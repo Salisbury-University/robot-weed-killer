@@ -15,7 +15,6 @@ mixin BluetoothHandlerMixin<T extends StatefulWidget> on State<T> {
 
   bool isDisconnecting = false;
   bool get isConnected => connection != null && connection!.isConnected;
-  bool _keepAlive = false;
 
   List<BluetoothDevice> devicesList = [];
   BluetoothDevice? device;
@@ -56,8 +55,6 @@ mixin BluetoothHandlerMixin<T extends StatefulWidget> on State<T> {
         getPairedDevices();
       });
     });
-
-    _keepAlive = true;
   }
 
   @override
@@ -69,7 +66,6 @@ mixin BluetoothHandlerMixin<T extends StatefulWidget> on State<T> {
     }
 
     super.dispose();
-    _keepAlive = false;
   }
 
   Future<bool?> enableBluetooth() async {
@@ -166,19 +162,6 @@ mixin BluetoothHandlerMixin<T extends StatefulWidget> on State<T> {
         connected = false;
         isButtonUnavailable = false;
       });
-    }
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    if (this is AutomaticKeepAliveClientMixin) {
-      AutomaticKeepAliveClientMixin mixin =
-          this as AutomaticKeepAliveClientMixin;
-
-      // ignore: invalid_use_of_protected_member
-      mixin.updateKeepAlive();
     }
   }
 

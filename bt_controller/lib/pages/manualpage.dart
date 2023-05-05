@@ -15,7 +15,7 @@ import 'package:bt_controller/menu_screen/menu.dart';
 import 'package:page_transition/page_transition.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  HomePage({Key ? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -237,7 +237,12 @@ class _HomePageState extends State<HomePage> with BluetoothHandlerMixin {
                 MaterialPageRoute(builder: (context) {
                   return MenuPage();
                 }),
+
+                
               );
+              // Navigator.of(context).pop(                                  // Back to Menu
+              //         MenuPage(),
+              //         );  
             },
           )
         ],

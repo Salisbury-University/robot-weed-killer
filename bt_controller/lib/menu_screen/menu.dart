@@ -12,6 +12,8 @@ import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:page_transition/page_transition.dart';
 
 class MenuPage extends StatefulWidget {
+  const MenuPage({ Key? key }) : super(key: key);
+
   @override
   State<MenuPage> createState() => _MenuScreenState();
 }
@@ -88,7 +90,7 @@ class _MenuScreenState extends State<MenuPage>
     super.build(
         context); // AutomaticClientMixin annotates widget with super.build()
     return Scaffold(
-      backgroundColor: Color.fromARGB(115, 135, 135, 135),
+      backgroundColor: Color.fromARGB(255, 247, 247, 247),
       body: Center(
         child: Container(
           color: Color.fromARGB(255, 247, 247, 247),
@@ -96,18 +98,21 @@ class _MenuScreenState extends State<MenuPage>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              SizedBox(height: 90),
+              SizedBox(height: 100),
 
               Stack(alignment: Alignment.center, children: <Widget>[
                 // Robotics Logo
+
+    
+
                 Image.asset(
                   'assets/RoboticsLogo.png',
                   fit: BoxFit.fitWidth,
-                  height: 320,
+                  height: 340,
                 ),
                 // Title
                 Positioned(
-                  top: 277,
+                  top: 295,
                   child: Text(
                     "R.U.P.E.R.T",
                     style: GoogleFonts.roboto(
@@ -119,7 +124,7 @@ class _MenuScreenState extends State<MenuPage>
                 ),
               ]),
 
-              SizedBox(height: 25),
+              SizedBox(height: 20),
               // Divider
               Container(
                 padding: EdgeInsets.all(15),
@@ -129,7 +134,7 @@ class _MenuScreenState extends State<MenuPage>
                 ),
               ),
 
-              SizedBox(height: 45),
+              SizedBox(height: 35),
               // Manual Button
               Align(
                 child: SizedBox(
@@ -146,19 +151,20 @@ class _MenuScreenState extends State<MenuPage>
                     onPressed: () {
                       _sendToggleManualToBluetooth();
                       Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) {
-                          return HomePage();
-                        }),
+                        MaterialPageRoute(builder: (context) => HomePage(), maintainState: true),
                       );
                     },
                     style: NeumorphicStyle(
                       shape: NeumorphicShape.flat,
                       boxShape: NeumorphicBoxShape.roundRect(
                           BorderRadius.circular(30)),
-                      intensity: .2,
+                      intensity: .9,
                       surfaceIntensity: .5,
-                      depth: 20,
+                      depth: 5,
                       color: Color.fromARGB(255, 145, 3, 3),
+                      lightSource: LightSource.topLeft,
+                      //shadowLightColor: Color.fromARGB(255, 76, 116, 149),
+                      shadowDarkColorEmboss: Color.fromARGB(255, 76, 116, 149),
                     ),
                     child: Align(
                       alignment: Alignment.center,
@@ -196,14 +202,17 @@ class _MenuScreenState extends State<MenuPage>
                         }),
                       );
                     },
-                    style: NeumorphicStyle(
+                   style: NeumorphicStyle(
                       shape: NeumorphicShape.flat,
-                      intensity: .2,
                       boxShape: NeumorphicBoxShape.roundRect(
                           BorderRadius.circular(30)),
-                      depth: 9,
+                      intensity: .9,
+                      surfaceIntensity: .5,
+                      depth: 5,
                       color: Color.fromARGB(255, 145, 3, 3),
-                      //lightSource:LightSource.topRight
+                      lightSource: LightSource.topLeft,
+                      //shadowLightColor: Color.fromARGB(255, 76, 116, 149),
+                      shadowDarkColorEmboss: Color.fromARGB(255, 76, 116, 149),
                     ),
 
                     child: Align(

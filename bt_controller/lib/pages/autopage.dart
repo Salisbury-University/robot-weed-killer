@@ -1,31 +1,24 @@
 // ignore_for_file: prefer_const_constructors
 // ignore: depend_on_referenced_packages
+// ignore_for_file: unused_field
 
+import 'package:bt_controller/mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:bt_controller/widgets/screen.dart';
-
-import 'dart:convert';
-import 'dart:io';
-import 'package:control_pad/control_pad.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
-import 'package:vibration/vibration.dart';
-import 'package:material_color_utilities/material_color_utilities.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:webviewx/webviewx.dart';
-import '../menu_screen/menu.dart';
-
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../menu_screen/menu.dart';
 import '../const.dart';
 import '../constants/marker.dart';
 
+// ignore: must_be_immutable
 class AutoPage extends StatefulWidget {
   @override
-  _AutoPageState createState() => _AutoPageState();
+  State<AutoPage> createState() => _AutoPageState();
   // webviewx
   late WebViewXController webviewController;
 
@@ -44,38 +37,8 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
   var currentLocation = AppConstants.myLocation;
 
   final MapController mapController = MapController();
-
-  // Bluetooth
-  // Initialize Bluetooth connection state to be unknown
-  BluetoothState _bluetoothState = BluetoothState.UNKNOWN;
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   // Get instance of the Bluetooth
-  FlutterBluetoothSerial _bluetooth = FlutterBluetoothSerial.instance;
-  // Track the Bluetooth connection with the remote device
-  BluetoothConnection? connection;
-
-  late int _deviceState;
-
-  bool isDisconnecting = false;
-  var _isSwitchOn = false;
-
-  bool get isConnected => connection != null && connection!.isConnected;
-
-  // Defined for later, as needed
-  List<BluetoothDevice> _devicesList = [];
-  BluetoothDevice? _device;
-  bool _connected = false;
-  bool _isButtonUnavailable = false;
-  bool _isScreenOn = false;
-
-  Map<String, Color> colors = {
-    'onBorderColor': Colors.green,
-    'offBorderColor': Colors.red,
-    'neutralBorderColor': Colors.transparent,
-    'onTextColor': Colors.green[700]!,
-    'offTextColor': Colors.red[700]!,
-    'neutralTextColor': Colors.blue,
-  };
 
   @override
   void initState() {
@@ -87,33 +50,8 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
     // hide sytem bar
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.bottom]);
-    // Get current state
-    FlutterBluetoothSerial.instance.state.then((state) {
-      setState(() {
-        _bluetoothState = state;
-      });
-    });
-
-    _deviceState = 0; // neutral
-
-    // If the bluetooth of the device is not enabled, then request
-    // permission to turn on bluetooth as the app starts up
-    enableBluetooth();
-
-    // Listen for further state changes
-    FlutterBluetoothSerial.instance
-        .onStateChanged()
-        .listen((BluetoothState state) {
-      setState(() {
-        _bluetoothState = state;
-        if (_bluetoothState == BluetoothState.STATE_OFF) {
-          _isButtonUnavailable = true;
-        }
-        getPairedDevices();
-      });
-    });
   }
-
+/*
   @override
   void dispose() {
     // Avoid any memory leaks and disconnect
@@ -141,8 +79,8 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
       await getPairedDevices();
     }
     return false;
-  }
-
+  } */
+/*
   // For retrieving and storing paired devices in a list
   Future<void> getPairedDevices() async {
     List<BluetoothDevice> devices = [];
@@ -151,7 +89,9 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
     try {
       devices = await _bluetooth.getBondedDevices();
     } on PlatformException {
-      print("Error");
+      if (kDebugMode) {
+        print("Error");
+      }
     }
 
     // Unless mounted is true, calling [setState] throws an error.
@@ -162,7 +102,7 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
     setState(() {
       _devicesList = devices;
     });
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -171,19 +111,73 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
       body: Stack(
         children: <Widget>[
           // Webviewx Widget
+          // ignore: avoid_unnecessary_containers
           Container(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: WebViewX(width: 900, height: 900),
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: <
+                    Widget>[
+              Expanded(
+                child: SizedBox(
+                  width: double.infinity,
+                  child: FlutterMap(
+                    mapController: mapController,
+                    // there are more available options on map than just these settings
+                    options: MapOptions(
+                      minZoom: 5,
+                      maxZoom: 18,
+                      zoom: 11,
+                      center: currentLocation,
                     ),
+                    children: [
+                      TileLayer(
+                        urlTemplate:
+                            "https://api.mapbox.com/styles/v1/zm009/clfzq1jz4003p01k6mwpn89kq/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoiem0wMDkiLCJhIjoiY2xlejMxcnR4MG41ZTNwcnhrZGxqNmM5dCJ9.wbrN7cncpM0-phqVxms6Ug",
+                        additionalOptions: {
+                          'mapStyleId': AppConstants.mapBoxStyleId,
+                          'accessToken': AppConstants.mapBoxAccessToken,
+                        },
+                      ),
+                      MarkerLayer(
+                        markers: [
+                          for (int i = 0; i < mapMarkers.length; i++)
+                            Marker(
+                                height: 40,
+                                width: 40,
+                                point: mapMarkers[i].location ??
+                                    AppConstants.myLocation,
+                                builder: (_) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      selectedIndex = i;
+                                      currentLocation =
+                                          mapMarkers[i].location ??
+                                              AppConstants.myLocation;
+                                      _animatedMapMove(currentLocation, 11.5);
+                                      setState(() {});
+                                    },
+                                    child: AnimatedScale(
+                                      duration:
+                                          const Duration(milliseconds: 500),
+                                      scale: selectedIndex == i ? 1 : 0.7,
+                                      child: AnimatedOpacity(
+                                          duration:
+                                              const Duration(milliseconds: 500),
+                                          opacity: selectedIndex == i ? 1 : 0.5,
+                                          child: SvgPicture.asset(
+                                              'assets/icons/map-marker.svg')),
+                                    ),
+                                  );
+                                })
+                        ],
+                      )
+                    ],
                   ),
-                ]),
+                ),
+              ),
+            ]),
           ),
 
+          // ignore: avoid_unnecessary_containers
           Container(
             child: WebViewAware(
               child: Column(
@@ -199,69 +193,17 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
                           width: 2.0,
                         )),
                     child: SizedBox(
-                      height: 200,
-                      width: 200,
-                      child: FlutterMap(
-                        mapController: mapController,
-                        // there are more available options on map than just these settings
-                        options: MapOptions(
-                          minZoom: 5,
-                          maxZoom: 18,
-                          zoom: 11,
-                          center: currentLocation,
-                        ),
-                        layers: [
-                          TileLayerOptions(
-                            // tile layer template link for the navigation map
-                            // used to import the map created with Mapbox Studio
-                            urlTemplate:
-                                "https://api.mapbox.com/styles/v1/zm009/clfzq1jz4003p01k6mwpn89kq/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoiem0wMDkiLCJhIjoiY2xlejMxcnR4MG41ZTNwcnhrZGxqNmM5dCJ9.wbrN7cncpM0-phqVxms6Ug",
-                            additionalOptions: {
-                              'mapStyleId': AppConstants.mapBoxStyleId,
-                              'accessToken': AppConstants.mapBoxAccessToken,
-                            },
-                          ),
-                          MarkerLayerOptions(
-                            markers: [
-                              // loops through list of markers to update their location with the constant
-                              // AppConstants.myLocation, until the end of the markers list is reached.
-                              for (int i = 0; i < mapMarkers.length; i++)
-                                Marker(
-                                  height: 40,
-                                  width: 40,
-                                  point: mapMarkers[i].location ??
-                                      AppConstants.myLocation,
-                                  builder: (_) {
-                                    return GestureDetector(
-                                      /// gesture detector uses onTap method to detect a tap on any
-                                      /// map markers. When a marker is selected, the page controller uses an
-                                      /// animation method to ease-in the information of the selected location (lasts 500 milliseconds)
-                                      onTap: () {
-                                        selectedIndex = i;
-                                        currentLocation =
-                                            mapMarkers[i].location ??
-                                                AppConstants.myLocation;
-                                        _animatedMapMove(currentLocation, 11.5);
-                                        setState(() {});
-                                      },
-                                      child: AnimatedScale(
-                                        duration:
-                                            const Duration(milliseconds: 500),
-                                        scale: selectedIndex == i ? 1 : 0.7,
-                                        child: AnimatedOpacity(
-                                          duration:
-                                              const Duration(milliseconds: 500),
-                                          opacity: selectedIndex == i ? 1 : 0.5,
-                                          child: SvgPicture.asset(
-                                              'assets/icons/map-marker.svg'),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                            ],
-                          ),
-                        ],
+                      height: 180,
+                      width: 320,
+                      child: WebViewX(
+                        width: 200,
+                        height: 200,
+                        initialContent: 'http://192.168.4.1',
+                        initialSourceType: SourceType.url,
+                        onWebViewCreated: (controller) {
+                          controller.loadContent(
+                              'http://192.168.4.1', SourceType.url);
+                        },
                       ),
                     ),
                   ),
@@ -328,158 +270,22 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
               Icons.arrow_left,
               color: Colors.white,
             ),
+            // onPressed: () {
+            //   Navigator.push(
+            //     context,
+            //     PageTransition(
+            //         type: PageTransitionType.fade, child: MenuPage()),
+            //   );
+            // }
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return MenuPage();
-              }));
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) {
+                  return MenuPage();
+                }),
+              );
             },
           )
         ],
-      ),
-    );
-  }
-
-  List<DropdownMenuItem<BluetoothDevice>> _getDeviceItems() {
-    List<DropdownMenuItem<BluetoothDevice>> items = [];
-    if (_devicesList.isEmpty) {
-      items.add(DropdownMenuItem(
-        child: Text('NONE'),
-      ));
-    } else {
-      _devicesList.forEach((device) {
-        items.add(DropdownMenuItem(
-          child: Text(device.name!),
-          value: device,
-        ));
-      });
-    }
-    return items;
-  }
-
-  // Method to connect to bluetooth
-  void _connect() async {
-    setState(() {
-      _isButtonUnavailable = true;
-    });
-    if (_device == null) {
-      show('No device selected');
-    } else {
-      if (!isConnected) {
-        await BluetoothConnection.toAddress(_device?.address)
-            .then((_connection) {
-          print('Connectedto the device');
-          connection = _connection;
-          setState(() {
-            _connected = true;
-          });
-
-          connection!.input!.listen(null).onDone(() {
-            if (isDisconnecting) {
-              print('Disconnecting locally!');
-            } else {
-              print('Disconnected remotely');
-            }
-            if (this.mounted) {
-              setState(() {});
-            }
-          });
-        }).catchError((error) {
-          print('Cannot connect, exception occurred');
-          print(error);
-        });
-        show('Device connected');
-
-        setState(() => _isButtonUnavailable = false);
-      }
-    }
-  }
-
-  // method to disconnect bluetooth
-  void _disconnect() async {
-    setState(() {
-      _isButtonUnavailable = true;
-      _deviceState = 0;
-    });
-
-    await connection?.close();
-    show('Device disconnected');
-    if (!connection!.isConnected) {
-      setState(() {
-        _connected = false;
-        _isButtonUnavailable = false;
-      });
-    }
-  }
-
-  // method to send message
-  void _sendRightMessageToBluetooth() async {
-    connection!.output.add(Uint8List.fromList(utf8.encode("r")));
-    await connection!.output.allSent;
-    show('Device Turned Right');
-    setState(() {
-      _deviceState = 1;
-    });
-  }
-
-  // Turn left
-  void _sendLeftMessageToBluetooth() async {
-    connection!.output.add(Uint8List.fromList(utf8.encode("l")));
-    await connection!.output.allSent;
-    show('Device Turned Left');
-    setState(() {
-      _deviceState = -1;
-    });
-  }
-
-  // Method to move car forward
-  void _sendForwardMessageToBluetooth() async {
-    connection!.output.add(Uint8List.fromList(utf8.encode("f")));
-    await connection!.output.allSent;
-    show('Device Moved Forward');
-    setState(() {
-      _deviceState = 1;
-    });
-  }
-
-  void _sendBackMessageToBluetooth() async {
-    connection!.output.add(Uint8List.fromList(utf8.encode("b")));
-    await connection!.output.allSent;
-    show('Device Moved Backward');
-    setState(() {
-      _deviceState = -1;
-    });
-  }
-
-  void _sendBrakeMessageToBluetooth() async {
-    connection!.output.add(Uint8List.fromList(utf8.encode("s")));
-    await connection!.output.allSent;
-    show('Device Stopped');
-    setState(() {
-      _deviceState = -1;
-    });
-  }
-
-  void _sendLaserOnToBluetooth() async {
-    connection!.output.add(Uint8List.fromList(utf8.encode("+")));
-    await connection!.output.allSent;
-    setState(() {
-      _deviceState = -1;
-    });
-  }
-
-  Future show(
-    String message, {
-    Duration duration: const Duration(seconds: 3),
-  }) async {
-    await new Future.delayed(new Duration(milliseconds: 100));
-    // tryhing without below method
-    //_scaffoldKey.currentState!.showSnackBar(
-    ScaffoldMessenger.of(context).showSnackBar(
-      new SnackBar(
-        content: new Text(
-          message,
-        ),
-        duration: duration,
       ),
     );
   }

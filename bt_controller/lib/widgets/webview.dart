@@ -9,13 +9,13 @@ class WebViewXPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _WebViewXPageState createState() => _WebViewXPageState();
+  State<WebViewXPage> createState() => _WebViewXPageState();
 }
 
 class _WebViewXPageState extends State<WebViewXPage> {
   late WebViewXController webviewController;
   final initialContent =
-      '<h4> This is some hardcoded HTML code embedded inside the webview <h4> <h2> Hello world! <h2>';
+      "http://192.168.4.1";
   final executeJsErrorMessage =
       'Failed to execute this task because the current content is (probably) URL that allows iframe embedding, on Web.\n\n'
       'A short reason for this is that, when a normal URL is embedded in the iframe, you do not actually own that content so you cant call your custom functions\n'
@@ -70,7 +70,7 @@ class _WebViewXPageState extends State<WebViewXPage> {
     return WebViewX(
       key: const ValueKey('webviewx'),
       initialContent: initialContent,
-      initialSourceType: SourceType.html,
+      initialSourceType: SourceType.url,
       height: screenSize.height / 2,
       width: min(screenSize.width * 0.8, 1024),
       onWebViewCreated: (controller) => webviewController = controller,

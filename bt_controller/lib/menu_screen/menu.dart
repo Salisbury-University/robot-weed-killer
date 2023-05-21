@@ -141,19 +141,19 @@ class _MenuScreenState extends State<MenuPage>
                   width: 295,
                   height: 60,
                   child: NeumorphicButton(
-                    // onPressed: () {
-                    //   Navigator.push(
-                    //     context,
-                    //     PageTransition(
-                    //         type: PageTransitionType.fade, child: HomePage()),
-                    //   );
-                    // },
                     onPressed: () {
-                      _sendToggleManualToBluetooth();
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => HomePage(), maintainState: true),
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.fade, child: HomePage()),
                       );
                     },
+                    // onPressed: () {
+                    //   _sendToggleManualToBluetooth();
+                    //   Navigator.of(context).push(
+                    //     MaterialPageRoute(builder: (context) => HomePage(), maintainState: true),
+                    //   );
+                    // },
                     style: NeumorphicStyle(
                       shape: NeumorphicShape.flat,
                       boxShape: NeumorphicBoxShape.roundRect(
@@ -187,21 +187,21 @@ class _MenuScreenState extends State<MenuPage>
                   height: 60,
                   child: NeumorphicButton(
                     // Navigate to autopage.dart
-                    // onPressed: () {
-                    //   Navigator.push(
-                    //     context,
-                    //     PageTransition(
-                    //         type: PageTransitionType.fade, child: AutoPage()),
-                    //   );
-                    // },
                     onPressed: () {
-                      _sendToggleAutoToBluetooth();
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) {
-                          return AutoPage();
-                        }),
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.fade, child: AutoPage()),
                       );
                     },
+                    // onPressed: () {
+                    //   _sendToggleAutoToBluetooth();
+                    //   Navigator.of(context).push(
+                    //     MaterialPageRoute(builder: (context) {
+                    //       return AutoPage();
+                    //     }),
+                    //   );
+                    // },
                    style: NeumorphicStyle(
                       shape: NeumorphicShape.flat,
                       boxShape: NeumorphicBoxShape.roundRect(

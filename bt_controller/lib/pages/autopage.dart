@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:webviewx/webviewx.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -270,20 +271,20 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
               Icons.arrow_left,
               color: Colors.white,
             ),
-            // onPressed: () {
-            //   Navigator.push(
-            //     context,
-            //     PageTransition(
-            //         type: PageTransitionType.fade, child: MenuPage()),
-            //   );
-            // }
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) {
-                  return MenuPage();
-                }),
+              Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.fade, child: MenuPage()),
               );
-            },
+            }
+            // onPressed: () {
+            //   Navigator.of(context).push(
+            //     MaterialPageRoute(builder: (context) {
+            //       return MenuPage();
+            //     }),
+            //   );
+            // },
           )
         ],
       ),

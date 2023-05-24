@@ -2,8 +2,9 @@
 
 import 'dart:convert';
 
-import 'package:bt_controller/mixin.dart';
+import 'package:bt_controller/connection.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:provider/provider.dart';
 import '../pages/autopage.dart';
 import '../pages/manualpage.dart';
 import 'package:flutter/services.dart';
@@ -12,14 +13,13 @@ import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:page_transition/page_transition.dart';
 
 class MenuPage extends StatefulWidget {
-  const MenuPage({ Key? key }) : super(key: key);
+  const MenuPage({Key? key}) : super(key: key);
 
   @override
   State<MenuPage> createState() => _MenuScreenState();
 }
 
-class _MenuScreenState extends State<MenuPage>
-    with BluetoothHandlerMixin, AutomaticKeepAliveClientMixin {
+class _MenuScreenState extends State<MenuPage> {
   @override
   void initState() {
     super.initState();
@@ -31,64 +31,12 @@ class _MenuScreenState extends State<MenuPage>
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.bottom]);
   }
-/*
-  @override
-  void dispose() {
-    // Avoid any memory leaks and disconnect
-    if (isConnected) {
-      isDisconnecting = true;
-      connection!.dispose();
-      connection = null;
-    }
-
-    super.dispose();
-  }
-
-  // Request Bluetooth permission from the user
-  Future<bool?> enableBluetooth() async {
-    // Retrieve the current Bluetooth state
-    _bluetoothState = await FlutterBluetoothSerial.instance.state;
-
-    // If the bluetooth is off, then turn it on first and then retrieve
-    // the devices that are paired.
-    if (_bluetoothState == BluetoothState.STATE_OFF) {
-      await FlutterBluetoothSerial.instance.requestEnable();
-      await getPairedDevices();
-      return true;
-    } else {
-      await getPairedDevices();
-    }
-    return false;
-  } */
-/*
-  // For retrieving and storing paired devices in a list
-  Future<void> getPairedDevices() async {
-    List<BluetoothDevice> devices = [];
-
-    // To get the list of paired devices
-    try {
-      devices = await _bluetooth.getBondedDevices();
-    } on PlatformException {
-      print("Error");
-    }
-
-    // Unless mounted is true, calling [setState] throws an error.
-    if (!mounted) return;
-
-    // Store the [devices] list in the [_devicesList] for accessing the
-    // list outside this class
-    setState(() {
-      _devicesList = devices;
-    });
-  } */
-
-  @override
-  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
-    super.build(
-        context); // AutomaticClientMixin annotates widget with super.build()
+    final _handler =
+        Provider.of<BluetoothHandlerProvider>(context, listen: false);
+
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 247, 247, 247),
       body: Center(
@@ -102,8 +50,6 @@ class _MenuScreenState extends State<MenuPage>
 
               Stack(alignment: Alignment.center, children: <Widget>[
                 // Robotics Logo
-
-    
 
                 Image.asset(
                   'assets/RoboticsLogo.png',
@@ -142,6 +88,7 @@ class _MenuScreenState extends State<MenuPage>
                   height: 60,
                   child: NeumorphicButton(
                     onPressed: () {
+                      _sendToggleToBluetooth("y");
                       Navigator.push(
                         context,
                         PageTransition(
@@ -188,6 +135,7 @@ class _MenuScreenState extends State<MenuPage>
                   child: NeumorphicButton(
                     // Navigate to autopage.dart
                     onPressed: () {
+                      _sendToggleToBluetooth("t");
                       Navigator.push(
                         context,
                         PageTransition(
@@ -202,7 +150,7 @@ class _MenuScreenState extends State<MenuPage>
                     //     }),
                     //   );
                     // },
-                   style: NeumorphicStyle(
+                    style: NeumorphicStyle(
                       shape: NeumorphicShape.flat,
                       boxShape: NeumorphicBoxShape.roundRect(
                           BorderRadius.circular(30)),
@@ -256,8 +204,8 @@ class _MenuScreenState extends State<MenuPage>
                                   mainAxisSize: MainAxisSize.max,
                                   children: <Widget>[
                                     Visibility(
-                                      visible: isButtonUnavailable &&
-                                          bluetoothState ==
+                                      visible: _handler.isButtonUnavailable &&
+                                          _handler.bluetoothState ==
                                               BluetoothState.STATE_ON,
                                       child: LinearProgressIndicator(
                                         backgroundColor: Colors.yellow,
@@ -282,7 +230,8 @@ class _MenuScreenState extends State<MenuPage>
                                             ),
                                           ),
                                           Switch(
-                                            value: bluetoothState.isEnabled,
+                                            value: _handler
+                                                .bluetoothState.isEnabled,
                                             onChanged: (bool value) {
                                               future() async {
                                                 if (value) {
@@ -295,11 +244,13 @@ class _MenuScreenState extends State<MenuPage>
                                                       .requestDisable();
                                                 }
 
-                                                await getPairedDevices();
-                                                isButtonUnavailable = false;
+                                                await _handler
+                                                    .getPairedDevices();
+                                                _handler.isButtonUnavailable =
+                                                    false;
 
-                                                if (connected) {
-                                                  disconnect();
+                                                if (_handler.connected) {
+                                                  _handler.disconnect(context);
                                                 }
                                               }
 
@@ -342,25 +293,35 @@ class _MenuScreenState extends State<MenuPage>
                                                     ),
                                                   ),
                                                   DropdownButton(
-                                                    items: getDeviceItems(),
+                                                    items: _handler
+                                                        .getDeviceItems(),
                                                     onChanged: (value) =>
-                                                        setState(() =>
-                                                            device = value),
-                                                    value:
-                                                        devicesList.isNotEmpty
-                                                            ? device
-                                                            : null,
+                                                        setState(() => _handler
+                                                            .device = value),
+                                                    value: _handler.devicesList
+                                                            .isNotEmpty
+                                                        ? _handler.device
+                                                        : null,
                                                   ),
                                                   ElevatedButton(
-                                                    onPressed:
-                                                        isButtonUnavailable
-                                                            ? null
-                                                            : connected
-                                                                ? disconnect
-                                                                : connect,
-                                                    child: Text(connected
-                                                        ? 'Disconnect'
-                                                        : 'Connect'),
+                                                    onPressed: _handler
+                                                            .isButtonUnavailable
+                                                        ? null
+                                                        : () {
+                                                            if (_handler
+                                                                .connected) {
+                                                              _handler
+                                                                  .disconnect(
+                                                                      context);
+                                                            } else {
+                                                              _handler.connect(
+                                                                  context);
+                                                            }
+                                                          },
+                                                    child: Text(
+                                                        _handler.connected
+                                                            ? 'Disconnect'
+                                                            : 'Connect'),
                                                   ),
                                                 ],
                                               ),
@@ -371,13 +332,16 @@ class _MenuScreenState extends State<MenuPage>
                                               child: Card(
                                                 shape: RoundedRectangleBorder(
                                                   side: BorderSide(
-                                                      color: deviceState == 0
-                                                          ? colors[
+                                                      color: _handler
+                                                                  .deviceState ==
+                                                              0
+                                                          ? _handler.colors[
                                                               'neutralBorderColor']!
-                                                          : deviceState == 1
-                                                              ? colors[
+                                                          : _handler.deviceState ==
+                                                                  1
+                                                              ? _handler.colors[
                                                                   'onBorderColor']!
-                                                              : colors[
+                                                              : _handler.colors[
                                                                   'offBorderColor']!,
                                                       width: 3),
                                                   borderRadius:
@@ -385,7 +349,9 @@ class _MenuScreenState extends State<MenuPage>
                                                           4.0),
                                                 ),
                                                 elevation:
-                                                    deviceState == 0 ? 4 : 0,
+                                                    _handler.deviceState == 0
+                                                        ? 4
+                                                        : 0,
                                                 child: Padding(
                                                   padding:
                                                       const EdgeInsets.all(8.0),
@@ -396,15 +362,19 @@ class _MenuScreenState extends State<MenuPage>
                                                           "DEVICE 1",
                                                           style: TextStyle(
                                                             fontSize: 20,
-                                                            color: deviceState ==
+                                                            color: _handler
+                                                                        .deviceState ==
                                                                     0
-                                                                ? colors[
+                                                                ? _handler
+                                                                        .colors[
                                                                     'neutralTextColor']
-                                                                : deviceState ==
+                                                                : _handler.deviceState ==
                                                                         1
-                                                                    ? colors[
+                                                                    ? _handler
+                                                                            .colors[
                                                                         'onTextColor']
-                                                                    : colors[
+                                                                    : _handler
+                                                                            .colors[
                                                                         'offTextColor'],
                                                           ),
                                                         ),
@@ -464,93 +434,14 @@ class _MenuScreenState extends State<MenuPage>
     );
   }
 
-  void _sendToggleManualToBluetooth() async {
-    connection!.output.add(Uint8List.fromList(utf8.encode("y")));
-    await connection!.output.allSent;
-    show('Manual Toggled');
+  void _sendToggleToBluetooth(String ch) async {
+    final _handler =
+        Provider.of<BluetoothHandlerProvider>(context, listen: false);
+    _handler.connection!.output.add(Uint8List.fromList(utf8.encode(ch)));
+    await _handler.connection!.output.allSent;
+    _handler.show(context, 'Manual Toggled');
     setState(() {
-      deviceState = -1;
+      _handler.deviceState = -1;
     });
   }
-
-  void _sendToggleAutoToBluetooth() async {
-    connection!.output.add(Uint8List.fromList(utf8.encode("t")));
-    await connection!.output.allSent;
-    show('Auto Toggled');
-    setState(() {
-      deviceState = -1;
-    });
-  }
-/*
-  List<DropdownMenuItem<BluetoothDevice>> _getDeviceItems() {
-    List<DropdownMenuItem<BluetoothDevice>> items = [];
-    if (_devicesList.isEmpty) {
-      items.add(DropdownMenuItem(
-        child: Text('NONE'),
-      ));
-    } else {
-      _devicesList.forEach((device) {
-        items.add(DropdownMenuItem(
-          child: Text(device.name!),
-          value: device,
-        ));
-      });
-    }
-    return items;
-  }
-
-  // Method to connect to bluetooth
-  void _connect() async {
-    setState(() {
-      _isButtonUnavailable = true;
-    });
-    if (_device == null) {
-      //show('No device selected');
-    } else {
-      if (!isConnected) {
-        await BluetoothConnection.toAddress(_device?.address)
-            .then((_connection) {
-          print('Connectedto the device');
-          connection = _connection;
-          setState(() {
-            _connected = true;
-          });
-
-          connection!.input!.listen(null).onDone(() {
-            if (isDisconnecting) {
-              print('Disconnecting locally!');
-            } else {
-              print('Disconnected remotely');
-            }
-            if (this.mounted) {
-              setState(() {});
-            }
-          });
-        }).catchError((error) {
-          print('Cannot connect, exception occurred');
-          print(error);
-        });
-        //show('Device connected');
-
-        setState(() => _isButtonUnavailable = false);
-      }
-    }
-  }
-
-  // method to disconnect bluetooth
-  void _disconnect() async {
-    setState(() {
-      _isButtonUnavailable = true;
-      _deviceState = 0;
-    });
-
-    await connection?.close();
-    //show('Device disconnected');
-    if (!connection!.isConnected) {
-      setState(() {
-        _connected = false;
-        _isButtonUnavailable = false;
-      });
-    }
-  } */
 }

@@ -95,6 +95,7 @@ flutter:
   #  - assets/splash.png
     - assets/RoboticsLogo.png
     - assets/icons/
+    - assets/icons/weed_icon1.png
     - assets/images/
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -12,6 +12,7 @@ import 'package:control_pad/control_pad.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:provider/provider.dart';
 import 'package:webviewx/webviewx.dart';
+import '../menu_screen/menu.dart';
 import 'package:bt_controller/menu_screen/menu.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -154,11 +155,12 @@ class _HomePageState extends State<HomePage> {
                       ),
                       child: Align(
                         alignment: Alignment.center,
-                        child: Icon(
-                          Icons.local_fire_department_sharp,
-                          color: Colors.white,
-                          size: 40,
-                        ),
+                        child: Image.asset(
+                            'assets/icons/weed_icon1.png',
+                            width: 50,
+                            height: 50,
+                            fit: BoxFit.cover,
+                          )
                       ),
                     ),
                   ),

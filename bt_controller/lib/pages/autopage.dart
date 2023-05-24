@@ -1,8 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 // ignore: depend_on_referenced_packages
 // ignore_for_file: unused_field
+import 'dart:convert';
 
-import 'package:bt_controller/mixin.dart';
+import 'package:bt_controller/connection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -11,7 +12,10 @@ import 'package:page_transition/page_transition.dart';
 import 'package:webviewx/webviewx.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+
 import '../menu_screen/menu.dart';
 import '../const.dart';
 import '../constants/marker.dart';
@@ -52,58 +56,6 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.bottom]);
   }
-/*
-  @override
-  void dispose() {
-    // Avoid any memory leaks and disconnect
-    if (isConnected) {
-      isDisconnecting = true;
-      connection!.dispose();
-      connection = null;
-    }
-
-    super.dispose();
-  }
-
-  // Request Bluetooth permission from the user
-  Future<bool?> enableBluetooth() async {
-    // Retrieve the current Bluetooth state
-    _bluetoothState = await FlutterBluetoothSerial.instance.state;
-
-    // If the bluetooth is off, then turn it on first and then retrieve
-    // the devices that are paired.
-    if (_bluetoothState == BluetoothState.STATE_OFF) {
-      await FlutterBluetoothSerial.instance.requestEnable();
-      await getPairedDevices();
-      return true;
-    } else {
-      await getPairedDevices();
-    }
-    return false;
-  } */
-/*
-  // For retrieving and storing paired devices in a list
-  Future<void> getPairedDevices() async {
-    List<BluetoothDevice> devices = [];
-
-    // To get the list of paired devices
-    try {
-      devices = await _bluetooth.getBondedDevices();
-    } on PlatformException {
-      if (kDebugMode) {
-        print("Error");
-      }
-    }
-
-    // Unless mounted is true, calling [setState] throws an error.
-    if (!mounted) return;
-
-    // Store the [devices] list in the [_devicesList] for accessing the
-    // list outside this class
-    setState(() {
-      _devicesList = devices;
-    });
-  } */
 
   @override
   Widget build(BuildContext context) {
@@ -209,53 +161,6 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
                     ),
                   ),
                   Container(height: 70),
-
-                  /*
-                Container(
-                  child:  Align(
-                    alignment: FractionalOffset.bottomCenter,
-                    child: NeumorphicButton(
-                      onPressed: () {
-                        if (_isScreenOn == false) {
-                          setState(() {
-                            _isScreenOn = true;
-                          });
-                        } else {
-                          setState(() {
-                            _isScreenOn = false;
-                          });
-                        }
-                      },
-                      style: NeumorphicStyle(
-                        color:  Color.fromARGB(255, 96, 96, 96),
-                      ),
-                      child: _isScreenOn
-                          ? Text(
-                              'Stop',
-                              style: GoogleFonts.montserrat(
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.black,
-                                  letterSpacing: .1,
-                                ),
-                              ),
-                            )
-                          : Text(
-                              'Start',
-                              style: GoogleFonts.montserrat(
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  color: Color.fromARGB(255, 216, 216, 216),
-                                  letterSpacing: .1,
-                                ),
-                              ),
-                            ),
-                    ),
-                    
-                    ),
-                  ), */
-
-                  //controller(),
                 ],
               ),
             ),
@@ -265,30 +170,42 @@ class _AutoPageState extends State<AutoPage> with TickerProviderStateMixin {
             width: double.infinity,
           ),
           RawMaterialButton(
-            fillColor: Color.fromARGB(255, 0, 135, 253),
-            shape: CircleBorder(),
-            child: Icon(
-              Icons.arrow_left,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.fade, child: MenuPage()),
-              );
-            }
-            // onPressed: () {
-            //   Navigator.of(context).push(
-            //     MaterialPageRoute(builder: (context) {
-            //       return MenuPage();
-            //     }),
-            //   );
-            // },
-          )
+              fillColor: Color.fromARGB(255, 0, 135, 253),
+              shape: CircleBorder(),
+              child: Icon(
+                Icons.arrow_left,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                _sendToggleToBluetooth();
+                Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.fade, child: MenuPage()),
+                );
+              }
+              // onPressed: () {
+              //   Navigator.of(context).push(
+              //     MaterialPageRoute(builder: (context) {
+              //       return MenuPage();
+              //     }),
+              //   );
+              // },
+              )
         ],
       ),
     );
+  }
+
+  void _sendToggleToBluetooth() async {
+    final _handler =
+        Provider.of<BluetoothHandlerProvider>(context, listen: false);
+    _handler.connection!.output.add(Uint8List.fromList(utf8.encode("t")));
+    await _handler.connection!.output.allSent;
+    _handler.show(context, 'Auto Toggled');
+    setState(() {
+      _handler.deviceState = -1;
+    });
   }
 
   void _animatedMapMove(LatLng destLocation, double destZoom) {

@@ -3,19 +3,20 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:bt_controller/mixin.dart';
+import 'package:bt_controller/connection.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'package:control_pad/control_pad.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:provider/provider.dart';
 import 'package:webviewx/webviewx.dart';
 import 'package:bt_controller/menu_screen/menu.dart';
 import 'package:page_transition/page_transition.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key ? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -26,7 +27,7 @@ class HomePage extends StatefulWidget {
 double? deg;
 double? dist;
 
-class _HomePageState extends State<HomePage> with BluetoothHandlerMixin {
+class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -40,13 +41,13 @@ class _HomePageState extends State<HomePage> with BluetoothHandlerMixin {
     // hide sytem bar
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.bottom]);
-    // Get current state
-
-    // Listen for further state changes
   }
 
   @override
   Widget build(BuildContext context) {
+    final _handler =
+        Provider.of<BluetoothHandlerProvider>(context, listen: false);
+
     return Scaffold(
       key: _scaffoldKey,
       body: Stack(
@@ -80,50 +81,6 @@ class _HomePageState extends State<HomePage> with BluetoothHandlerMixin {
                 //crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   Container(height: 290),
-                  /* Container(
-                    child: Align(
-                      alignment: FractionalOffset.bottomCenter,
-                      child: NeumorphicButton(
-                        onPressed: () {
-                          if (_isScreenOn == false) {
-                            setState(() {
-                              _isScreenOn = true;
-                            });
-                          } else {
-                            setState(() {
-                              _isScreenOn = false;
-                            });
-                          }
-                        },
-                        style: NeumorphicStyle(
-                          color: Color.fromARGB(255, 96, 96, 96),
-                        ),
-                        child: _isScreenOn
-                            ? Text(
-                                'Stop',
-                                style: GoogleFonts.montserrat(
-                                  textStyle: TextStyle(
-                                    fontWeight: FontWeight.w800,
-                                    color: Colors.black,
-                                    letterSpacing: .1,
-                                  ),
-                                ),
-                              )
-                            : Text(
-                                'Start',
-                                style: GoogleFonts.montserrat(
-                                  textStyle: TextStyle(
-                                    fontWeight: FontWeight.w800,
-                                    color: Color.fromARGB(255, 216, 216, 216),
-                                    letterSpacing: .1,
-                                  ),
-                                ),
-                              ),
-                      ),
-                    ),
-                  ), */
-
-                  //controller(),
                 ],
               ),
             ),
@@ -149,29 +106,24 @@ class _HomePageState extends State<HomePage> with BluetoothHandlerMixin {
                         deg = degrees;
                         dist = distance;
                         if ((deg! >= 322 || deg! <= 32) && deg != 0) {
-                          //debugPrint("FORWARD");
-                          if (connected) {
-                            _sendForwardMessageToBluetooth();
+                          if (_handler.connected) {
+                            _sendDriveMessageToBluetooth("f");
                           }
                         } else if (deg! >= 230 && deg! <= 305) {
-                          //debugPrint("LEFT");
-                          if (connected) {
-                            _sendLeftMessageToBluetooth();
+                          if (_handler.connected) {
+                            _sendDriveMessageToBluetooth("l");
                           }
                         } else if (deg! >= 60 && deg! <= 125) {
-                          //debugPrint("RIGHT");
-                          if (connected) {
-                            _sendRightMessageToBluetooth();
+                          if (_handler.connected) {
+                            _sendDriveMessageToBluetooth("r");
                           }
                         } else if (deg! >= 155 && deg! <= 225) {
-                          //debugPrint("BACKWARD");
-                          if (connected) {
-                            _sendBackMessageToBluetooth();
+                          if (_handler.connected) {
+                            _sendDriveMessageToBluetooth("b");
                           }
                         } else if (deg == 0) {
-                          //debugPrint("STOP");
-                          if (connected) {
-                            _sendBrakeMessageToBluetooth();
+                          if (_handler.connected) {
+                            _sendDriveMessageToBluetooth("s");
                           }
                         }
                       },
@@ -189,7 +141,7 @@ class _HomePageState extends State<HomePage> with BluetoothHandlerMixin {
                     width: 100,
                     child: NeumorphicButton(
                       onPressed: () {
-                        if (connected) {
+                        if (_handler.connected) {
                           _sendLaserOnToBluetooth();
                         }
                       },
@@ -218,91 +170,55 @@ class _HomePageState extends State<HomePage> with BluetoothHandlerMixin {
             height: 10,
           ),
           RawMaterialButton(
-            fillColor: Color.fromARGB(255, 0, 135, 253),
-            shape: CircleBorder(),
-            child: Icon(
-              Icons.arrow_left,
-              color: Colors.white,
-            ),
-            onPressed: () {
-                      Navigator.push(
-                        context,
-                        PageTransition(
-                          type: PageTransitionType.fade,
-                          child: MenuPage() ),
-                        );
-                    }
-            // onPressed: () {
-            //   Navigator.of(context).push(
-            //     MaterialPageRoute(builder: (context) {
-            //       return MenuPage();
-            //     }),
+              fillColor: Color.fromARGB(255, 0, 135, 253),
+              shape: CircleBorder(),
+              child: Icon(
+                Icons.arrow_left,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.fade, child: MenuPage()),
+                );
+              }
+              // onPressed: () {
+              //   Navigator.of(context).push(
+              //     MaterialPageRoute(builder: (context) {
+              //       return MenuPage();
+              //     }),
 
-                
-            //   );
-            //   // Navigator.of(context).pop(                                  // Back to Menu
-            //   //         MenuPage(),
-            //   //         );  
-            // },
-          )
+              //   );
+              //   // Navigator.of(context).pop(                                  // Back to Menu
+              //   //         MenuPage(),
+              //   //         );
+              // },
+              )
         ],
       ),
     );
   }
 
   // method to send message
-  void _sendRightMessageToBluetooth() async {
-    connection!.output.add(Uint8List.fromList(utf8.encode("r")));
-    await connection!.output.allSent;
-    show('Device Turned Right');
+  void _sendDriveMessageToBluetooth(String ch) async {
+    final _handler =
+        Provider.of<BluetoothHandlerProvider>(context, listen: false);
+    _handler.connection!.output.add(Uint8List.fromList(utf8.encode(ch)));
+    await _handler.connection!.output.allSent;
+    _handler.show(context, 'Device Turned Right');
     setState(() {
-      deviceState = 1;
-    });
-  }
-
-  // Turn left
-  void _sendLeftMessageToBluetooth() async {
-    connection!.output.add(Uint8List.fromList(utf8.encode("l")));
-    await connection!.output.allSent;
-    show('Device Turned Left');
-    setState(() {
-      deviceState = -1;
-    });
-  }
-
-  // Method to move car forward
-  void _sendForwardMessageToBluetooth() async {
-    connection!.output.add(Uint8List.fromList(utf8.encode("f")));
-    await connection!.output.allSent;
-    show('Device Moved Forward');
-    setState(() {
-      deviceState = 1;
-    });
-  }
-
-  void _sendBackMessageToBluetooth() async {
-    connection!.output.add(Uint8List.fromList(utf8.encode("b")));
-    await connection!.output.allSent;
-    show('Device Moved Backward');
-    setState(() {
-      deviceState = -1;
-    });
-  }
-
-  void _sendBrakeMessageToBluetooth() async {
-    connection!.output.add(Uint8List.fromList(utf8.encode("s")));
-    await connection!.output.allSent;
-    show('Device Stopped');
-    setState(() {
-      deviceState = -1;
+      _handler.deviceState = 1;
     });
   }
 
   void _sendLaserOnToBluetooth() async {
-    connection!.output.add(Uint8List.fromList(utf8.encode("+")));
-    await connection!.output.allSent;
+    final _handler =
+        Provider.of<BluetoothHandlerProvider>(context, listen: false);
+    _handler.connection!.output.add(Uint8List.fromList(utf8.encode("+")));
+    await _handler.connection!.output.allSent;
     setState(() {
-      deviceState = -1;
+      _handler.deviceState = -1;
     });
   }
 }
